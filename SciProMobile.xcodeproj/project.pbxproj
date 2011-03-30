@@ -1,0 +1,461 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A36BCEB913436C6000090AE7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEB813436C6000090AE7 /* UIKit.framework */; };
+		A36BCEBB13436C6000090AE7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBA13436C6000090AE7 /* Foundation.framework */; };
+		A36BCEBD13436C6000090AE7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */; };
+		A36BCEC313436C6000090AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A36BCEC113436C6000090AE7 /* InfoPlist.strings */; };
+		A36BCEC613436C6000090AE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCEC513436C6000090AE7 /* main.m */; };
+		A36BCEC913436C6000090AE7 /* SciProMobileAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCEC813436C6000090AE7 /* SciProMobileAppDelegate.m */; };
+		A36BCECC13436C6000090AE7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36BCECA13436C6000090AE7 /* MainWindow.xib */; };
+		A36BCECF13436C6000090AE7 /* SciProMobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCECE13436C6000090AE7 /* SciProMobileViewController.m */; };
+		A36BCED213436C6000090AE7 /* SciProMobileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A36BCED013436C6000090AE7 /* SciProMobileViewController.xib */; };
+		A36BCED913436C6000090AE7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEB813436C6000090AE7 /* UIKit.framework */; };
+		A36BCEDA13436C6000090AE7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBA13436C6000090AE7 /* Foundation.framework */; };
+		A36BCEDB13436C6000090AE7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */; };
+		A36BCEE313436C6000090AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A36BCEE113436C6000090AE7 /* InfoPlist.strings */; };
+		A36BCEE613436C6000090AE7 /* SciProMobileTests.h in Resources */ = {isa = PBXBuildFile; fileRef = A36BCEE513436C6000090AE7 /* SciProMobileTests.h */; };
+		A36BCEE813436C6000090AE7 /* SciProMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCEE713436C6000090AE7 /* SciProMobileTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A36BCEDC13436C6000090AE7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A36BCEAB13436C5F00090AE7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A36BCEB313436C6000090AE7;
+			remoteInfo = SciProMobile;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A36BCEB413436C6000090AE7 /* SciProMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SciProMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A36BCEB813436C6000090AE7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A36BCEBA13436C6000090AE7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A36BCEC013436C6000090AE7 /* SciProMobile-Info.plist */ = {isa = PBXFileReference; path = "SciProMobile-Info.plist"; sourceTree = "<group>"; };
+		A36BCEC213436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A36BCEC413436C6000090AE7 /* SciProMobile-Prefix.pch */ = {isa = PBXFileReference; path = "SciProMobile-Prefix.pch"; sourceTree = "<group>"; };
+		A36BCEC513436C6000090AE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A36BCEC713436C6000090AE7 /* SciProMobileAppDelegate.h */ = {isa = PBXFileReference; path = SciProMobileAppDelegate.h; sourceTree = "<group>"; };
+		A36BCEC813436C6000090AE7 /* SciProMobileAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileAppDelegate.m; sourceTree = "<group>"; };
+		A36BCECB13436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		A36BCECD13436C6000090AE7 /* SciProMobileViewController.h */ = {isa = PBXFileReference; path = SciProMobileViewController.h; sourceTree = "<group>"; };
+		A36BCECE13436C6000090AE7 /* SciProMobileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileViewController.m; sourceTree = "<group>"; };
+		A36BCED113436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SciProMobileViewController.xib; sourceTree = "<group>"; };
+		A36BCED813436C6000090AE7 /* SciProMobileTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SciProMobileTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A36BCEE013436C6000090AE7 /* SciProMobileTests-Info.plist */ = {isa = PBXFileReference; path = "SciProMobileTests-Info.plist"; sourceTree = "<group>"; };
+		A36BCEE213436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A36BCEE413436C6000090AE7 /* SciProMobileTests-Prefix.pch */ = {isa = PBXFileReference; path = "SciProMobileTests-Prefix.pch"; sourceTree = "<group>"; };
+		A36BCEE513436C6000090AE7 /* SciProMobileTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SciProMobileTests.h; sourceTree = "<group>"; };
+		A36BCEE713436C6000090AE7 /* SciProMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A36BCEB113436C6000090AE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCEB913436C6000090AE7 /* UIKit.framework in Frameworks */,
+				A36BCEBB13436C6000090AE7 /* Foundation.framework in Frameworks */,
+				A36BCEBD13436C6000090AE7 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A36BCED413436C6000090AE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCED913436C6000090AE7 /* UIKit.framework in Frameworks */,
+				A36BCEDA13436C6000090AE7 /* Foundation.framework in Frameworks */,
+				A36BCEDB13436C6000090AE7 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A36BCEA913436C5F00090AE7 = {
+			isa = PBXGroup;
+			children = (
+				A36BCEBE13436C6000090AE7 /* SciProMobile */,
+				A36BCEDE13436C6000090AE7 /* SciProMobileTests */,
+				A36BCEB713436C6000090AE7 /* Frameworks */,
+				A36BCEB513436C6000090AE7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A36BCEB513436C6000090AE7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEB413436C6000090AE7 /* SciProMobile.app */,
+				A36BCED813436C6000090AE7 /* SciProMobileTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A36BCEB713436C6000090AE7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEB813436C6000090AE7 /* UIKit.framework */,
+				A36BCEBA13436C6000090AE7 /* Foundation.framework */,
+				A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A36BCEBE13436C6000090AE7 /* SciProMobile */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEC713436C6000090AE7 /* SciProMobileAppDelegate.h */,
+				A36BCEC813436C6000090AE7 /* SciProMobileAppDelegate.m */,
+				A36BCECA13436C6000090AE7 /* MainWindow.xib */,
+				A36BCECD13436C6000090AE7 /* SciProMobileViewController.h */,
+				A36BCECE13436C6000090AE7 /* SciProMobileViewController.m */,
+				A36BCED013436C6000090AE7 /* SciProMobileViewController.xib */,
+				A36BCEBF13436C6000090AE7 /* Supporting Files */,
+			);
+			path = SciProMobile;
+			sourceTree = "<group>";
+		};
+		A36BCEBF13436C6000090AE7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEC013436C6000090AE7 /* SciProMobile-Info.plist */,
+				A36BCEC113436C6000090AE7 /* InfoPlist.strings */,
+				A36BCEC413436C6000090AE7 /* SciProMobile-Prefix.pch */,
+				A36BCEC513436C6000090AE7 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A36BCEDE13436C6000090AE7 /* SciProMobileTests */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEE513436C6000090AE7 /* SciProMobileTests.h */,
+				A36BCEE713436C6000090AE7 /* SciProMobileTests.m */,
+				A36BCEDF13436C6000090AE7 /* Supporting Files */,
+			);
+			path = SciProMobileTests;
+			sourceTree = "<group>";
+		};
+		A36BCEDF13436C6000090AE7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A36BCEE013436C6000090AE7 /* SciProMobileTests-Info.plist */,
+				A36BCEE113436C6000090AE7 /* InfoPlist.strings */,
+				A36BCEE413436C6000090AE7 /* SciProMobileTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A36BCEB313436C6000090AE7 /* SciProMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A36BCEEB13436C6000090AE7 /* Build configuration list for PBXNativeTarget "SciProMobile" */;
+			buildPhases = (
+				A36BCEB013436C6000090AE7 /* Sources */,
+				A36BCEB113436C6000090AE7 /* Frameworks */,
+				A36BCEB213436C6000090AE7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SciProMobile;
+			productName = SciProMobile;
+			productReference = A36BCEB413436C6000090AE7 /* SciProMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A36BCED713436C6000090AE7 /* SciProMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A36BCEEE13436C6000090AE7 /* Build configuration list for PBXNativeTarget "SciProMobileTests" */;
+			buildPhases = (
+				A36BCED313436C6000090AE7 /* Sources */,
+				A36BCED413436C6000090AE7 /* Frameworks */,
+				A36BCED513436C6000090AE7 /* Resources */,
+				A36BCED613436C6000090AE7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A36BCEDD13436C6000090AE7 /* PBXTargetDependency */,
+			);
+			name = SciProMobileTests;
+			productName = SciProMobileTests;
+			productReference = A36BCED813436C6000090AE7 /* SciProMobileTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A36BCEAB13436C5F00090AE7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Stockholms universitet";
+			};
+			buildConfigurationList = A36BCEAE13436C5F00090AE7 /* Build configuration list for PBXProject "SciProMobile" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A36BCEA913436C5F00090AE7;
+			productRefGroup = A36BCEB513436C6000090AE7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A36BCEB313436C6000090AE7 /* SciProMobile */,
+				A36BCED713436C6000090AE7 /* SciProMobileTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A36BCEB213436C6000090AE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCEC313436C6000090AE7 /* InfoPlist.strings in Resources */,
+				A36BCECC13436C6000090AE7 /* MainWindow.xib in Resources */,
+				A36BCED213436C6000090AE7 /* SciProMobileViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A36BCED513436C6000090AE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCEE313436C6000090AE7 /* InfoPlist.strings in Resources */,
+				A36BCEE613436C6000090AE7 /* SciProMobileTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A36BCED613436C6000090AE7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A36BCEB013436C6000090AE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCEC613436C6000090AE7 /* main.m in Sources */,
+				A36BCEC913436C6000090AE7 /* SciProMobileAppDelegate.m in Sources */,
+				A36BCECF13436C6000090AE7 /* SciProMobileViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A36BCED313436C6000090AE7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A36BCEE813436C6000090AE7 /* SciProMobileTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A36BCEDD13436C6000090AE7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A36BCEB313436C6000090AE7 /* SciProMobile */;
+			targetProxy = A36BCEDC13436C6000090AE7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A36BCEC113436C6000090AE7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A36BCEC213436C6000090AE7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A36BCECA13436C6000090AE7 /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A36BCECB13436C6000090AE7 /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		A36BCED013436C6000090AE7 /* SciProMobileViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A36BCED113436C6000090AE7 /* en */,
+			);
+			name = SciProMobileViewController.xib;
+			sourceTree = "<group>";
+		};
+		A36BCEE113436C6000090AE7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A36BCEE213436C6000090AE7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A36BCEE913436C6000090AE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A36BCEEA13436C6000090AE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		A36BCEEC13436C6000090AE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SciProMobile/SciProMobile-Prefix.pch";
+				INFOPLIST_FILE = "SciProMobile/SciProMobile-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A36BCEED13436C6000090AE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SciProMobile/SciProMobile-Prefix.pch";
+				INFOPLIST_FILE = "SciProMobile/SciProMobile-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A36BCEEF13436C6000090AE7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SciProMobile.app/SciProMobile";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SciProMobileTests/SciProMobileTests-Prefix.pch";
+				INFOPLIST_FILE = "SciProMobileTests/SciProMobileTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		A36BCEF013436C6000090AE7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SciProMobile.app/SciProMobile";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SciProMobileTests/SciProMobileTests-Prefix.pch";
+				INFOPLIST_FILE = "SciProMobileTests/SciProMobileTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					SenTestingKit,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A36BCEAE13436C5F00090AE7 /* Build configuration list for PBXProject "SciProMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A36BCEE913436C6000090AE7 /* Debug */,
+				A36BCEEA13436C6000090AE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A36BCEEB13436C6000090AE7 /* Build configuration list for PBXNativeTarget "SciProMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A36BCEEC13436C6000090AE7 /* Debug */,
+				A36BCEED13436C6000090AE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A36BCEEE13436C6000090AE7 /* Build configuration list for PBXNativeTarget "SciProMobileTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A36BCEEF13436C6000090AE7 /* Debug */,
+				A36BCEF013436C6000090AE7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A36BCEAB13436C5F00090AE7 /* Project object */;
+}
