@@ -9,9 +9,13 @@
 #import "SciProMobileViewController.h"
 
 @implementation SciProMobileViewController
+@synthesize textField;
+@synthesize label;
 
 - (void)dealloc
 {
+    [textField release];
+    [label release];
     [super dealloc];
 }
 
@@ -35,6 +39,8 @@
 
 - (void)viewDidUnload
 {
+    [self setTextField:nil];
+    [self setLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -46,4 +52,7 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)changeGreeting:(id)sender {
+    
+}
 @end

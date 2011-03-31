@@ -39,20 +39,20 @@
 		A36BCEB813436C6000090AE7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A36BCEBA13436C6000090AE7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		A36BCEC013436C6000090AE7 /* SciProMobile-Info.plist */ = {isa = PBXFileReference; path = "SciProMobile-Info.plist"; sourceTree = "<group>"; };
+		A36BCEC013436C6000090AE7 /* SciProMobile-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SciProMobile-Info.plist"; sourceTree = "<group>"; };
 		A36BCEC213436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A36BCEC413436C6000090AE7 /* SciProMobile-Prefix.pch */ = {isa = PBXFileReference; path = "SciProMobile-Prefix.pch"; sourceTree = "<group>"; };
+		A36BCEC413436C6000090AE7 /* SciProMobile-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SciProMobile-Prefix.pch"; sourceTree = "<group>"; };
 		A36BCEC513436C6000090AE7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		A36BCEC713436C6000090AE7 /* SciProMobileAppDelegate.h */ = {isa = PBXFileReference; path = SciProMobileAppDelegate.h; sourceTree = "<group>"; };
+		A36BCEC713436C6000090AE7 /* SciProMobileAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SciProMobileAppDelegate.h; sourceTree = "<group>"; };
 		A36BCEC813436C6000090AE7 /* SciProMobileAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileAppDelegate.m; sourceTree = "<group>"; };
 		A36BCECB13436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		A36BCECD13436C6000090AE7 /* SciProMobileViewController.h */ = {isa = PBXFileReference; path = SciProMobileViewController.h; sourceTree = "<group>"; };
+		A36BCECD13436C6000090AE7 /* SciProMobileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SciProMobileViewController.h; sourceTree = "<group>"; };
 		A36BCECE13436C6000090AE7 /* SciProMobileViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileViewController.m; sourceTree = "<group>"; };
 		A36BCED113436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SciProMobileViewController.xib; sourceTree = "<group>"; };
 		A36BCED813436C6000090AE7 /* SciProMobileTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SciProMobileTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A36BCEE013436C6000090AE7 /* SciProMobileTests-Info.plist */ = {isa = PBXFileReference; path = "SciProMobileTests-Info.plist"; sourceTree = "<group>"; };
+		A36BCEE013436C6000090AE7 /* SciProMobileTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SciProMobileTests-Info.plist"; sourceTree = "<group>"; };
 		A36BCEE213436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A36BCEE413436C6000090AE7 /* SciProMobileTests-Prefix.pch */ = {isa = PBXFileReference; path = "SciProMobileTests-Prefix.pch"; sourceTree = "<group>"; };
+		A36BCEE413436C6000090AE7 /* SciProMobileTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SciProMobileTests-Prefix.pch"; sourceTree = "<group>"; };
 		A36BCEE513436C6000090AE7 /* SciProMobileTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SciProMobileTests.h; sourceTree = "<group>"; };
 		A36BCEE713436C6000090AE7 /* SciProMobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SciProMobileTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
