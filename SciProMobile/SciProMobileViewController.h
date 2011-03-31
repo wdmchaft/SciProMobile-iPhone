@@ -8,15 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SciProMobileViewController : UIViewController {
+@interface SciProMobileViewController : UIViewController<UITextFieldDelegate>  {
     
     UITextField *textField;
-    UITextField *label;
+    UILabel *label;
+    NSString *userName;
 }
 
-- (IBAction)changeGreeting:(id)sender;
+
 
 @property (nonatomic, retain) IBOutlet UITextField *textField;
-@property (nonatomic, retain) IBOutlet UITextField *label;
+@property (nonatomic, retain) IBOutlet UILabel *label;
+
+@property (nonatomic, copy) NSString *userName;
+- (IBAction)changeGreeting:(id)sender;
 
 @end
