@@ -7,7 +7,7 @@
 //
 
 #import "ProjectViewController.h"
-
+#import "ProjectDetailViewController.h"
 
 @implementation ProjectViewController
 
@@ -54,4 +54,11 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)projectButton:(id)sender 
+{
+    ProjectDetailViewController *projectDetailViewController = [[ProjectDetailViewController alloc] init];
+    projectDetailViewController.title = @"Project Details";
+    [self.navigationController pushViewController:projectDetailViewController animated:YES];
+    [projectDetailViewController release];                                                             
+}
 @end

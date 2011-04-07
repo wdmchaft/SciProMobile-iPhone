@@ -16,6 +16,7 @@
 @end
 
 @interface LoginViewController : UIViewController<UITextFieldDelegate> {
+    id <LoginViewControllerDelegate> delegate;
     UITextField *usernameTextField;
     UITextField *passwordTextField;
 }

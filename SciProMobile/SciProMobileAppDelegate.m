@@ -23,15 +23,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     tabBarController = [[UITabBarController alloc] init];
-    navController = [[UINavigationController alloc]init];
+    projectNavController = [[UINavigationController alloc]init];
+    settingsNavController = [[UINavigationController alloc]init];
+    messageNavController = [[UINavigationController alloc]init];
     projectViewController = [[ProjectViewController alloc] init];
     messageViewController = [[MessageViewController alloc] init];
     settingsViewController = [[SettingsViewController alloc] init];
-    
+    projectViewController.title = @"Project";
+    messageViewController.title = @"Message";
+    settingsViewController.title = @"Settings";
 
+    [projectNavController pushViewController:projectViewController animated:NO];
+    [messageNavController pushViewController:messageViewController animated:NO];
+    [settingsNavController pushViewController:settingsViewController animated:NO];
+    [projectViewController release];
+    [messageViewController release];
+    [settingsViewController release];
     
-    
-    tabBarController.viewControllers = [NSArray arrayWithObjects:navController, projectViewController, messageViewController, settingsViewController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, settingsNavController, nil];
    
     [_window addSubview:tabBarController.view];
     [self.window makeKeyAndVisible];
@@ -93,7 +102,6 @@
     [settingsViewController release];
     [messageViewController release];
     [tabBarController release];
-    [navController release];
     [_window release];
     [super dealloc];
 }

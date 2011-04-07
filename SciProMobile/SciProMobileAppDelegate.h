@@ -15,7 +15,9 @@
 
 @interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate, LoginViewControllerDelegate> {
     
-    UINavigationController *navController;
+    UINavigationController *projectNavController;
+    UINavigationController *messageNavController;
+    UINavigationController *settingsNavController;
     UITabBarController *tabBarController;
     ProjectViewController *projectViewController;
     MessageViewController *messageViewController;

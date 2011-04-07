@@ -7,6 +7,7 @@
 //
 
 #import "MessageViewController.h"
+#import "CreateMessageViewController.h"
 
 
 @implementation MessageViewController
@@ -54,4 +55,10 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)createMessage:(id)sender {
+    CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
+    createMessageViewController.title = @"Create message";
+    [self.navigationController pushViewController:createMessageViewController animated:YES];
+    [createMessageViewController release];     
+}
 @end

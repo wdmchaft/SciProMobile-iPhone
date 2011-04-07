@@ -11,6 +11,9 @@
 
 @interface ProjectViewController : UIViewController {
     
+    UITableView *projectTable;
 }
+- (IBAction)projectButton:(id)sender;
+
 
 @end

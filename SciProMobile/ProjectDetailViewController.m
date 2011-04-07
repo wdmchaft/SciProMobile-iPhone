@@ -1,18 +1,15 @@
 //
-//  LoginViewController.m
+//  ProjectDetailViewController.m
 //  SciProMobile
 //
 //  Created by Johan Aschan on 2011-04-07.
 //  Copyright 2011 Stockholms universitet. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "ProjectDetailViewController.h"
 
 
-@implementation LoginViewController
-@synthesize usernameTextField;
-@synthesize passwordTextField;
-@synthesize delegate;
+@implementation ProjectDetailViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,8 +22,6 @@
 
 - (void)dealloc
 {
-    [usernameTextField release];
-    [passwordTextField release];
     [super dealloc];
 }
 
@@ -48,8 +43,6 @@
 
 - (void)viewDidUnload
 {
-    [self setUsernameTextField:nil];
-    [self setPasswordTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -61,16 +54,4 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == usernameTextField) {
-        [usernameTextField resignFirstResponder];
-    } else if (theTextField == passwordTextField) {
-        [passwordTextField resignFirstResponder];
-    }
-    return YES;
-}
-
-- (IBAction)buttonPressed:(id)sender {
-    [delegate loginViewControllerDidFinish:self];
-}
 @end

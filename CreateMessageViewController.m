@@ -1,18 +1,18 @@
 //
-//  LoginViewController.m
+//  CreateMessageViewController.m
 //  SciProMobile
 //
 //  Created by Johan Aschan on 2011-04-07.
 //  Copyright 2011 Stockholms universitet. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "CreateMessageViewController.h"
 
 
-@implementation LoginViewController
-@synthesize usernameTextField;
-@synthesize passwordTextField;
-@synthesize delegate;
+@implementation CreateMessageViewController
+@synthesize toTextField;
+@synthesize subjectTextField;
+@synthesize messageTextView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,8 +25,9 @@
 
 - (void)dealloc
 {
-    [usernameTextField release];
-    [passwordTextField release];
+    [toTextField release];
+    [subjectTextField release];
+    [messageTextView release];
     [super dealloc];
 }
 
@@ -48,8 +49,9 @@
 
 - (void)viewDidUnload
 {
-    [self setUsernameTextField:nil];
-    [self setPasswordTextField:nil];
+    [self setToTextField:nil];
+    [self setSubjectTextField:nil];
+    [self setMessageTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -60,17 +62,27 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == usernameTextField) {
-        [usernameTextField resignFirstResponder];
-    } else if (theTextField == passwordTextField) {
-        [passwordTextField resignFirstResponder];
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ([text isEqualToString:@"\n"])		
+    {
+        [textView resignFirstResponder];
+        return NO;						
     }
     return YES;
 }
 
-- (IBAction)buttonPressed:(id)sender {
-    [delegate loginViewControllerDidFinish:self];
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == toTextField) {
+        [toTextField resignFirstResponder];
+    } else if (theTextField == subjectTextField) {
+        [subjectTextField resignFirstResponder];
+    }
+    return YES;
+}
+
+
+- (IBAction)sendAction:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end
