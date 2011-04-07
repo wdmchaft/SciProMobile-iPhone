@@ -8,19 +8,39 @@
 
 #import "SciProMobileAppDelegate.h"
 
-#import "SciProMobileViewController.h"
+#import "ProjectViewController.h"
+#import "MessageViewController.h"
+#import "SettingsViewController.h"
+
 
 @implementation SciProMobileAppDelegate
 
 
 @synthesize window=_window;
 
-@synthesize viewController=_viewController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    tabBarController = [[UITabBarController alloc] init];
+    navController = [[UINavigationController alloc]init];
+    projectViewController = [[ProjectViewController alloc] init];
+    messageViewController = [[MessageViewController alloc] init];
+    settingsViewController = [[SettingsViewController alloc] init];
+    
 
+    
+    
+    tabBarController.viewControllers = [NSArray arrayWithObjects:navController, projectViewController, messageViewController, settingsViewController, nil];
+   
+    [_window addSubview:tabBarController.view];
     [self.window makeKeyAndVisible];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    lvc.delegate = self;
+    [tabBarController presentModalViewController:lvc animated:NO];
+    [lvc release];
+
+    
     return YES;
 }
 
@@ -30,6 +50,10 @@
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+}
+
+-(void)loginViewControllerDidFinish:(LoginViewController*)loginViewController {
+    [tabBarController dismissModalViewControllerAnimated:NO];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -65,8 +89,12 @@
 
 - (void)dealloc
 {
+    [projectViewController release];
+    [settingsViewController release];
+    [messageViewController release];
+    [tabBarController release];
+    [navController release];
     [_window release];
-    [_viewController release];
     [super dealloc];
 }
 

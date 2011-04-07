@@ -7,15 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginViewController.h"
 
-@class SciProMobileViewController;
+@class ProjectViewController;
+@class MessageViewController;
+@class SettingsViewController;
 
-@interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate> {
-
+@interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate, LoginViewControllerDelegate> {
+    
+    UINavigationController *navController;
+    UITabBarController *tabBarController;
+    ProjectViewController *projectViewController;
+    MessageViewController *messageViewController;
+    SettingsViewController *settingsViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-@property (nonatomic, retain) IBOutlet SciProMobileViewController *viewController;
 
 @end
