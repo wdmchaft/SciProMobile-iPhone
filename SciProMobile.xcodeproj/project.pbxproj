@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3048813134EF8BA001126AA /* CreateMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3048811134EF8BA001126AA /* CreateMessageViewController.m */; };
+		A3048814134EF8BA001126AA /* CreateMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3048812134EF8BA001126AA /* CreateMessageViewController.xib */; };
 		A36BCEB913436C6000090AE7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEB813436C6000090AE7 /* UIKit.framework */; };
 		A36BCEBB13436C6000090AE7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBA13436C6000090AE7 /* Foundation.framework */; };
 		A36BCEBD13436C6000090AE7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36BCEBC13436C6000090AE7 /* CoreGraphics.framework */; };
@@ -30,8 +32,6 @@
 		A3FF1BE7134DC34B0044914C /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FF1BE5134DC34B0044914C /* LoginViewController.xib */; };
 		A3FF1C39134DF8FE0044914C /* ProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF1C37134DF8FD0044914C /* ProjectDetailViewController.m */; };
 		A3FF1C3A134DF8FE0044914C /* ProjectDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FF1C38134DF8FE0044914C /* ProjectDetailViewController.xib */; };
-		A3FF1C3E134DFC350044914C /* CreateMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3FF1C3C134DFC350044914C /* CreateMessageViewController.m */; };
-		A3FF1C3F134DFC350044914C /* CreateMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3FF1C3D134DFC350044914C /* CreateMessageViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A3048810134EF8BA001126AA /* CreateMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMessageViewController.h; sourceTree = "<group>"; };
+		A3048811134EF8BA001126AA /* CreateMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMessageViewController.m; sourceTree = "<group>"; };
+		A3048812134EF8BA001126AA /* CreateMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateMessageViewController.xib; sourceTree = "<group>"; };
 		A36BCEB413436C6000090AE7 /* SciProMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SciProMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36BCEB813436C6000090AE7 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A36BCEBA13436C6000090AE7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -77,9 +80,6 @@
 		A3FF1C36134DF8FD0044914C /* ProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDetailViewController.h; sourceTree = "<group>"; };
 		A3FF1C37134DF8FD0044914C /* ProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDetailViewController.m; sourceTree = "<group>"; };
 		A3FF1C38134DF8FE0044914C /* ProjectDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectDetailViewController.xib; sourceTree = "<group>"; };
-		A3FF1C3B134DFC350044914C /* CreateMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CreateMessageViewController.h; path = ../CreateMessageViewController.h; sourceTree = "<group>"; };
-		A3FF1C3C134DFC350044914C /* CreateMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CreateMessageViewController.m; path = ../CreateMessageViewController.m; sourceTree = "<group>"; };
-		A3FF1C3D134DFC350044914C /* CreateMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateMessageViewController.xib; path = ../CreateMessageViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,9 +138,9 @@
 		A36BCEBE13436C6000090AE7 /* SciProMobile */ = {
 			isa = PBXGroup;
 			children = (
-				A3FF1C3B134DFC350044914C /* CreateMessageViewController.h */,
-				A3FF1C3C134DFC350044914C /* CreateMessageViewController.m */,
-				A3FF1C3D134DFC350044914C /* CreateMessageViewController.xib */,
+				A3048810134EF8BA001126AA /* CreateMessageViewController.h */,
+				A3048811134EF8BA001126AA /* CreateMessageViewController.m */,
+				A3048812134EF8BA001126AA /* CreateMessageViewController.xib */,
 				A36BCEC713436C6000090AE7 /* SciProMobileAppDelegate.h */,
 				A36BCEC813436C6000090AE7 /* SciProMobileAppDelegate.m */,
 				A36BCECA13436C6000090AE7 /* MainWindow.xib */,
@@ -272,7 +272,7 @@
 				A3CD14EB134DB5A2001E364C /* SettingsViewController.xib in Resources */,
 				A3FF1BE7134DC34B0044914C /* LoginViewController.xib in Resources */,
 				A3FF1C3A134DF8FE0044914C /* ProjectDetailViewController.xib in Resources */,
-				A3FF1C3F134DFC350044914C /* CreateMessageViewController.xib in Resources */,
+				A3048814134EF8BA001126AA /* CreateMessageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,7 +315,7 @@
 				A3CD14EA134DB5A2001E364C /* SettingsViewController.m in Sources */,
 				A3FF1BE6134DC34B0044914C /* LoginViewController.m in Sources */,
 				A3FF1C39134DF8FE0044914C /* ProjectDetailViewController.m in Sources */,
-				A3FF1C3E134DFC350044914C /* CreateMessageViewController.m in Sources */,
+				A3048813134EF8BA001126AA /* CreateMessageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
