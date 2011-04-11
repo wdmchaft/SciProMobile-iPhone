@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
+
 @interface ProjectViewController : UIViewController {
     
     UITableView *projectTable;
+    NSMutableData *responseData;
 }
 - (IBAction)projectButton:(id)sender;
 

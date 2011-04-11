@@ -22,6 +22,7 @@
     ProjectViewController *projectViewController;
     MessageViewController *messageViewController;
     SettingsViewController *settingsViewController;
+    NSMutableData *responseData;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

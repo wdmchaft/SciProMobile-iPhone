@@ -10,7 +10,7 @@
 
 
 @interface ProjectDetailViewController : UIViewController {
-    
+    NSMutableData *responseData;
 }
 
 @end

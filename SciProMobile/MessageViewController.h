@@ -10,7 +10,7 @@
 
 
 @interface MessageViewController : UIViewController {
-    
+    NSMutableData *responseData;
 }
 - (IBAction)createMessage:(id)sender;
 

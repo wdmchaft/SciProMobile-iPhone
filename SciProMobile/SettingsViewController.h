@@ -10,6 +10,7 @@
 
 
 @interface SettingsViewController : UIViewController {
+    NSMutableData *responseData;
     
 }
 
