@@ -7,11 +7,13 @@
 //
 
 #import "LoginViewController.h"
+#import "JSON.h"
 
 
 @implementation LoginViewController
 @synthesize usernameTextField;
 @synthesize passwordTextField;
+@synthesize label;
 @synthesize delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -27,6 +29,7 @@
 {
     [usernameTextField release];
     [passwordTextField release];
+    [label release];
     [super dealloc];
 }
 
@@ -50,6 +53,7 @@
 {
     [self setUsernameTextField:nil];
     [self setPasswordTextField:nil];
+    [self setLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -70,7 +74,51 @@
     return YES;
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	[responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	[responseData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	label.text = [NSString stringWithFormat:@"Connection failed: %@", [error description]];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	[connection release];
+    
+	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+	[responseData release];
+    
+	NSError *error;
+	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+
+	NSArray *luckyNumbers = [jsonParser objectWithString:responseString error:&error];
+    NSLog(@"%@", responseString);
+	[responseString release];	
+    
+	if (luckyNumbers == nil)
+		label.text = [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
+	else {
+		NSMutableString *text = [NSMutableString stringWithString:@"Lucky numbers:\n"];
+        
+		for (unsigned int i = 0; i < [luckyNumbers count]; i++){
+			[text appendFormat:@"%@\n", [luckyNumbers objectAtIndex:i]];
+            NSLog(@"%@", [luckyNumbers objectAtIndex:i]);
+        }
+        
+		label.text =  text;
+	}
+    [jsonParser release];
+}
+
+
 - (IBAction)buttonPressed:(id)sender {
-    [delegate loginViewControllerDidFinish:self];
+    responseData = [[NSMutableData data] retain];
+	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.unpossible.com/misc/lucky_numbers.json"]];
+	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+//    [delegate loginViewControllerDidFinish:self];
 }
 @end

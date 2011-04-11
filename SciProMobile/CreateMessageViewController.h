@@ -13,6 +13,7 @@
     UITextField *toTextField;
     UITextField *subjectTextField;
     UITextView *messageTextView;
+    NSMutableData *responseData;
 }
 @property (nonatomic, retain) IBOutlet UITextField *toTextField;
 @property (nonatomic, retain) IBOutlet UITextField *subjectTextField;
