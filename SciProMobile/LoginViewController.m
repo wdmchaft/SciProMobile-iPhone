@@ -84,6 +84,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	label.text = [NSString stringWithFormat:@"Connection failed: %@", [error description]];
+    [responseData release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -94,6 +95,7 @@
     
 	NSError *error;
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
 
 	NSArray *luckyNumbers = [jsonParser objectWithString:responseString error:&error];
     NSLog(@"%@", responseString);
@@ -112,6 +114,7 @@
 		label.text =  text;
 	}
     [jsonParser release];
+    [jsonWriter release];
 }
 
 
@@ -119,6 +122,6 @@
     responseData = [[NSMutableData data] retain];
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.unpossible.com/misc/lucky_numbers.json"]];
 	[[NSURLConnection alloc] initWithRequest:request delegate:self];
-//    [delegate loginViewControllerDidFinish:self];
+    [delegate loginViewControllerDidFinish:self];
 }
 @end

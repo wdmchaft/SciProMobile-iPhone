@@ -10,7 +10,7 @@
 
 
 
-@interface ProjectViewController : UIViewController {
+@interface ProjectViewController : UITableViewController {
     
     UITableView *projectTable;
     NSMutableData *responseData;

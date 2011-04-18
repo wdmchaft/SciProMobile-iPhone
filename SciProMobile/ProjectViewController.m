@@ -60,10 +60,7 @@
 
 - (IBAction)projectButton:(id)sender 
 {
-    ProjectDetailViewController *projectDetailViewController = [[ProjectDetailViewController alloc] init];
-    projectDetailViewController.title = @"Project Details";
-    [self.navigationController pushViewController:projectDetailViewController animated:YES];
-    [projectDetailViewController release];                                                             
+                                                            
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -104,6 +101,62 @@
         text;
 	}
     [jsonParser release];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return 3;
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    // The header for the section is the region name -- get this from the region at the section index.;
+    if (section == 0){
+        return @"Android-app";
+    } else if (section == 1){
+        return @"Iphone-app";
+    } else if (section == 2){
+        return @"Peer-review";
+    } else{
+        return @"No-name project";
+    }
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *MyIdentifier = @"MyIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
+    }
+    if ([indexPath row] == 0) {
+        cell.textLabel.text = @"Status";
+    } else if([indexPath row] == 1){
+        cell.textLabel.text = @"Message";
+    } else if([indexPath row] == 2){
+        cell.textLabel.text = @"Schedule";
+    }
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ProjectDetailViewController *projectDetailViewController = [[ProjectDetailViewController alloc] init];
+    projectDetailViewController.title = @"Project Details";
+    [self.navigationController pushViewController:projectDetailViewController animated:YES];
+    [projectDetailViewController release];   
+}
+
+
+
+- (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+    }
 }
 
 

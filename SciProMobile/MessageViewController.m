@@ -8,7 +8,8 @@
 
 #import "MessageViewController.h"
 #import "CreateMessageViewController.h"
-
+#import "MessageModel.h"
+#import "MessageDetailViewController.h"
 
 @implementation MessageViewController
 
@@ -21,10 +22,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -39,6 +36,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+
+    NSString *message = @"Tenta den 15:de maj";
+
+    
+    
+    
+    MessageModel *firstMess = [[MessageModel alloc] initWithFrom:@"Patrick Strang" subject:@"Tenta på fredag" message:message date:[NSDate date]];
+    MessageModel *secondMess = [[MessageModel alloc] initWithFrom:@"Jan Moberg" subject:@"Seminarie på fredag" message:message date:[NSDate date]];
+    MessageModel *thirdMess = [[MessageModel alloc] initWithFrom:@"Henrik Hansson" subject:@"Innebandy på fredag" message:message date:[NSDate date]];
+    
+    messages = [[NSMutableArray alloc]initWithObjects:firstMess,secondMess,thirdMess,nil];
+    
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -55,10 +67,84 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (IBAction)createMessage:(id)sender {
-    CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
-    createMessageViewController.title = @"Create message";
-    [self.navigationController pushViewController:createMessageViewController animated:YES];
-    [createMessageViewController release];     
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Number of rows is the number of time zones in the region for the specified section.
+    return [messages count];
+}
+
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    // The header for the section is the region name -- get this from the region at the section index.;
+    return @"Inbox";
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *MyIdentifier = @"MyIdentifier";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
+    }
+    MessageModel *messageModel = [messages objectAtIndex:[indexPath row]];
+    
+    cell.textLabel.text = messageModel.subject;
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
+//    createMessageViewController.title = @"Create message";
+//    [self.navigationController pushViewController:createMessageViewController animated:YES];
+//    [createMessageViewController release]; 
+    MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
+    MessageDetailViewController *messageDetailViewController = [[MessageDetailViewController alloc] init];
+    messageDetailViewController.title = messageModel.subject;
+
+
+    [self.navigationController pushViewController:messageDetailViewController animated:YES];
+    [messageDetailViewController.subject setText:messageModel.subject];
+    [messageDetailViewController.textView setText:messageModel.message];
+    [messageDetailViewController.from setText:messageModel.from];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"]; 
+    NSLog(@"%@", [NSDate date]);
+    NSLog(@"%@", messageModel.sentDate);
+    messageDetailViewController.date.text = [dateFormatter stringFromDate:messageModel.sentDate];
+    [dateFormatter release];;
+    [messageDetailViewController release];
+    
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+        return UITableViewCellEditingStyleDelete;
+
+}
+
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
+    [self.tableView setEditing:editing animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // If row is deleted, remove it from the list. 
+    if (editingStyle == UITableViewCellEditingStyleDelete  && (indexPath.section == 0)) {
+        MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
+        [messages removeObject:messageModel];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
+
+
+- (void)dealloc
+{   
+    [messages release];
+    [super dealloc];
+}
+
 @end

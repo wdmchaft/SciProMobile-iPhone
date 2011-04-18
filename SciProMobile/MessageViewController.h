@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MessageViewController : UIViewController {
+@interface MessageViewController : UITableViewController {
     NSMutableData *responseData;
+    NSMutableArray *messages;
 }
-- (IBAction)createMessage:(id)sender;
 
 @end
