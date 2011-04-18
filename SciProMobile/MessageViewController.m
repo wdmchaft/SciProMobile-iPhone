@@ -38,14 +38,20 @@
     [super viewDidLoad];
     
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
     
+    UIBarButtonItem* infoButton = [[UIBarButtonItem alloc]
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showInfoView:)];
+	self.navigationItem.leftBarButtonItem = infoButton;
+    
+    [infoButton release];
 
     NSString *message = @"Tenta den 15:de maj";
 
     
+    NSDate *date = [NSDate date];
     
-    
-    MessageModel *firstMess = [[MessageModel alloc] initWithFrom:@"Patrick Strang" subject:@"Tenta på fredag" message:message date:[NSDate date]];
+    MessageModel *firstMess = [[MessageModel alloc] initWithFrom:@"Patrick Strang" subject:@"Tenta på fredag" message:message date:date];
     MessageModel *secondMess = [[MessageModel alloc] initWithFrom:@"Jan Moberg" subject:@"Seminarie på fredag" message:message date:[NSDate date]];
     MessageModel *thirdMess = [[MessageModel alloc] initWithFrom:@"Henrik Hansson" subject:@"Innebandy på fredag" message:message date:[NSDate date]];
     
@@ -53,7 +59,13 @@
     
     // Do any additional setup after loading the view from its nib.
 }
-
+- (void) showInfoView:(id)sender
+{
+    CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
+    createMessageViewController.title = @"Create message";
+    [self.navigationController pushViewController:createMessageViewController animated:YES];
+    [createMessageViewController release]; 
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -96,10 +108,6 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
-//    createMessageViewController.title = @"Create message";
-//    [self.navigationController pushViewController:createMessageViewController animated:YES];
-//    [createMessageViewController release]; 
     MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
     MessageDetailViewController *messageDetailViewController = [[MessageDetailViewController alloc] init];
     messageDetailViewController.title = messageModel.subject;
@@ -111,8 +119,7 @@
     [messageDetailViewController.from setText:messageModel.from];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"]; 
-    NSLog(@"%@", [NSDate date]);
-    NSLog(@"%@", messageModel.sentDate);
+    NSLog(@"%@",messageModel.sentDate);
     messageDetailViewController.date.text = [dateFormatter stringFromDate:messageModel.sentDate];
     [dateFormatter release];;
     [messageDetailViewController release];

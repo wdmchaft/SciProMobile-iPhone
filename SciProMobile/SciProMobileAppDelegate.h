@@ -11,17 +11,14 @@
 
 @class ProjectViewController;
 @class MessageViewController;
-@class SettingsViewController;
 
 @interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate, LoginViewControllerDelegate> {
     
     UINavigationController *projectNavController;
     UINavigationController *messageNavController;
-    UINavigationController *settingsNavController;
     UITabBarController *tabBarController;
     ProjectViewController *projectViewController;
     MessageViewController *messageViewController;
-    SettingsViewController *settingsViewController;
     NSMutableData *responseData;
 }
 

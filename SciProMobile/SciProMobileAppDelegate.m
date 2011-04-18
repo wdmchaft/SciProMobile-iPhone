@@ -10,7 +10,6 @@
 
 #import "ProjectViewController.h"
 #import "MessageViewController.h"
-#import "SettingsViewController.h"
 
 
 @implementation SciProMobileAppDelegate
@@ -22,26 +21,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
-    settingsNavController = [[UINavigationController alloc]init];
     messageNavController = [[UINavigationController alloc]init];
     projectViewController = [[ProjectViewController alloc] init];
     messageViewController = [[MessageViewController alloc] init];
-    settingsViewController = [[SettingsViewController alloc] init];
     projectViewController.title = @"Project";
     messageViewController.title = @"Message";
-    settingsViewController.title = @"Settings";
+    
 
     [projectNavController pushViewController:projectViewController animated:NO];
     [messageNavController pushViewController:messageViewController animated:NO];
-    [settingsNavController pushViewController:settingsViewController animated:NO];
+    
     [projectViewController release];
     [messageViewController release];
-    [settingsViewController release];
     
-    tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, settingsNavController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, nil];
    
+    [projectNavController release];
+    [messageNavController release];
     [_window addSubview:tabBarController.view];
     [self.window makeKeyAndVisible];
     LoginViewController *lvc = [[LoginViewController alloc] init];
@@ -98,9 +97,6 @@
 
 - (void)dealloc
 {
-    [projectViewController release];
-    [settingsViewController release];
-    [messageViewController release];
     [tabBarController release];
     [_window release];
     [super dealloc];

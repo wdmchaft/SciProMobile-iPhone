@@ -23,7 +23,7 @@
 		self.from = from;
         self.subject = subject;
         self.message = message;
-        sentDate = date;
+        sentDate = [date copy];
 	}
 	return self;
 }

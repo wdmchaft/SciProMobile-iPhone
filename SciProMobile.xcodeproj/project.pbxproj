@@ -33,12 +33,11 @@
 		A36BCEE813436C6000090AE7 /* SciProMobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCEE713436C6000090AE7 /* SciProMobileTests.m */; };
 		A39520E8135CA13E00269689 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A39520E6135CA13E00269689 /* MessageDetailViewController.m */; };
 		A39520E9135CA13E00269689 /* MessageDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A39520E7135CA13E00269689 /* MessageDetailViewController.xib */; };
+		A39520EC135CC77800269689 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A39520EB135CC77800269689 /* Settings.bundle */; };
 		A3CD14DF134DB575001E364C /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CD14DD134DB575001E364C /* ProjectViewController.m */; };
 		A3CD14E0134DB575001E364C /* ProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD14DE134DB575001E364C /* ProjectViewController.xib */; };
 		A3CD14E5134DB590001E364C /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CD14E3134DB590001E364C /* MessageViewController.m */; };
 		A3CD14E6134DB590001E364C /* MessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD14E4134DB590001E364C /* MessageViewController.xib */; };
-		A3CD14EA134DB5A2001E364C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CD14E8134DB5A1001E364C /* SettingsViewController.m */; };
-		A3CD14EB134DB5A2001E364C /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD14E9134DB5A2001E364C /* SettingsViewController.xib */; };
 		A3E4F9B6135C2B6C00667BEC /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E4F9B5135C2B6C00667BEC /* MessageModel.m */; };
 		A3E4F9B8135C576700667BEC /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B7135C576700667BEC /* 57.png */; };
 		A3E4F9BA135C577500667BEC /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B9135C577500667BEC /* 114.png */; };
@@ -101,15 +100,13 @@
 		A39520E5135CA13E00269689 /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
 		A39520E6135CA13E00269689 /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
 		A39520E7135CA13E00269689 /* MessageDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageDetailViewController.xib; sourceTree = "<group>"; };
+		A39520EB135CC77800269689 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A3CD14DC134DB575001E364C /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		A3CD14DD134DB575001E364C /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		A3CD14DE134DB575001E364C /* ProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectViewController.xib; sourceTree = "<group>"; };
 		A3CD14E2134DB590001E364C /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
 		A3CD14E3134DB590001E364C /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		A3CD14E4134DB590001E364C /* MessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageViewController.xib; sourceTree = "<group>"; };
-		A3CD14E7134DB5A1001E364C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		A3CD14E8134DB5A1001E364C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		A3CD14E9134DB5A2001E364C /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		A3E4F9B4135C2B6C00667BEC /* MessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
 		A3E4F9B5135C2B6C00667BEC /* MessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
 		A3E4F9B7135C576700667BEC /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 57.png; sourceTree = "<group>"; };
@@ -223,9 +220,6 @@
 				A39520E5135CA13E00269689 /* MessageDetailViewController.h */,
 				A39520E6135CA13E00269689 /* MessageDetailViewController.m */,
 				A39520E7135CA13E00269689 /* MessageDetailViewController.xib */,
-				A3CD14E7134DB5A1001E364C /* SettingsViewController.h */,
-				A3CD14E8134DB5A1001E364C /* SettingsViewController.m */,
-				A3CD14E9134DB5A2001E364C /* SettingsViewController.xib */,
 				A3FF1BE3134DC34B0044914C /* LoginViewController.h */,
 				A3FF1BE4134DC34B0044914C /* LoginViewController.m */,
 				A3FF1BE5134DC34B0044914C /* LoginViewController.xib */,
@@ -244,6 +238,7 @@
 				A36BCEC113436C6000090AE7 /* InfoPlist.strings */,
 				A36BCEC413436C6000090AE7 /* SciProMobile-Prefix.pch */,
 				A36BCEC513436C6000090AE7 /* main.m */,
+				A39520EB135CC77800269689 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -351,13 +346,13 @@
 				A36BCECC13436C6000090AE7 /* MainWindow.xib in Resources */,
 				A3CD14E0134DB575001E364C /* ProjectViewController.xib in Resources */,
 				A3CD14E6134DB590001E364C /* MessageViewController.xib in Resources */,
-				A3CD14EB134DB5A2001E364C /* SettingsViewController.xib in Resources */,
 				A3FF1BE7134DC34B0044914C /* LoginViewController.xib in Resources */,
 				A3FF1C3A134DF8FE0044914C /* ProjectDetailViewController.xib in Resources */,
 				A3048814134EF8BA001126AA /* CreateMessageViewController.xib in Resources */,
 				A3E4F9B8135C576700667BEC /* 57.png in Resources */,
 				A3E4F9BA135C577500667BEC /* 114.png in Resources */,
 				A39520E9135CA13E00269689 /* MessageDetailViewController.xib in Resources */,
+				A39520EC135CC77800269689 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,7 +392,6 @@
 				A36BCEC913436C6000090AE7 /* SciProMobileAppDelegate.m in Sources */,
 				A3CD14DF134DB575001E364C /* ProjectViewController.m in Sources */,
 				A3CD14E5134DB590001E364C /* MessageViewController.m in Sources */,
-				A3CD14EA134DB5A2001E364C /* SettingsViewController.m in Sources */,
 				A3FF1BE6134DC34B0044914C /* LoginViewController.m in Sources */,
 				A3FF1C39134DF8FE0044914C /* ProjectDetailViewController.m in Sources */,
 				A3048813134EF8BA001126AA /* CreateMessageViewController.m in Sources */,

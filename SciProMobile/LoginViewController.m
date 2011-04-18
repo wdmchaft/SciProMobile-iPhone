@@ -108,7 +108,6 @@
         
 		for (unsigned int i = 0; i < [luckyNumbers count]; i++){
 			[text appendFormat:@"%@\n", [luckyNumbers objectAtIndex:i]];
-            NSLog(@"%@", [luckyNumbers objectAtIndex:i]);
         }
         
 		label.text =  text;
