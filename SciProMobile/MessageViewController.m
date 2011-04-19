@@ -10,6 +10,7 @@
 #import "CreateMessageViewController.h"
 #import "MessageModel.h"
 #import "MessageDetailViewController.h"
+#import "SearchViewController.h"
 
 @implementation MessageViewController
 
@@ -46,7 +47,7 @@
     
     [infoButton release];
 
-    NSString *message = @"Tenta den 15:de maj";
+    NSString *message = @"Tenta den 15:de maj GNU gdb 6.3.50-20050815 (Apple version gdb-1518)ccccccccccccccccccc ddddddddddddddddddddd ffffffffffffffff fffffffffff   dddddddddd";
 
     
     NSDate *date = [NSDate date];
@@ -59,12 +60,19 @@
     
     // Do any additional setup after loading the view from its nib.
 }
+
+
 - (void) showInfoView:(id)sender
 {
     CreateMessageViewController *createMessageViewController = [[CreateMessageViewController alloc] init];
     createMessageViewController.title = @"Create message";
     [self.navigationController pushViewController:createMessageViewController animated:YES];
     [createMessageViewController release]; 
+    
+//    SearchViewController *searchViewController = [[SearchViewController alloc] init];
+//    searchViewController.title = @"Search User";
+//    [self.navigationController pushViewController:searchViewController animated:YES];
+//    [searchViewController release]; 
 }
 - (void)viewDidUnload
 {
@@ -99,11 +107,12 @@
     static NSString *MyIdentifier = @"MyIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
     MessageModel *messageModel = [messages objectAtIndex:[indexPath row]];
     
     cell.textLabel.text = messageModel.subject;
+    cell.detailTextLabel.text = messageModel.message;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -119,17 +128,14 @@
     [messageDetailViewController.from setText:messageModel.from];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"]; 
-    NSLog(@"%@",messageModel.sentDate);
     messageDetailViewController.date.text = [dateFormatter stringFromDate:messageModel.sentDate];
     [dateFormatter release];;
     [messageDetailViewController release];
     
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-        return UITableViewCellEditingStyleDelete;
-
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {    
+    return UITableViewCellEditingStyleDelete;
 }
 
 
@@ -148,8 +154,7 @@
 }
 
 
-- (void)dealloc
-{   
+- (void)dealloc{   
     [messages release];
     [super dealloc];
 }

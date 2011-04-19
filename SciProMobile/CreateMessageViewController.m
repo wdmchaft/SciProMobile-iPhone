@@ -23,11 +23,20 @@
     return self;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == toTextField) {
+        [toTextField resignFirstResponder];
+    } else if (theTextField == subjectTextField) {
+        [subjectTextField resignFirstResponder];
+    }
+    return YES;
+}
+
 - (void)dealloc
 {
-    [toTextField release];
     [subjectTextField release];
     [messageTextView release];
+    [toTextField release];
     [super dealloc];
 }
 
@@ -49,9 +58,9 @@
 
 - (void)viewDidUnload
 {
-    [self setToTextField:nil];
     [self setSubjectTextField:nil];
     [self setMessageTextView:nil];
+    [self setToTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -72,14 +81,6 @@
     return YES;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == toTextField) {
-        [toTextField resignFirstResponder];
-    } else if (theTextField == subjectTextField) {
-        [subjectTextField resignFirstResponder];
-    }
-    return YES;
-}
 
 
 - (IBAction)sendAction:(id)sender {

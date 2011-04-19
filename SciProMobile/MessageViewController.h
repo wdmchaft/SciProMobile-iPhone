@@ -13,5 +13,4 @@
     NSMutableData *responseData;
     NSMutableArray *messages;
 }
-
 @end

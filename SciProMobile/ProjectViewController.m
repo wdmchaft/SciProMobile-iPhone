@@ -9,6 +9,7 @@
 #import "ProjectViewController.h"
 #import "ProjectDetailViewController.h"
 #import "JSON.h"
+#import "ProjectModel.h"
 
 @implementation ProjectViewController
 
@@ -23,6 +24,7 @@
 
 - (void)dealloc
 {
+    [projects release];
     [super dealloc];
 }
 
@@ -43,7 +45,15 @@
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.unpossible.com/misc/lucky_numbers.json"]];
 	[[NSURLConnection alloc] initWithRequest:request delegate:self];
     // Do any additional setup after loading the view from its nib.
+    
+    ProjectModel *firstProject = [[ProjectModel alloc] initWithTitle:@"Iphone-app" statusMessage:@"Bra"  status:GREEN];
+    ProjectModel *secondProject = [[ProjectModel alloc] initWithTitle:@"Android-app" statusMessage:@"Bad data collection"  status:RED];
+    ProjectModel *thirdProject = [[ProjectModel alloc] initWithTitle:@"Peer-project" statusMessage:@"Works hard and seminar on tuesdar"  status:GREEN];
+    projects = [[NSMutableArray alloc]initWithObjects:firstProject, secondProject, thirdProject, nil];
+    [projects sortUsingSelector:@selector(sortByStatus:)];
+    
 }
+
 
 - (void)viewDidUnload
 {
@@ -97,33 +107,22 @@
 			[text appendFormat:@"%@\n", [luckyNumbers objectAtIndex:i]];
             NSLog(@"%@", [luckyNumbers objectAtIndex:i]);
         }
-        
-        text;
 	}
     [jsonParser release];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return 3;
+    return [projects count];
 }
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     // The header for the section is the region name -- get this from the region at the section index.;
-    if (section == 0){
-        return @"Android-app";
-    } else if (section == 1){
-        return @"Iphone-app";
-    } else if (section == 2){
-        return @"Peer-review";
-    } else{
-        return @"No-name project";
-    }
+    return nil;
 }
 
 
@@ -131,15 +130,23 @@
     static NSString *MyIdentifier = @"MyIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
-    if ([indexPath row] == 0) {
-        cell.textLabel.text = @"Status";
-    } else if([indexPath row] == 1){
-        cell.textLabel.text = @"Message";
-    } else if([indexPath row] == 2){
-        cell.textLabel.text = @"Schedule";
+    ProjectModel *objectAtIndex = [projects objectAtIndex: indexPath.row];
+
+    switch (objectAtIndex.status) {
+        case RED:
+            cell.imageView.image = [UIImage imageNamed:@"red_ball_small.png"];
+            break;
+        case GREEN:
+            cell.imageView.image = [UIImage imageNamed:@"green_ball_small.png"];
+            break;
+        default:
+            break;
     }
+    cell.textLabel.text = objectAtIndex.title;
+    cell.detailTextLabel.text = objectAtIndex.statusMessage;
+
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,15 +155,6 @@
     projectDetailViewController.title = @"Project Details";
     [self.navigationController pushViewController:projectDetailViewController animated:YES];
     [projectDetailViewController release];   
-}
-
-
-
-- (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // If row is deleted, remove it from the list.
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        
-    }
 }
 
 

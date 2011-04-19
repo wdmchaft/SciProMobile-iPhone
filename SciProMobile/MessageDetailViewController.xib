@@ -117,7 +117,6 @@
 						<string key="NSFrame">{{20, 113}, {280, 315}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -195,8 +194,8 @@
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="658418875"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MQA</bytes>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MC44NDMxMzcyNTQ5IDAuODc4NDMxMzcyNSAwLjkyMTU2ODYyNzUAA</bytes>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

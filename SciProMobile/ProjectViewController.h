@@ -12,8 +12,8 @@
 
 @interface ProjectViewController : UITableViewController {
     
-    UITableView *projectTable;
     NSMutableData *responseData;
+    NSMutableArray *projects;
 }
 - (IBAction)projectButton:(id)sender;
 

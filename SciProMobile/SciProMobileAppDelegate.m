@@ -29,15 +29,24 @@
     messageViewController = [[MessageViewController alloc] init];
     projectViewController.title = @"Project";
     messageViewController.title = @"Message";
+
     
 
-    [projectNavController pushViewController:projectViewController animated:NO];
     [messageNavController pushViewController:messageViewController animated:NO];
-    
+    [projectNavController pushViewController:projectViewController animated:NO];
     [projectViewController release];
     [messageViewController release];
     
     tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, nil];
+    UIImage* anImage = [UIImage imageNamed:@"18-envelope.png"];
+    UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:@"Message" image:anImage tag:0];
+    messageNavController.tabBarItem = theItem;
+    [theItem release];
+    
+    anImage = [UIImage imageNamed:@"33-cabinet.png"];
+    theItem = [[UITabBarItem alloc] initWithTitle:@"Project" image:anImage tag:0];
+    projectNavController.tabBarItem = theItem;
+    [theItem release];
    
     [projectNavController release];
     [messageNavController release];
