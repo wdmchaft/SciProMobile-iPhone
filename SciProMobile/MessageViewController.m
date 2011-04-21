@@ -10,7 +10,8 @@
 #import "CreateMessageViewController.h"
 #import "MessageModel.h"
 #import "MessageDetailViewController.h"
-#import "SearchViewController.h"
+#import "ProjectModel.h"
+#import "SearchUserViewController.h"
 
 @implementation MessageViewController
 
@@ -68,11 +69,8 @@
     createMessageViewController.title = @"Create message";
     [self.navigationController pushViewController:createMessageViewController animated:YES];
     [createMessageViewController release]; 
-    
-//    SearchViewController *searchViewController = [[SearchViewController alloc] init];
-//    searchViewController.title = @"Search User";
-//    [self.navigationController pushViewController:searchViewController animated:YES];
-//    [searchViewController release]; 
+
+
 }
 - (void)viewDidUnload
 {

@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		A3048813134EF8BA001126AA /* CreateMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3048811134EF8BA001126AA /* CreateMessageViewController.m */; };
 		A3048814134EF8BA001126AA /* CreateMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3048812134EF8BA001126AA /* CreateMessageViewController.xib */; };
-		A32AA59F135E257B00257CED /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A32AA59D135E257B00257CED /* SearchViewController.m */; };
-		A32AA5A0135E257B00257CED /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A32AA59E135E257B00257CED /* SearchViewController.xib */; };
 		A33FE2F813533CCE0037ACDE /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A33FE2E713533CCE0037ACDE /* NSObject+JSON.m */; };
 		A33FE2F913533CCE0037ACDE /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A33FE2E913533CCE0037ACDE /* SBJsonParser.m */; };
 		A33FE2FA13533CCE0037ACDE /* SBJsonStreamParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A33FE2EB13533CCE0037ACDE /* SBJsonStreamParser.m */; };
@@ -44,6 +42,8 @@
 		A39520E8135CA13E00269689 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A39520E6135CA13E00269689 /* MessageDetailViewController.m */; };
 		A39520E9135CA13E00269689 /* MessageDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A39520E7135CA13E00269689 /* MessageDetailViewController.xib */; };
 		A39520EC135CC77800269689 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A39520EB135CC77800269689 /* Settings.bundle */; };
+		A3AEF154136067B600946947 /* SearchUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3AEF152136067B500946947 /* SearchUserViewController.m */; };
+		A3AEF155136067B600946947 /* SearchUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3AEF153136067B600946947 /* SearchUserViewController.xib */; };
 		A3CD14DF134DB575001E364C /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CD14DD134DB575001E364C /* ProjectViewController.m */; };
 		A3CD14E0134DB575001E364C /* ProjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3CD14DE134DB575001E364C /* ProjectViewController.xib */; };
 		A3CD14E5134DB590001E364C /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CD14E3134DB590001E364C /* MessageViewController.m */; };
@@ -71,9 +71,6 @@
 		A3048810134EF8BA001126AA /* CreateMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateMessageViewController.h; sourceTree = "<group>"; };
 		A3048811134EF8BA001126AA /* CreateMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateMessageViewController.m; sourceTree = "<group>"; };
 		A3048812134EF8BA001126AA /* CreateMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateMessageViewController.xib; sourceTree = "<group>"; };
-		A32AA59C135E257B00257CED /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
-		A32AA59D135E257B00257CED /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		A32AA59E135E257B00257CED /* SearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		A33FE2E513533CCE0037ACDE /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		A33FE2E613533CCE0037ACDE /* NSObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSON.h"; sourceTree = "<group>"; };
 		A33FE2E713533CCE0037ACDE /* NSObject+JSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSON.m"; sourceTree = "<group>"; };
@@ -123,6 +120,9 @@
 		A39520E6135CA13E00269689 /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
 		A39520E7135CA13E00269689 /* MessageDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageDetailViewController.xib; sourceTree = "<group>"; };
 		A39520EB135CC77800269689 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		A3AEF151136067B500946947 /* SearchUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUserViewController.h; sourceTree = "<group>"; };
+		A3AEF152136067B500946947 /* SearchUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUserViewController.m; sourceTree = "<group>"; };
+		A3AEF153136067B600946947 /* SearchUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SearchUserViewController.xib; sourceTree = "<group>"; };
 		A3CD14DC134DB575001E364C /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
 		A3CD14DD134DB575001E364C /* ProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectViewController.m; sourceTree = "<group>"; };
 		A3CD14DE134DB575001E364C /* ProjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectViewController.xib; sourceTree = "<group>"; };
@@ -223,6 +223,7 @@
 		A36BCEBE13436C6000090AE7 /* SciProMobile */ = {
 			isa = PBXGroup;
 			children = (
+				A36BCEBF13436C6000090AE7 /* Supporting Files */,
 				A3E4F9A7135C2AA800667BEC /* Models */,
 				A33FE2E313533CB50037ACDE /* JSON */,
 				A3048810134EF8BA001126AA /* CreateMessageViewController.h */,
@@ -246,10 +247,9 @@
 				A3FF1C36134DF8FD0044914C /* ProjectDetailViewController.h */,
 				A3FF1C37134DF8FD0044914C /* ProjectDetailViewController.m */,
 				A3FF1C38134DF8FE0044914C /* ProjectDetailViewController.xib */,
-				A36BCEBF13436C6000090AE7 /* Supporting Files */,
-				A32AA59C135E257B00257CED /* SearchViewController.h */,
-				A32AA59D135E257B00257CED /* SearchViewController.m */,
-				A32AA59E135E257B00257CED /* SearchViewController.xib */,
+				A3AEF151136067B500946947 /* SearchUserViewController.h */,
+				A3AEF152136067B500946947 /* SearchUserViewController.m */,
+				A3AEF153136067B600946947 /* SearchUserViewController.xib */,
 			);
 			path = SciProMobile;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 				A3717AD1135D8BC6003B9B79 /* red_ball_small.png in Resources */,
 				A3717ADB135DD67C003B9B79 /* Default.png in Resources */,
 				A3717ADD135DD686003B9B79 /* Default@2x.png in Resources */,
-				A32AA5A0135E257B00257CED /* SearchViewController.xib in Resources */,
+				A3AEF155136067B600946947 /* SearchUserViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,7 +457,7 @@
 				A3E4F9B6135C2B6C00667BEC /* MessageModel.m in Sources */,
 				A39520E8135CA13E00269689 /* MessageDetailViewController.m in Sources */,
 				A3717AD4135DB81B003B9B79 /* ProjectModel.m in Sources */,
-				A32AA59F135E257B00257CED /* SearchViewController.m in Sources */,
+				A3AEF154136067B600946947 /* SearchUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

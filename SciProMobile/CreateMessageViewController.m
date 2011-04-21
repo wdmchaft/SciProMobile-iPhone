@@ -7,6 +7,7 @@
 //
 
 #import "CreateMessageViewController.h"
+#import "SearchUserViewController.h"
 
 
 @implementation CreateMessageViewController
@@ -85,5 +86,14 @@
 
 - (IBAction)sendAction:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)searchField:(id)sender {
+    SearchUserViewController *searchUserViewController = [[SearchUserViewController alloc] init];
+    searchUserViewController.title = @"User search";
+    searchUserViewController.createMessageViewController = self;
+    searchUserViewController.savedSearchTerm = toTextField.text;
+    [self.navigationController pushViewController:searchUserViewController animated:YES];
+    [searchUserViewController release]; 
 }
 @end

@@ -20,5 +20,6 @@
 @property (nonatomic, retain) IBOutlet UITextField *subjectTextField;
 @property (nonatomic, retain) IBOutlet UITextView *messageTextView;
 - (IBAction)sendAction:(id)sender;
+- (IBAction)searchField:(id)sender;
 
 @end
