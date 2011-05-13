@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CreateMessageViewController.h"
+#import "NewMessageViewController.h"
 
 @interface SearchUserViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, UISearchBarDelegate> {
     
@@ -15,14 +15,14 @@
     NSMutableArray *contentsList;
     NSMutableArray *searchResults;
     NSString *savedSearchTerm;
-    CreateMessageViewController *createMessageViewController;
+    NewMessageViewController *createMessageViewController;
     
 }
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) NSMutableArray *contentsList;
 @property (nonatomic, retain) NSMutableArray *searchResults;
 @property (nonatomic, copy) NSString *savedSearchTerm;
-@property (nonatomic, retain) CreateMessageViewController *createMessageViewController;
+@property (nonatomic, retain) NewMessageViewController *createMessageViewController;
 
 - (void)handleSearchForTerm:(NSString *)searchTerm;
 

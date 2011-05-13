@@ -31,6 +31,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *label;
 
 - (IBAction)buttonPressed:(id)sender;
+- (BOOL)loginWithUserName:(NSString*) userName password:(NSString*) password;
 
 @end
 

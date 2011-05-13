@@ -13,4 +13,8 @@
     NSMutableData *responseData;
     NSMutableArray *messages;
 }
+- (void)updateView;
+- (void)setRead: (NSNumber*) recipientId;
+- (void)getUnreadMessageNumber;
+- (void)deleteMessage: (NSNumber*) recipientId;
 @end

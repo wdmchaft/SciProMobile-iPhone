@@ -16,14 +16,21 @@
 @synthesize title;
 @synthesize statusMessage;
 @synthesize status;
+@synthesize projectMembers;
+@synthesize level;
+@synthesize reviewers;
+@synthesize coSupervisors;
 
-
-- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status {
+- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status members:(NSMutableArray *)members level:(NSString *)level reviewer:(NSMutableArray *) reviewers coSupervisors:(NSMutableArray *) coSupervisors{
 	
 	if ((self = [super init])) {
 		self.title = title;
         self.statusMessage = statusMessage;
         self.status = status;
+        self.projectMembers = members;
+        self.level = level;
+        self.reviewers = reviewers;
+        self.coSupervisors = coSupervisors;
 	}
 	return self;
 }
@@ -31,15 +38,15 @@
 - (NSComparisonResult) sortByStatus:(ProjectModel *)obj
 {
     NSComparisonResult retVal = NSOrderedSame;
-    if ( self.status == RED && obj.status == GREEN ) // by whatever rules make sense for your class of course
+    if ( self.status == NEEDHELP && obj.status == FINE ) // by whatever rules make sense for your class of course
         retVal = NSOrderedAscending;
-    else if ( self.status == RED && obj.status == YELLOW ) 
+    else if ( self.status == NEEDHELP && obj.status == NEUTRAL ) 
         retVal = NSOrderedAscending;
-    else if ( self.status == YELLOW && obj.status == RED ) 
+    else if ( self.status == NEUTRAL && obj.status == NEEDHELP ) 
         retVal = NSOrderedDescending;
-    else if ( self.status == GREEN && obj.status == RED ) 
+    else if ( self.status == FINE && obj.status == NEEDHELP ) 
         retVal = NSOrderedDescending;
-    else if ( self.status == GREEN && obj.status == YELLOW ) 
+    else if ( self.status == FINE && obj.status == NEUTRAL ) 
         retVal = NSOrderedDescending;
     return retVal;
 }
@@ -47,6 +54,10 @@
 - (void)dealloc {
 	[title release];
 	[statusMessage release];
+    [projectMembers release];
+    [coSupervisors release];
+    [reviewers release];
+    [level release];
 	[super dealloc];
 }
 

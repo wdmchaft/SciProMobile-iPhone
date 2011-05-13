@@ -7,21 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UserModel.h"
 
 
 @interface MessageModel : NSObject {
     
-    NSString *from;
+    UserModel *from;
+    BOOL read;
     NSString *subject;
     NSString *message;
-    NSDate *sentDate;
+    NSString *sentDate;
+    NSNumber *messageId;
+    
 }
 
-@property (nonatomic, retain) NSString *from;
+@property (nonatomic, retain) UserModel *from;;
 @property (nonatomic, retain) NSString *subject;
 @property (nonatomic, retain) NSString *message;
-@property (nonatomic, retain) NSDate *sentDate;
+@property (nonatomic, retain) NSString *sentDate;
+@property (nonatomic, retain) NSNumber *messageId;
+@property (nonatomic, assign) BOOL read;
 
-- (id)initWithFrom:(NSString *)from subject:(NSString *)subject message:(NSString *)message date:(NSDate *)date;
+- (id)initWithMessageId:(NSNumber *)messageId  From:(UserModel *)from subject:(NSString *)subject message:(NSString *)message date:(NSString *)date read: (BOOL)read;
 
 @end

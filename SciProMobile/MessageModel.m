@@ -15,21 +15,25 @@
 @synthesize subject;
 @synthesize message;
 @synthesize sentDate;
+@synthesize messageId;
+@synthesize read;
 
-
-- (id)initWithFrom:(NSString *)from subject:(NSString *)subject message:(NSString *)message date:(NSDate *)date     {
+- (id)initWithMessageId:(NSNumber *)messageId  From:(UserModel *)from subject:(NSString *)subject message:(NSString *)message date:(NSString *)date read: (BOOL)read{
 	
 	if ((self = [super init])) {
 		self.from = from;
         self.subject = subject;
         self.message = message;
-        sentDate = [date copy];
+        self.sentDate = date;
+        self.messageId = messageId;
+        self.read = read;
 	}
 	return self;
 }
 
 
 - (void)dealloc {
+    [messageId release];
 	[from release];
 	[subject release];
 	[message release];

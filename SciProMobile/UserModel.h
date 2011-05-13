@@ -11,6 +11,16 @@
 
 @interface UserModel : NSObject {
     
+    NSString *name;
+    NSNumber *userId;
+
 }
+
+
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSNumber *userId;
+
+
+- (id)initWithId:(NSNumber *)userId name:(NSString *)name ;
 
 @end

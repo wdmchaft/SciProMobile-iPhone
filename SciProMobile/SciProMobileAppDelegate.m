@@ -10,7 +10,8 @@
 
 #import "ProjectViewController.h"
 #import "MessageViewController.h"
-
+#import "StatusReportViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
 @implementation SciProMobileAppDelegate
 
@@ -25,19 +26,30 @@
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
     messageNavController = [[UINavigationController alloc]init];
+    UINavigationController *statusNavController = [[UINavigationController alloc]init];
     projectViewController = [[ProjectViewController alloc] init];
     messageViewController = [[MessageViewController alloc] init];
+    StatusReportViewController *statusReportViewController = [[StatusReportViewController alloc] init];
+    statusReportViewController.title = @"Status";
     projectViewController.title = @"Project";
     messageViewController.title = @"Message";
+    if (![CLLocationManager locationServicesEnabled]) {
+        UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [servicesDisabledAlert show];
+        [servicesDisabledAlert release];
+    }
 
-    
+
+
 
     [messageNavController pushViewController:messageViewController animated:NO];
     [projectNavController pushViewController:projectViewController animated:NO];
+    [statusNavController pushViewController:statusReportViewController animated:NO];
     [projectViewController release];
     [messageViewController release];
+    [statusReportViewController release];
     
-    tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, nil];
+    tabBarController.viewControllers = [NSArray arrayWithObjects:projectNavController, messageNavController, statusNavController, nil];
     UIImage* anImage = [UIImage imageNamed:@"18-envelope.png"];
     UITabBarItem* theItem = [[UITabBarItem alloc] initWithTitle:@"Message" image:anImage tag:0];
     messageNavController.tabBarItem = theItem;
@@ -47,16 +59,22 @@
     theItem = [[UITabBarItem alloc] initWithTitle:@"Project" image:anImage tag:0];
     projectNavController.tabBarItem = theItem;
     [theItem release];
+    
+    anImage = [UIImage imageNamed:@"74-location.png"];
+    theItem = [[UITabBarItem alloc] initWithTitle:@"Status" image:anImage tag:0];
+    statusNavController.tabBarItem = theItem;
+    [theItem release];
    
     [projectNavController release];
     [messageNavController release];
+    [statusNavController release];
     [_window addSubview:tabBarController.view];
     [self.window makeKeyAndVisible];
     LoginViewController *lvc = [[LoginViewController alloc] init];
     lvc.delegate = self;
     [tabBarController presentModalViewController:lvc animated:NO];
     [lvc release];
-
+    
     
     return YES;
 }

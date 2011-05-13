@@ -8,7 +8,7 @@
 
 #import "LoginViewController.h"
 #import "JSON.h"
-
+#import "LoginSingleton.h"
 
 @implementation LoginViewController
 @synthesize usernameTextField;
@@ -74,53 +74,73 @@
     return YES;
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
-}
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[responseData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	label.text = [NSString stringWithFormat:@"Connection failed: %@", [error description]];
-    [responseData release];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[connection release];
+- (BOOL)loginWithUserName:(NSString*)userName password:(NSString*)password{
+    NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
+    [jsonObject setObject:userName forKey:@"username"];
+    [jsonObject setObject:password forKey:@"password"];
+    NSString* jsonString = jsonObject.JSONRepresentation;
+    NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
     
-	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    const char* reqString = [requestString UTF8String];
+    NSInteger length = strlen(reqString);
+
+    
+    NSData *requestData = [NSData dataWithBytes: reqString length: length];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/login"]];
+    [request setHTTPMethod: @"POST"];
+    [request setHTTPBody: requestData];
+    
+    NSError *error;
+    
+    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
+    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", responseString);
 	[responseData release];
     
-	NSError *error;
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
-
-	NSArray *luckyNumbers = [jsonParser objectWithString:responseString error:&error];
-    NSLog(@"%@", responseString);
-	[responseString release];	
     
-	if (luckyNumbers == nil)
-		label.text = [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
-	else {
-		NSMutableString *text = [NSMutableString stringWithString:@"Lucky numbers:\n"];
-        
-		for (unsigned int i = 0; i < [luckyNumbers count]; i++){
-			[text appendFormat:@"%@\n", [luckyNumbers objectAtIndex:i]];
+    BOOL returnValue = NO;
+    NSLog(@"%d", returnValue);
+    
+	NSMutableDictionary *authenticationDict = [jsonParser objectWithString:responseString error:&error];
+    if (authenticationDict == nil){
+		[NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
+
+    } else {
+        NSLog(@"%@", authenticationDict);
+        NSNumber *loggedIn = [authenticationDict objectForKey:@"authenticated"];
+        NSLog(@"%@", loggedIn);
+        if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
+            NSString *apiKey = [authenticationDict objectForKey:@"apikey"];
+            NSNumber *userId = [authenticationDict objectForKey:@"userid"];
+            [LoginSingleton instance].apikey = apiKey;
+            [LoginSingleton instance].userid = userId;
+            returnValue = YES;
         }
-        
-		label.text =  text;
 	}
+    [responseString release];	
     [jsonParser release];
-    [jsonWriter release];
+    [request release];
+    NSLog(@"%d", returnValue);
+    return returnValue;
+    
 }
-
-
 - (IBAction)buttonPressed:(id)sender {
-    responseData = [[NSMutableData data] retain];
-	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.unpossible.com/misc/lucky_numbers.json"]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [delegate loginViewControllerDidFinish:self];
+    BOOL check = [self loginWithUserName: usernameTextField.text password: passwordTextField.text];
+    NSLog(@"%d", check);
+    if(check){
+        [delegate loginViewControllerDidFinish:self];
+    } else{
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Login failed"
+                                   message: @"Username or password incorrect"
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+    }
+ 
 }
 @end

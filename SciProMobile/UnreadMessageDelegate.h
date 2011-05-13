@@ -10,7 +10,8 @@
 
 
 @interface UnreadMessageDelegate : NSObject {
-    
+    NSMutableData *responseData;
+    UITabBarItem *tabBarItem;
 }
-
+@property (nonatomic, retain) UITabBarItem *tabBarItem;
 @end

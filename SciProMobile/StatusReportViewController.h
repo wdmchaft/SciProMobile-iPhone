@@ -11,6 +11,11 @@
 
 @interface StatusReportViewController : UIViewController {
     
+    UITextField *statusMessageTextField;
+    UISwitch *availableSwitch;
 }
+@property (nonatomic, retain) IBOutlet UISwitch *availableSwitch;
+@property (nonatomic, retain) IBOutlet UITextField *statusMessageTextField;
+- (IBAction)updateStatus:(id)sender;
 
 @end

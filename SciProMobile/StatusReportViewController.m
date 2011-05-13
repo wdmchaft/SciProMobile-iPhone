@@ -10,6 +10,8 @@
 
 
 @implementation StatusReportViewController
+@synthesize availableSwitch;
+@synthesize statusMessageTextField;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,6 +24,8 @@
 
 - (void)dealloc
 {
+    [statusMessageTextField release];
+    [availableSwitch release];
     [super dealloc];
 }
 
@@ -43,6 +47,8 @@
 
 - (void)viewDidUnload
 {
+    [self setStatusMessageTextField:nil];
+    [self setAvailableSwitch:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -54,4 +60,14 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == statusMessageTextField) {
+        [statusMessageTextField resignFirstResponder];
+    } 
+    return YES;
+}
+
+- (IBAction)updateStatus:(id)sender {
+
+}
 @end

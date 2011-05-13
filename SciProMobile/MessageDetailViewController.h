@@ -15,10 +15,13 @@
     UILabel *date;
     UILabel *subject;
     UITextView *textView;
+    UIScrollView *scrollView;
 }
 @property (nonatomic, retain) IBOutlet UILabel *from;
 @property (nonatomic, retain) IBOutlet UILabel *date;
 @property (nonatomic, retain) IBOutlet UILabel *subject;
 @property (nonatomic, retain) IBOutlet UITextView *textView;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+- (void)getUnreadMessageNumber;
 
 @end

@@ -10,6 +10,13 @@
 
 
 @implementation ProjectDetailViewController
+@synthesize statusMessage;
+@synthesize projectTitle;
+@synthesize members;
+@synthesize level;
+@synthesize statusImage;
+@synthesize reviewer;
+@synthesize coSupervisors;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,6 +29,13 @@
 
 - (void)dealloc
 {
+    [projectTitle release];
+    [members release];
+    [level release];
+    [statusMessage release];
+    [statusImage release];
+    [reviewer release];
+    [coSupervisors release];
     [super dealloc];
 }
 
@@ -43,6 +57,13 @@
 
 - (void)viewDidUnload
 {
+    [self setProjectTitle:nil];
+    [self setMembers:nil];
+    [self setLevel:nil];
+    [self setStatusMessage:nil];
+    [self setStatusImage:nil];
+    [self setReviewer:nil];
+    [self setCoSupervisors:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -54,4 +75,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)messageToProject:(id)sender {
+}
 @end

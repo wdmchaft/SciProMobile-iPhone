@@ -7,6 +7,8 @@
 //
 
 #import "MessageDetailViewController.h"
+#import "UnreadMessageDelegate.h"
+#import "LoginSingleton.h"
 
 
 @implementation MessageDetailViewController
@@ -14,6 +16,7 @@
 @synthesize date;
 @synthesize subject;
 @synthesize textView;
+@synthesize scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,6 +33,7 @@
     [date release];
     [subject release];
     [textView release];
+    [scrollView release];
     [super dealloc];
 }
 
@@ -55,6 +59,7 @@
     [self setDate:nil];
     [self setSubject:nil];
     [self setTextView:nil];
+    [self setScrollView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -64,6 +69,25 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self getUnreadMessageNumber];
+    //Do Stuff
+}
+
+- (void)getUnreadMessageNumber{
+    NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message/unread?userid="];
+    [url appendString:[[LoginSingleton instance].userid stringValue]];
+	[url appendString:@"&apikey="];
+    [url appendString:[LoginSingleton instance].apikey];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    UnreadMessageDelegate *unreadDelegate = [[UnreadMessageDelegate alloc]init];
+    unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController].viewControllers objectAtIndex:1] tabBarItem];
+	[[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];
+    [unreadDelegate release];
 }
 
 @end
