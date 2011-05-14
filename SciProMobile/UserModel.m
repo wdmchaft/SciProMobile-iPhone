@@ -29,7 +29,7 @@
 - (NSComparisonResult) sortByName:(UserModel *)obj
 {
     NSComparisonResult retVal = NSOrderedSame;
-    return [self.name compare: obj.name];
+    return [self.name localizedCaseInsensitiveCompare: obj.name];
 }
 
 - (void)dealloc {

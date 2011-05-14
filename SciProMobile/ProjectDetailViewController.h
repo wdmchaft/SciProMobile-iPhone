@@ -7,25 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProjectModel.h"
 
 
-@interface ProjectDetailViewController : UIViewController {
+@interface ProjectDetailViewController : UITableViewController {
     NSMutableData *responseData;
-    UILabel *projectTitle;
-    UILabel *members;
-    UILabel *level;
-    UIImageView *statusImage;
-    UILabel *reviewer;
-    UILabel *coSupervisors;
-    UILabel *statusMessage;
+    ProjectModel *projectModel;
 }
-@property (nonatomic, retain) IBOutlet UILabel *statusMessage;
-@property (nonatomic, retain) IBOutlet UILabel *projectTitle;
-@property (nonatomic, retain) IBOutlet UILabel *members;
-@property (nonatomic, retain) IBOutlet UILabel *level;
-@property (nonatomic, retain) IBOutlet UIImageView *statusImage;
-@property (nonatomic, retain) IBOutlet UILabel *reviewer;
-@property (nonatomic, retain) IBOutlet UILabel *coSupervisors;
+
+@property (nonatomic, retain) ProjectModel *projectModel;
 - (IBAction)messageToProject:(id)sender;
 
 @end

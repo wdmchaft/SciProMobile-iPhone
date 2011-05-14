@@ -7,18 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UserModel.h"
 
 
 @interface LoginSingleton : NSObject {
     
     NSString *apikey;
-    NSNumber *userid;
+    UserModel *user;
    
 }
 
 
 @property (nonatomic, retain) NSString *apikey;
-@property (nonatomic, retain) NSNumber *userid;
+@property (nonatomic, retain) UserModel *user;
+
 
 
 + (LoginSingleton *)instance;

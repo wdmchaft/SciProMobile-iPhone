@@ -17,6 +17,7 @@
 #import "LoginSingleton.h"
 #import "LoginViewController.h"
 #import "UnreadMessageDelegate.h"
+#import "UserListSingleton.h"
 
 @implementation ProjectViewController
 @synthesize locationManager;
@@ -76,7 +77,7 @@
     [projects removeAllObjects];
     responseData = [[NSMutableData data] retain];
     NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/project?userid="];
-    [url appendString:[[LoginSingleton instance].userid stringValue]];
+    [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -86,7 +87,7 @@
 
 - (void)getUnreadMessageNumber{
     NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message/unread?userid="];
-    [url appendString:[[LoginSingleton instance].userid stringValue]];
+    [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -147,7 +148,7 @@
     // store all of the measurements, just so we can see what kind of data we might receive
     // test the age of the location measurement to determine if the measurement is cached
     // in most cases you will not want to rely on cached measurements
-
+    
     NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
     if (locationAge > 5.0) return;
     // test that the horizontal accuracy does not indicate an invalid measurement
@@ -234,14 +235,14 @@
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
 	NSMutableDictionary *projectDictionary = [jsonParser objectWithString:responseString error:&error];
-    if (projectDictionary == nil)
+    if (projectDictionary == nil){
 		[NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
-	else {
+    } else {
         NSString *apiCheck = [projectDictionary objectForKey:@"apikey"];
         if ([apiCheck isEqualToString:@"success"]) {
             
             NSMutableArray *projectDict = [projectDictionary objectForKey:@"projectArray"];
-            
+            NSMutableArray *allUsers = [[NSMutableArray alloc] init];
             for(unsigned int i = 0; i < [projectDict count]; i++){
                 
                 Status status;
@@ -263,26 +264,35 @@
                 for(unsigned int i = 0; i < [projectMembers count]; i++){
                     UserModel *userModel = [[UserModel alloc] initWithId:[[projectMembers objectAtIndex:i] objectForKey:@"id"] name:[[projectMembers objectAtIndex:i] objectForKey:@"name"]];
                     [members addObject: userModel];
+                    [allUsers addObject:userModel];
                     [userModel release];
                 }
                 for(unsigned int i = 0; i < [projectReviewers count]; i++){
-                    UserModel *userModel = [[UserModel alloc] initWithId:[[projectMembers objectAtIndex:i] objectForKey:@"id"] name:[[projectMembers objectAtIndex:i] objectForKey:@"name"]];
+                    UserModel *userModel = [[UserModel alloc] initWithId:[[projectReviewers objectAtIndex:i] objectForKey:@"id"] name:[[projectReviewers objectAtIndex:i] objectForKey:@"name"]];
+                    
                     [reviewers addObject: userModel];
+                    [allUsers addObject:userModel];
                     [userModel release];
                 }
                 for(unsigned int i = 0; i < [projectCosupervisors count]; i++){
-                    UserModel *userModel = [[UserModel alloc] initWithId:[[projectMembers objectAtIndex:i] objectForKey:@"id"] name:[[projectMembers objectAtIndex:i] objectForKey:@"name"]];
+                    UserModel *userModel = [[UserModel alloc] initWithId:[[projectCosupervisors objectAtIndex:i] objectForKey:@"id"] name:[[projectCosupervisors objectAtIndex:i] objectForKey:@"name"]];
                     [coSupervisors addObject: userModel];
+                    [allUsers addObject:userModel];
                     [userModel release];
                 }
+                
+                [UserListSingleton instance].mutableArray = allUsers;
+                
                 ProjectModel *projectModel = [[ProjectModel alloc] initWithTitle:[[projectDict objectAtIndex:i] objectForKey:@"title"] statusMessage:[[projectDict objectAtIndex:i] objectForKey:@"statusMessage"]  status:status members:members level:[[projectDict objectAtIndex:i] objectForKey:@"level"] reviewer:reviewers coSupervisors:coSupervisors];
                 [projects addObject:projectModel];
                 [projectModel release];
                 [members release];
                 [reviewers release];
                 [coSupervisors release];
+                
             }
-            
+            [allUsers addObject: [LoginSingleton instance].user];
+            [allUsers release];
             
             [projects sortUsingSelector:@selector(sortByStatus:)];
             
@@ -310,7 +320,7 @@
     }
     [responseString release];	
     [jsonParser release];
-
+    
     
 }
 
@@ -350,6 +360,7 @@
     }
     cell.textLabel.text = objectAtIndex.title;
     cell.detailTextLabel.text = objectAtIndex.statusMessage;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
@@ -359,71 +370,8 @@
     ProjectDetailViewController *projectDetailViewController = [[ProjectDetailViewController alloc] init];
     [self.navigationController pushViewController:projectDetailViewController animated:YES];
     projectDetailViewController.title = @"Project Details";
-    
-    projectDetailViewController.projectTitle.text = projectModel.title;
-    projectDetailViewController.statusMessage.text = projectModel.statusMessage;
-    projectDetailViewController.level.text = projectModel.level;
-    NSMutableString *reviewers  = [NSMutableString stringWithString: @""];
-    bool first = YES;
-    
-    for(unsigned int i = 0; i < [projectModel.reviewers count]; i++){
-        UserModel *userModel = [projectModel.reviewers objectAtIndex:i];
-        if(first){
-            first = NO;
-            [reviewers appendString:userModel.name];
-            
-        } else {
-            [reviewers appendString:@", "];
-            [reviewers appendString:userModel.name];
-        }
-    }
-    
-    first = YES;
-    NSMutableString *members = [NSMutableString stringWithString: @""];
-    for(unsigned int i = 0; i < [projectModel.projectMembers count]; i++){
-        UserModel *userModel = [projectModel.projectMembers objectAtIndex:i];
-        if(first){
-            first = NO;
-            [members appendString:userModel.name];
-            
-        } else {
-            [members appendString:@", "];
-            [members appendString:userModel.name];
-        }
-    }
-    
-    first = YES;
-    NSMutableString *cosupervisors = [NSMutableString stringWithString: @""];
-    for(unsigned int i = 0; i < [projectModel.coSupervisors count]; i++){
-        UserModel *userModel = [projectModel.coSupervisors objectAtIndex:i];
-        if(first){
-            first = NO;
-            [cosupervisors appendString:userModel.name];
-            
-        } else {
-            [cosupervisors appendString:@", "];
-            [cosupervisors appendString:userModel.name];
-        }
-    }
-    
-    
-    projectDetailViewController.reviewer.text = reviewers;
-    projectDetailViewController.members.text = members;
-    projectDetailViewController.coSupervisors.text = cosupervisors;
-    
-    
-    switch (projectModel.status) {
-        case NEEDHELP:
-            projectDetailViewController.statusImage.image = [UIImage imageNamed:@"red_ball_small.png"];
-            break;
-        case FINE:
-            projectDetailViewController.statusImage.image = [UIImage imageNamed:@"green_ball_small.png"];
-            break;
-        default:
-            projectDetailViewController.statusImage.image = [UIImage imageNamed:@"yellow_ball_small.png"];
-            break;
-    }
-    
+    projectDetailViewController.projectModel = projectModel;
+       
     [projectDetailViewController release];   
 }
 

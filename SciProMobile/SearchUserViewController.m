@@ -7,6 +7,8 @@
 //
 
 #import "SearchUserViewController.h"
+#import "UserListSingleton.h"
+#import "UserModel.h"
 
 @implementation SearchUserViewController
 @synthesize tableView;
@@ -46,9 +48,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSMutableArray *array = [[NSMutableArray alloc] initWithObjects:@"Johan Aschan", @"Patrick Strang", @"Martin Peters", @"Jan Moberg", @"Dan Kjellman", nil];
-    [self setContentsList:array];
-    [array release];
+    NSMutableArray *array = [UserListSingleton instance].mutableArray; 
+    [array sortUsingSelector:@selector(sortByName:)];
+    NSMutableArray *stringArray = [[NSMutableArray alloc] init];
+    
+    for(unsigned int i = 0; i < [array count]; i++){
+        UserModel *userModel = [array objectAtIndex:i];
+        [stringArray addObject:userModel.name];
+    }
+    [self setContentsList:stringArray];
+    [stringArray release];
     // Do any additional setup after loading the view from its nib.
     
     // Restore search term

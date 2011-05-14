@@ -11,7 +11,7 @@
 
 @implementation LoginSingleton
 @synthesize apikey;
-@synthesize userid;
+@synthesize user;
 static LoginSingleton *gInstance = NULL;
 
 + (LoginSingleton *)instance
@@ -26,7 +26,7 @@ static LoginSingleton *gInstance = NULL;
 
 - (void)dealloc {
 	[apikey release];
-	[userid release];
+	[user release];
 	[super dealloc];
 }
 

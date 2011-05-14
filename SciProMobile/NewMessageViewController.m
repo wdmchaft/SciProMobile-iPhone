@@ -8,12 +8,18 @@
 
 #import "NewMessageViewController.h"
 #import "SearchUserViewController.h"
+#import "JSON.h"
+#import "LoginSingleton.h"
+#import "LoginViewController.h"
+#import "UserListSingleton.h"
 
 
 @implementation NewMessageViewController
 @synthesize toTextField;
 @synthesize subjectTextField;
+@synthesize projectSend;
 @synthesize messageTextView;
+@synthesize projectUsers;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,10 +88,101 @@
     return YES;
 }
 
+- (BOOL)newMessageWithSubject: (NSString*) subject andMessage:(NSString*) message andUserArray: (NSMutableArray*) toUserIdArray {
+    NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
+    [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
+    [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
+    [jsonObject setObject:subject forKey:@"subject"];
+    [jsonObject setObject:message forKey:@"message"];
+    [jsonObject setObject:toUserIdArray forKey:@"toUserIdArray"];
+    NSString* jsonString = jsonObject.JSONRepresentation;
+    NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
+    
+    const char* reqString = [requestString UTF8String];
+    NSInteger length = strlen(reqString);
+    
+    
+    NSData *requestData = [NSData dataWithBytes: reqString length: length];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/message/newmessage"]];
+    [request setHTTPMethod: @"POST"];
+    [request setHTTPBody: requestData];
+    
+    NSError *error;
+    
+    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
+    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+    
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    
+    BOOL returnValue = NO;
+	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
+    if (messDict == nil){
+        
+        NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connections problems try again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+    }
+	else {
+        NSString *apiCheck = [messDict objectForKey:@"apikey"];
+        if (![apiCheck isEqualToString:@"success"]) {
+            
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"Connection problems"
+                                       message: @"API-key mismatched login again."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];
+            LoginViewController *lvc = [[LoginViewController alloc] init];
+            lvc.delegate = [[UIApplication sharedApplication] delegate];
+            [[self tabBarController] presentModalViewController:lvc animated:NO];
+            [lvc release];
+            
+            
+            
+        } else{
+            returnValue = YES;
+        }
+    }
+    [responseString release];	
+    [jsonParser release];
+    [request release];
+    return returnValue;
+}
 
 
 - (IBAction)sendAction:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    NSMutableArray *array = [UserListSingleton instance].mutableArray;
+    
+    NSMutableArray *userIdArray = [[NSMutableArray alloc] init];
+    
+    if(projectSend){
+        for(unsigned int i = 0; i < [projectUsers count]; i++){
+            UserModel *user = [projectUsers objectAtIndex:i];
+            [userIdArray addObject:user.userId];
+        }
+    } else{
+        for(unsigned int i = 0; i < [array count]; i++){
+            UserModel *user = [array objectAtIndex:i];
+            if ([user.name isEqualToString:toTextField.text]) {
+                [userIdArray addObject:user.userId];
+            }
+        }
+    }
+    if([self newMessageWithSubject: (NSString*) subjectTextField.text andMessage:(NSString*) messageTextView.text andUserArray: (NSMutableArray*) userIdArray]){
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    
+    [userIdArray release];
 }
 
 - (IBAction)searchField:(id)sender {

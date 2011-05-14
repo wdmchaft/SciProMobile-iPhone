@@ -22,5 +22,5 @@
 
 
 - (id)initWithId:(NSNumber *)userId name:(NSString *)name ;
-
+- (NSComparisonResult) sortByName:(UserModel *)obj;
 @end

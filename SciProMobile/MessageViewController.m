@@ -70,7 +70,7 @@
     [messages removeAllObjects];
     responseData = [[NSMutableData data] retain];
     NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message?userid="];
-    [url appendString:[[LoginSingleton instance].userid stringValue]];
+    [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -78,7 +78,7 @@
 }
 - (void)getUnreadMessageNumber{
     NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message/unread?userid="];
-    [url appendString:[[LoginSingleton instance].userid stringValue]];
+    [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -96,7 +96,6 @@
     createMessageViewController.title = @"New message";
     [self.navigationController pushViewController:createMessageViewController animated:YES];
     [createMessageViewController release]; 
-    
     
 }
 - (void)viewDidUnload
@@ -135,9 +134,22 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
     MessageModel *messageModel = [messages objectAtIndex:[indexPath row]];
-    
+    if(!messageModel.read){
+        cell.imageView.image = [UIImage imageNamed:@"blue-circle3.png"];
+    }else{
+        cell.imageView.image = nil;
+    }
+    NSMutableString *string = [[NSMutableString alloc] init];
+    [string appendString: messageModel.from.name];
+    [string appendString: @"\n"];
+    [string appendString: messageModel.sentDate];
+    [string appendString: @"\n"];
+    [string appendString: messageModel.message];
     cell.textLabel.text = messageModel.subject;
-    cell.detailTextLabel.text = messageModel.message;
+    cell.detailTextLabel.text = string;
+    [string release];
+    cell.detailTextLabel.numberOfLines = 3;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -152,14 +164,9 @@
         NSLog(@"%@", messageModel.messageId);
     }
     messageDetailViewController.title = messageModel.subject;
+    messageDetailViewController.messageModel = messageModel;
     [self.navigationController pushViewController:messageDetailViewController animated:YES];
-    [messageDetailViewController.subject setText:messageModel.subject];
-    [messageDetailViewController.textView setText:messageModel.message];
-    NSMutableString *from = [NSMutableString stringWithString: messageModel.from.name];
     
-    [messageDetailViewController.from setText:from];
-    
-    messageDetailViewController.date.text = messageModel.sentDate;
     [messageDetailViewController release];
     
 }
@@ -167,7 +174,7 @@
 - (void)setRead: (NSNumber*) recipientId{
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:recipientId forKey:@"id"];
-    [jsonObject setObject:[LoginSingleton instance].userid forKey:@"userid"];
+    [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
     [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
     NSString* jsonString = jsonObject.JSONRepresentation;
     NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
@@ -223,7 +230,7 @@
 - (void)deleteMessage: (NSNumber*) recipientId{
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:recipientId forKey:@"id"];
-    [jsonObject setObject:[LoginSingleton instance].userid forKey:@"userid"];
+    [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
     [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
     NSString* jsonString = jsonObject.JSONRepresentation;
     NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
@@ -293,8 +300,6 @@
     // If row is deleted, remove it from the list. 
     if (editingStyle == UITableViewCellEditingStyleDelete  && (indexPath.section == 0)) {
         MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
-//        [messages removeObject:messageModel];
-//        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [self deleteMessage: messageModel.messageId];
         [self updateView];
@@ -338,9 +343,9 @@
                 NSString *date = [[messArray objectAtIndex:i] objectForKey:@"date"];
                 NSNumber *messId = [[messArray objectAtIndex:i] objectForKey:@"id"];
                 NSNumber *read = [[messArray objectAtIndex:i] objectForKey:@"read"];
-                NSMutableArray *userDict = [[messArray objectAtIndex:i] objectForKey:@"from"];
+                NSMutableDictionary *userDict = [[messArray objectAtIndex:i] objectForKey:@"from"];
                 
-                UserModel *userModel = [[UserModel alloc] initWithId: [userDict objectForKey:@"id"] name:[messageDict objectForKey:@"name"]];;
+                UserModel *userModel = [[UserModel alloc] initWithId: [userDict objectForKey:@"id"] name:[userDict objectForKey:@"name"]];;
                 
                 MessageModel *messageModel = [[MessageModel alloc]initWithMessageId:messId From:userModel subject:subject message:message date:date read:[read boolValue]];
                 [messages addObject:messageModel];
@@ -371,9 +376,17 @@
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+    
+}
+
 - (void)dealloc{   
     [messages release];
     [super dealloc];
 }
+
+
 
 @end

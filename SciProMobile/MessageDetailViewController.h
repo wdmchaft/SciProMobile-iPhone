@@ -7,21 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageModel.h"
 
-
-@interface MessageDetailViewController : UIViewController {
+@interface MessageDetailViewController : UITableViewController {
     
-    UILabel *from;
-    UILabel *date;
-    UILabel *subject;
-    UITextView *textView;
-    UIScrollView *scrollView;
+    MessageModel *messageModel;
+
 }
-@property (nonatomic, retain) IBOutlet UILabel *from;
-@property (nonatomic, retain) IBOutlet UILabel *date;
-@property (nonatomic, retain) IBOutlet UILabel *subject;
-@property (nonatomic, retain) IBOutlet UITextView *textView;
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) MessageModel *messageModel;;
 - (void)getUnreadMessageNumber;
 
 @end

@@ -114,9 +114,13 @@
         if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
             NSString *apiKey = [authenticationDict objectForKey:@"apikey"];
             NSNumber *userId = [authenticationDict objectForKey:@"userid"];
+            NSString *name = [authenticationDict objectForKey:@"name"];
+            UserModel *userModel = [[UserModel alloc] initWithId:userId name:name];
             [LoginSingleton instance].apikey = apiKey;
-            [LoginSingleton instance].userid = userId;
+            [LoginSingleton instance].user = userModel;
             returnValue = YES;
+            [userModel release];
+
         }
 	}
     [responseString release];	
@@ -127,14 +131,20 @@
     
 }
 - (IBAction)buttonPressed:(id)sender {
-    BOOL check = [self loginWithUserName: usernameTextField.text password: passwordTextField.text];
+    [self loginWithUserName: usernameTextField.text password: passwordTextField.text];
+    // TESTKOD
+    BOOL check = YES;
     NSLog(@"%d", check);
     if(check){
+        UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
+        [LoginSingleton instance].apikey = @"pelle";
+        [LoginSingleton instance].user = userModel;
+        [userModel release];
         [delegate loginViewControllerDidFinish:self];
     } else{
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Login failed"
-                                   message: @"Username or password incorrect"
+                                   message: @"Username or password incorrect or problem with server"
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
