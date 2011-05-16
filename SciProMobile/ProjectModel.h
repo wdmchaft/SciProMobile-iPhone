@@ -21,9 +21,11 @@ typedef enum status{
     NSMutableArray *projectMembers;
     NSMutableArray *reviewers;
     NSMutableArray *coSupervisors;
+    NSMutableArray *finalSeminars;
     NSString *level;
     NSString *reviewer;
     Status status;
+    NSNumber *progress;
 }
 
 
@@ -32,10 +34,12 @@ typedef enum status{
 @property (nonatomic, retain) NSMutableArray *projectMembers;
 @property (nonatomic, retain) NSMutableArray *reviewers;
 @property (nonatomic, retain) NSMutableArray *coSupervisors;
+@property (nonatomic, retain) NSMutableArray *finalSeminars;
 @property (nonatomic, retain) NSString *level;
+@property (nonatomic, retain) NSNumber *progress;
 @property (nonatomic, assign) Status status;
 
-- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status members:(NSMutableArray *)members level:(NSString *)level reviewer:(NSMutableArray *) reviewers coSupervisors:(NSMutableArray *) coSupervisors ;
+- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status members:(NSMutableArray *)members level:(NSString *)level reviewer:(NSMutableArray *) reviewers coSupervisors:(NSMutableArray *) coSupervisors progress:(NSNumber *) progress finalSeminars:(NSMutableArray *) finalSeminars  ;
 - (NSComparisonResult) sortByStatus:(ProjectModel *)obj;
 
 @end

@@ -17,14 +17,17 @@
 #import "LoginViewController.h"
 #import "LoginSingleton.h"
 #import "UnreadMessageDelegate.h"
+#import "PostDelegate.h"
 
 @implementation MessageViewController
+
+@synthesize inbox;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        inbox = YES;
     }
     return self;
 }
@@ -44,60 +47,137 @@
 {
     [super viewDidLoad];
     
+    
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    
-    
-    UIBarButtonItem* infoButton = [[UIBarButtonItem alloc]
-                                   initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(showInfoView:)];
-	self.navigationItem.leftBarButtonItem = infoButton;
-    
-    [infoButton release];
-    messages = [[NSMutableArray alloc]init];
-    
-    
+    // create a toolbar to have two buttons in the right
+    if(inbox){
+        
+        
+        UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 133, 44.01)];
+        
+        // create the array to hold the buttons, which then gets added to the toolbar
+        NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+        
+        // create a standard "add" button
+        UIBarButtonItem* bi = [[UIBarButtonItem alloc]
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newMessage)];
+        bi.style = UIBarButtonItemStyleBordered;
+        [buttons addObject:bi];
+        [bi release];
+        
+        // create a spacer
+        bi = [[UIBarButtonItem alloc]
+              initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [buttons addObject:bi];
+        [bi release];
+        
+        // create a standard "refresh" button
+        bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
+        [buttons addObject:bi];
+        [bi release];
+        
+        // stick the buttons in the toolbar
+        [tools setItems:buttons animated:NO];
+        
+        [buttons release];
+        
+        // and put the toolbar in the nav bar
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
+        [tools release];
+    }
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+- (void)sent{
+    MessageViewController *messageViewController = [[MessageViewController alloc] init];
+    messageViewController.inbox = NO;
+    messageViewController.title = @"Sent";
+    [self.navigationController pushViewController:messageViewController animated:YES];
+   
+
+    [messageViewController release];  
+}
+
+- (void)newMessage{
+    NewMessageViewController *messageViewController = [[NewMessageViewController alloc] init];
+    messageViewController.title = @"New Message";
+    [self.navigationController pushViewController:messageViewController animated:YES];
+    
+    [messageViewController release];  
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self updateView];
-    [self getUnreadMessageNumber];
     //Do Stuff
 }
 
+
+
 - (void)updateView{
-    [messages removeAllObjects];
+    
+    if(!messages)
+        messages = [[NSMutableArray alloc]init];
+    
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message?userid="];
+    NSMutableString *urlBasic;
+    if (inbox) {
+        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message?userid="];
+    }else
+        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/sentmessages?userid="];
+    
+    NSMutableString *url = [NSMutableString stringWithString:urlBasic];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    } 
+    [self unreadMessages];
+
 }
-- (void)getUnreadMessageNumber{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message/unread?userid="];
+
+- (void)unreadMessages{
+    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     UnreadMessageDelegate *unreadDelegate = [[UnreadMessageDelegate alloc]init];
-    unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController].viewControllers objectAtIndex:1] tabBarItem];
-	[[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];
+    unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController ].viewControllers objectAtIndex:1] tabBarItem];
+    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];  
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    } 
     [unreadDelegate release];
 }
 
-
-- (void) showInfoView:(id)sender
-{
-    NewMessageViewController *createMessageViewController = [[NewMessageViewController alloc] init];
-    createMessageViewController.title = @"New message";
-    [self.navigationController pushViewController:createMessageViewController animated:YES];
-    [createMessageViewController release]; 
-    
-}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -123,7 +203,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     // The header for the section is the region name -- get this from the region at the section index.;
-    return @"Inbox";
+    return nil;
 }
 
 
@@ -133,18 +213,36 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
+    
     MessageModel *messageModel = [messages objectAtIndex:[indexPath row]];
-    if(!messageModel.read){
-        cell.imageView.image = [UIImage imageNamed:@"blue-circle3.png"];
-    }else{
-        cell.imageView.image = nil;
-    }
     NSMutableString *string = [[NSMutableString alloc] init];
-    [string appendString: messageModel.from.name];
+    if(inbox){
+        if(!messageModel.read){
+            cell.imageView.image = [UIImage imageNamed:@"blue-circle3.png"];
+        }else{
+            cell.imageView.image = nil;
+        }
+        [string appendString: messageModel.from.name];
+    }else{
+        BOOL first = YES;
+        for(unsigned int i = 0; i < [messageModel.toUsers count]; i++){
+            UserModel *userModel = [messageModel.toUsers objectAtIndex: i];
+            if(first){
+                [string appendString:userModel.name];
+                first = NO;
+            }else{
+                [string appendString:@", "];
+                [string appendString:userModel.name];
+            }
+        }
+    }
+    
+    
     [string appendString: @"\n"];
     [string appendString: messageModel.sentDate];
     [string appendString: @"\n"];
     [string appendString: messageModel.message];
+    
     cell.textLabel.text = messageModel.subject;
     cell.detailTextLabel.text = string;
     [string release];
@@ -157,13 +255,16 @@
 {
     MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
     MessageDetailViewController *messageDetailViewController = [[MessageDetailViewController alloc] init];
-   
+    
     NSNumber *number = messageModel.messageId;
     if(messageModel.read == NO){
         [self setRead: number];
-        NSLog(@"%@", messageModel.messageId);
+        [self unreadMessages];
     }
-    messageDetailViewController.title = messageModel.subject;
+
+    messageDetailViewController.inbox = inbox;
+   
+    messageDetailViewController.title = @"Message Details";
     messageDetailViewController.messageModel = messageModel;
     [self.navigationController pushViewController:messageDetailViewController animated:YES];
     
@@ -184,47 +285,31 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/message/setread"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/message/setread"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
-    NSError *error;
+    PostDelegate *postDelegate= [[PostDelegate alloc]init];
     
-    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
-    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
+    NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
+    [postDelegate release];
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"API-key mismatched login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    }  
     
-    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
-	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
-    if (messDict == nil)
-
-         NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
-	else {
-        NSString *apiCheck = [messDict objectForKey:@"apikey"];
-        if (![apiCheck isEqualToString:@"success"]) {
-            
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            LoginViewController *lvc = [[LoginViewController alloc] init];
-            lvc.delegate = [[UIApplication sharedApplication] delegate];
-            [[self tabBarController] presentModalViewController:lvc animated:NO];
-            [lvc release];
-            
-            
-            
-        } else{
-            NSLog(@"%@", @"UTFÖRT");
-        }
-    }
-    [responseString release];	
-    [jsonParser release];
-    [request release];
 }
 
 - (void)deleteMessage: (NSNumber*) recipientId{
@@ -240,47 +325,34 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/message/delete"]];
+    NSMutableString *urlBasic;
+    if (inbox) {
+        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/deleterecipient"];
+    }else
+        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/deleteprivatemessage"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: urlBasic]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
-    NSError *error;
+    PostDelegate *postDelegate= [[PostDelegate alloc]init];
     
-    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
-    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    
-    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    
-	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
-    if (messDict == nil)
+    NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
+    [postDelegate release];
+    if (!conn){
         
-        NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
-	else {
-        NSString *apiCheck = [messDict objectForKey:@"apikey"];
-        if (![apiCheck isEqualToString:@"success"]) {
-            
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            LoginViewController *lvc = [[LoginViewController alloc] init];
-            lvc.delegate = [[UIApplication sharedApplication] delegate];
-            [[self tabBarController] presentModalViewController:lvc animated:NO];
-            [lvc release];
-            
-            
-            
-        } else{
-            NSLog(@"%@", @"UTFÖRT");
-        }
-    }
-    [responseString release];	
-    [jsonParser release];
-    [request release];
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    }  
 }
 
 
@@ -314,15 +386,27 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
+    [NSString stringWithFormat:@"Connection failed: %@", [error description]];
     [connection release];
     [responseData release];
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle: @"Connection problems"
+                               message: @"Connections problems, try login again."
+                               delegate:nil
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles:nil];
+    [errorAlert show];
+    [errorAlert release];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    lvc.delegate = [[UIApplication sharedApplication] delegate];
+    [[self tabBarController] presentModalViewController:lvc animated:NO];
+    [lvc release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	[connection release];
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-
+    
 	[responseData release];
     
 	NSError *error;
@@ -334,6 +418,7 @@
 	else {
         NSString *apiCheck = [messageDict objectForKey:@"apikey"];
         if ([apiCheck isEqualToString:@"success"]) {
+            [messages removeAllObjects];
             NSMutableArray *messArray = [messageDict objectForKey:@"messageArray"];
             
             for(unsigned int i = 0; i < [messArray count]; i++){
@@ -342,22 +427,43 @@
                 NSString *subject = [[messArray objectAtIndex:i] objectForKey:@"subject"];
                 NSString *date = [[messArray objectAtIndex:i] objectForKey:@"date"];
                 NSNumber *messId = [[messArray objectAtIndex:i] objectForKey:@"id"];
-                NSNumber *read = [[messArray objectAtIndex:i] objectForKey:@"read"];
-                NSMutableDictionary *userDict = [[messArray objectAtIndex:i] objectForKey:@"from"];
                 
-                UserModel *userModel = [[UserModel alloc] initWithId: [userDict objectForKey:@"id"] name:[userDict objectForKey:@"name"]];;
                 
-                MessageModel *messageModel = [[MessageModel alloc]initWithMessageId:messId From:userModel subject:subject message:message date:date read:[read boolValue]];
-                [messages addObject:messageModel];
-                [messageModel release];
-                [userModel release];
+                
+                if(inbox){
+                    NSNumber *read = [[messArray objectAtIndex:i] objectForKey:@"read"];
+                    NSMutableDictionary *userDict = [[messArray objectAtIndex:i] objectForKey:@"from"];
+                    
+                    UserModel *userModel = [[UserModel alloc] initWithId: [userDict objectForKey:@"id"] name:[userDict objectForKey:@"name"]];
+                    MessageModel *messageModel = [[MessageModel alloc]initWithMessageId:messId From:userModel subject:subject message:message date:date read:[read boolValue] toUsers:nil];
+                    [messages addObject:messageModel];
+                    
+                    [messageModel release];
+                    [userModel release];
+                } else{
+                    NSMutableArray *userArray = [[messArray objectAtIndex:i] objectForKey:@"toUsers"];
+                    NSMutableArray *toUserArray = [[NSMutableArray alloc] init];
+                    for(unsigned int i = 0;i < [userArray count]; i++){
+                        UserModel *userModel = [[UserModel alloc] initWithId: [[userArray objectAtIndex:i] objectForKey:@"id"] name:[[userArray objectAtIndex:i] objectForKey:@"name"]];
+                        [toUserArray addObject:userModel];
+                        [userModel release];
+                    }
+                    
+                    MessageModel *messageModel = [[MessageModel alloc]initWithMessageId:messId From:[LoginSingleton instance].user subject:subject message:message date:date read:NO toUsers:toUserArray];
+                    [toUserArray release];
+                    [messages addObject:messageModel];
+                    
+                    [messageModel release];
+                    
+                }
+                
             }
         	
             [[self tableView] reloadData];
         } else{
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
+                                       message: @"Connections problems, try login again."
                                        delegate:nil
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];

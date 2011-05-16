@@ -13,9 +13,11 @@
     
     UITextField *statusMessageTextField;
     UISwitch *availableSwitch;
+    NSMutableData *responseData;
 }
 @property (nonatomic, retain) IBOutlet UISwitch *availableSwitch;
 @property (nonatomic, retain) IBOutlet UITextField *statusMessageTextField;
 - (IBAction)updateStatus:(id)sender;
-
+- (void) setStatus;
+- (void)updateView;
 @end

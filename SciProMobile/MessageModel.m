@@ -17,8 +17,9 @@
 @synthesize sentDate;
 @synthesize messageId;
 @synthesize read;
+@synthesize toUsers;
 
-- (id)initWithMessageId:(NSNumber *)messageId  From:(UserModel *)from subject:(NSString *)subject message:(NSString *)message date:(NSString *)date read: (BOOL)read{
+- (id)initWithMessageId:(NSNumber *)messageId  From:(UserModel *)from subject:(NSString *)subject message:(NSString *)message date:(NSString *)date read: (BOOL)read  toUsers:(NSMutableArray *) toUsers{
 	
 	if ((self = [super init])) {
 		self.from = from;
@@ -27,6 +28,7 @@
         self.sentDate = date;
         self.messageId = messageId;
         self.read = read;
+        self.toUsers = toUsers;
 	}
 	return self;
 }
@@ -38,6 +40,7 @@
 	[subject release];
 	[message release];
     [sentDate release];
+    [toUsers release];
 	[super dealloc];
 }
 

@@ -13,14 +13,15 @@
 @interface LoginSingleton : NSObject {
     
     NSString *apikey;
+    NSString *iphoneId;
     UserModel *user;
    
 }
 
 
 @property (nonatomic, retain) NSString *apikey;
+@property (nonatomic, retain) NSString *iphoneId;
 @property (nonatomic, retain) UserModel *user;
-
 
 
 + (LoginSingleton *)instance;

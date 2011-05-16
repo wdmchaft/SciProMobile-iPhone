@@ -9,6 +9,9 @@
 #import "SearchUserViewController.h"
 #import "UserListSingleton.h"
 #import "UserModel.h"
+#import "UnreadMessageDelegate.h"
+#import "LoginSingleton.h"
+#import "LoginViewController.h"
 
 @implementation SearchUserViewController
 @synthesize tableView;
@@ -77,6 +80,7 @@
 	
     [self setSearchResults:nil];
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     
@@ -180,6 +184,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [self.navigationController popViewControllerAnimated:YES]; 
 	
 }
+
+
 
 
 @end

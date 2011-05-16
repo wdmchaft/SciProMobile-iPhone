@@ -13,9 +13,9 @@
 @interface ProjectDetailViewController : UITableViewController {
     NSMutableData *responseData;
     ProjectModel *projectModel;
+    UIProgressView *progbar;
 }
 
 @property (nonatomic, retain) ProjectModel *projectModel;
-- (IBAction)messageToProject:(id)sender;
 
 @end

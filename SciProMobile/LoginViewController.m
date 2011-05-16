@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "JSON.h"
 #import "LoginSingleton.h"
+#import "SFHFKeychainUtils.h"
 
 @implementation LoginViewController
 @synthesize usernameTextField;
@@ -46,6 +47,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL save = [defaults boolForKey:@"password"];
+    NSString *username = [defaults stringForKey:@"username"];
+    if(save){
+        
+
+        if(username != nil){ 
+            NSString *password = [SFHFKeychainUtils getPasswordForUsername:username andServiceName:@"SciproMobile" error:nil];
+            usernameTextField.text = username;
+            if(password != nil){
+                passwordTextField.text = password;
+            }
+            
+        }
+    }else{
+        [defaults setValue:nil forKey:@"username"];
+        [defaults synchronize];
+        [SFHFKeychainUtils deleteItemForUsername:username andServiceName:@"SciproMobile" error:nil];
+    };
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -75,82 +95,130 @@
 }
 
 
-- (BOOL)loginWithUserName:(NSString*)userName password:(NSString*)password{
+- (void)loginWithUserName:(NSString*)userName password:(NSString*)password{
+    
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:userName forKey:@"username"];
     [jsonObject setObject:password forKey:@"password"];
+    
+    [jsonObject setObject:[LoginSingleton instance].iphoneId forKey:@"iPhoneId"];
     NSString* jsonString = jsonObject.JSONRepresentation;
     NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
     
     const char* reqString = [requestString UTF8String];
     NSInteger length = strlen(reqString);
-
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/login"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.0.12:8080/SciPro/json/login"]]; 
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
-    NSError *error;
-    
-    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
-    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", responseString);
-	[responseData release];
-    
-	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    
-    BOOL returnValue = NO;
-    NSLog(@"%d", returnValue);
-    
-	NSMutableDictionary *authenticationDict = [jsonParser objectWithString:responseString error:&error];
-    if (authenticationDict == nil){
-		[NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
-
-    } else {
-        NSLog(@"%@", authenticationDict);
-        NSNumber *loggedIn = [authenticationDict objectForKey:@"authenticated"];
-        NSLog(@"%@", loggedIn);
-        if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
-            NSString *apiKey = [authenticationDict objectForKey:@"apikey"];
-            NSNumber *userId = [authenticationDict objectForKey:@"userid"];
-            NSString *name = [authenticationDict objectForKey:@"name"];
-            UserModel *userModel = [[UserModel alloc] initWithId:userId name:name];
-            [LoginSingleton instance].apikey = apiKey;
-            [LoginSingleton instance].user = userModel;
-            returnValue = YES;
-            [userModel release];
-
-        }
-	}
-    [responseString release];	
-    [jsonParser release];
-    [request release];
-    NSLog(@"%d", returnValue);
-    return returnValue;
-    
-}
-- (IBAction)buttonPressed:(id)sender {
-    [self loginWithUserName: usernameTextField.text password: passwordTextField.text];
-    // TESTKOD
-    BOOL check = YES;
-    NSLog(@"%d", check);
-    if(check){
-        UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
-        [LoginSingleton instance].apikey = @"pelle";
-        [LoginSingleton instance].user = userModel;
-        [userModel release];
-        [delegate loginViewControllerDidFinish:self];
-    } else{
+    NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:self];  
+    if (!conn){
+        
         UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Login failed"
-                                   message: @"Username or password incorrect or problem with server"
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        
     }
- 
 }
+
+- (IBAction)buttonPressed:(id)sender {
+    //    responseData = [[NSMutableData data] retain];
+    //    [self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    if([defaults boolForKey:@"password"]){
+        [defaults setValue:usernameTextField.text forKey:@"username"];
+        [defaults synchronize];
+        [SFHFKeychainUtils storeUsername:usernameTextField.text andPassword:passwordTextField.text forServiceName:@"SciproMobile" updateExisting:YES error:nil];
+    }
+    //Teskod
+    UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
+    [LoginSingleton instance].apikey = @"pelle";
+    [LoginSingleton instance].user = userModel;
+    [userModel release];
+    
+    [delegate loginViewControllerDidFinish:self];
+    
+    
+    
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+	[responseData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	[responseData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
+    [connection release];
+    [responseData release];
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle: @"Connection problems"
+                               message: @"Connections problems, try login again."
+                               delegate:nil
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles:nil];
+    [errorAlert show];
+    [errorAlert release];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+	[connection release];
+	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+	[responseData release];
+    
+    NSError* error;
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+    
+	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
+    if (messDict == nil){
+        
+        NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connections problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+	}else {
+        NSNumber *loggedIn = [messDict objectForKey:@"authenticated"];
+        if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
+            NSString *apiKey = [messDict objectForKey:@"apikey"];
+            NSLog(@"%@",apiKey );
+            NSNumber *userId = [messDict objectForKey:@"userid"];
+            NSString *name = [messDict objectForKey:@"name"];
+            UserModel *userModel = [[UserModel alloc] initWithId:userId name:name];
+            [LoginSingleton instance].apikey = apiKey;
+            [LoginSingleton instance].user = userModel;
+            [userModel release];
+            [delegate loginViewControllerDidFinish:self];
+            
+        }
+        else {
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"Login failed"
+                                       message: @"Username or password incorrect."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];
+        } 
+    }
+    [responseString release];	
+    [jsonParser release];   
+}
+
 @end

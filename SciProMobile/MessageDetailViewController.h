@@ -12,9 +12,11 @@
 @interface MessageDetailViewController : UITableViewController {
     
     MessageModel *messageModel;
+    BOOL inbox;
 
 }
-@property (nonatomic, retain) MessageModel *messageModel;;
-- (void)getUnreadMessageNumber;
+@property (nonatomic, retain) MessageModel *messageModel;
+@property (nonatomic, assign) BOOL inbox;
+
 
 @end

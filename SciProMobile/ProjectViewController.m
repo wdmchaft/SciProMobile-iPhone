@@ -18,6 +18,7 @@
 #import "LoginViewController.h"
 #import "UnreadMessageDelegate.h"
 #import "UserListSingleton.h"
+#import "FinalSeminarModel.h"
 
 @implementation ProjectViewController
 @synthesize locationManager;
@@ -53,40 +54,69 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    projects = [[NSMutableArray alloc]init];
+    
     // Do any additional setup after loading the view from its nib.
     
     self.locationManager = [[[CLLocationManager alloc] init] autorelease];
     locationManager.delegate = self;
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
-    locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     // Once configured, the location manager must be "started".
     if([self registerRegionWithIdentifier:@"DSV"]){
         [locationManager startMonitoringSignificantLocationChanges];
     }
     
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
+    self.navigationItem.leftBarButtonItem = bi;
 }
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+
+- (void)logout{
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    lvc.delegate = [[UIApplication sharedApplication] delegate];
+    [[self tabBarController] presentModalViewController:lvc animated:NO];
+    [lvc release];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(!projects){
+        projects = [[NSMutableArray alloc]init];
+    }
+    
     [self updateView];
-    [self getUnreadMessageNumber];
-    //Do Stuff
+
 }
 - (void)updateView{
-    [projects removeAllObjects];
+    
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/project?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/project?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-	[[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    } 
+    [self getUnreadMessageNumber];
     
 }
 
 - (void)getUnreadMessageNumber{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://localhost:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -94,9 +124,24 @@
     
     UnreadMessageDelegate *unreadDelegate = [[UnreadMessageDelegate alloc]init];
     unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController].viewControllers objectAtIndex:1] tabBarItem];
-	[[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];
-    NSLog(@"%@", @"test");
+    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];  
     [unreadDelegate release];
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    } 
+    
 }
 
 - (BOOL)registerRegionWithIdentifier:(NSString*)identifier
@@ -177,23 +222,6 @@
     [self.tableView reloadData];    
 }
 
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    // The location "unknown" error simply means the manager is currently unable to get the location.
-    // We can ignore this error for the scenario of getting a single location fix, because we already have a 
-    // timeout that will stop the location manager to save power.
-    if ([error code] != kCLErrorLocationUnknown) {
-        [self stopUpdatingLocation:NSLocalizedString(@"Error", @"Error")];
-    }
-}
-
-- (void)stopUpdatingLocation:(NSString *)state {
-    NSLog(@"%@", state);
-    [locationManager stopUpdatingLocation];
-    locationManager.delegate = nil;
-    
-    UIBarButtonItem *resetItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Reset", @"Reset") style:UIBarButtonItemStyleBordered target:self action:@selector(reset)] autorelease];
-    [self.navigationItem setLeftBarButtonItem:resetItem animated:YES];;
-}
 
 - (void)viewDidUnload
 {
@@ -222,13 +250,25 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
+    [connection release];
+    [responseData release];
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle: @"Connection problems"
+                               message: @"Connections problems, try login again."
+                               delegate:nil
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles:nil];
+    [errorAlert show];
+    [errorAlert release];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    lvc.delegate = [[UIApplication sharedApplication] delegate];
+    [[self tabBarController] presentModalViewController:lvc animated:NO];
+    [lvc release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	[connection release];
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", responseString);
 	[responseData release];
     
 	NSError *error;
@@ -237,10 +277,22 @@
 	NSMutableDictionary *projectDictionary = [jsonParser objectWithString:responseString error:&error];
     if (projectDictionary == nil){
 		[NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connections problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
     } else {
         NSString *apiCheck = [projectDictionary objectForKey:@"apikey"];
         if ([apiCheck isEqualToString:@"success"]) {
-            
+            [projects removeAllObjects];
             NSMutableArray *projectDict = [projectDictionary objectForKey:@"projectArray"];
             NSMutableArray *allUsers = [[NSMutableArray alloc] init];
             for(unsigned int i = 0; i < [projectDict count]; i++){
@@ -257,9 +309,12 @@
                 NSMutableArray *projectMembers = [[projectDict objectAtIndex:i] objectForKey:@"projectMembers"];
                 NSMutableArray *projectReviewers = [[projectDict objectAtIndex:i] objectForKey:@"projectReviewers"];
                 NSMutableArray *projectCosupervisors = [[projectDict objectAtIndex:i] objectForKey:@"projectCosupervisors"];
+                NSMutableArray *projectFinalseminar = [[projectDict objectAtIndex:i] objectForKey:@"finalSeminars"];
+
                 NSMutableArray *members = [[NSMutableArray alloc] init];
                 NSMutableArray *reviewers = [[NSMutableArray alloc] init];
                 NSMutableArray *coSupervisors = [[NSMutableArray alloc] init];
+                NSMutableArray *finalSeminars = [[NSMutableArray alloc] init];
                 
                 for(unsigned int i = 0; i < [projectMembers count]; i++){
                     UserModel *userModel = [[UserModel alloc] initWithId:[[projectMembers objectAtIndex:i] objectForKey:@"id"] name:[[projectMembers objectAtIndex:i] objectForKey:@"name"]];
@@ -281,15 +336,50 @@
                     [userModel release];
                 }
                 
+                for(unsigned int i = 0; i < [projectFinalseminar count]; i++){
+                    NSMutableArray *activeParticipants = [[projectFinalseminar objectAtIndex:i] objectForKey:@"active"];
+                    NSMutableArray *opponents = [[projectFinalseminar objectAtIndex:i] objectForKey:@"opponents"];
+                    
+                    NSMutableArray *oppo = [[NSMutableArray alloc] init];
+                    NSMutableArray *active = [[NSMutableArray alloc] init];
+                    
+                    for(unsigned int i = 0; i < [activeParticipants count]; i++){
+                        UserModel *userModel = [[UserModel alloc] initWithId:[[activeParticipants objectAtIndex:i] objectForKey:@"id"] name:[[activeParticipants objectAtIndex:i] objectForKey:@"name"]];
+                        [active addObject: userModel];
+                        [allUsers addObject:userModel];
+                        [userModel release];
+                    }
+                    
+                    for(unsigned int i = 0; i < [opponents count]; i++){
+                        UserModel *userModel = [[UserModel alloc] initWithId:[[opponents objectAtIndex:i] objectForKey:@"id"] name:[[opponents objectAtIndex:i] objectForKey:@"name"]];
+                        [oppo addObject: userModel];
+                        [allUsers addObject:userModel];
+                        [userModel release];
+                    }
+                    
+                    FinalSeminarModel *finalSeminarModel = [[FinalSeminarModel alloc] initWithRoom:[[projectFinalseminar objectAtIndex:i] objectForKey:@"room"] date:[[projectFinalseminar objectAtIndex:i] objectForKey:@"date"]opponents:oppo activeListeners:active];
+                    [finalSeminars addObject: finalSeminarModel];
+                    [finalSeminarModel release];
+                    [oppo sortUsingSelector:@selector(sortByName:)];
+                    [active sortUsingSelector:@selector(sortByName:)];
+                    [oppo release];
+                    [active release];
+                }
+                
                 [UserListSingleton instance].mutableArray = allUsers;
                 
-                ProjectModel *projectModel = [[ProjectModel alloc] initWithTitle:[[projectDict objectAtIndex:i] objectForKey:@"title"] statusMessage:[[projectDict objectAtIndex:i] objectForKey:@"statusMessage"]  status:status members:members level:[[projectDict objectAtIndex:i] objectForKey:@"level"] reviewer:reviewers coSupervisors:coSupervisors];
+                ProjectModel *projectModel = [[ProjectModel alloc] initWithTitle:[[projectDict objectAtIndex:i] objectForKey:@"title"] statusMessage:[[projectDict objectAtIndex:i] objectForKey:@"statusMessage"]  status:status members:members level:[[projectDict objectAtIndex:i] objectForKey:@"level"] reviewer:reviewers coSupervisors:coSupervisors progress: [[projectDict objectAtIndex:i] objectForKey:@"projectProgress"] finalSeminars:finalSeminars];
                 [projects addObject:projectModel];
                 [projectModel release];
+                [members sortUsingSelector:@selector(sortByName:)];
+                [reviewers sortUsingSelector:@selector(sortByName:)];
+                [finalSeminars sortUsingSelector:@selector(sortByName:)];
+                [coSupervisors sortUsingSelector:@selector(sortByName:)];
                 [members release];
                 [reviewers release];
+                [finalSeminars release];
                 [coSupervisors release];
-                
+
             }
             [allUsers addObject: [LoginSingleton instance].user];
             [allUsers release];
@@ -306,7 +396,7 @@
         } else{
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
+                                       message: @"Connections problems, try login again."
                                        delegate:nil
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
@@ -371,7 +461,7 @@
     [self.navigationController pushViewController:projectDetailViewController animated:YES];
     projectDetailViewController.title = @"Project Details";
     projectDetailViewController.projectModel = projectModel;
-       
+    
     [projectDetailViewController release];   
 }
 

@@ -20,8 +20,10 @@
 @synthesize level;
 @synthesize reviewers;
 @synthesize coSupervisors;
+@synthesize progress;
+@synthesize finalSeminars;
 
-- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status members:(NSMutableArray *)members level:(NSString *)level reviewer:(NSMutableArray *) reviewers coSupervisors:(NSMutableArray *) coSupervisors{
+- (id)initWithTitle:(NSString *)title statusMessage:(NSString *)statusMessage status:(Status)status members:(NSMutableArray *)members level:(NSString *)level reviewer:(NSMutableArray *) reviewers coSupervisors:(NSMutableArray *) coSupervisors progress:(NSNumber *) progress finalSeminars:(NSMutableArray *) finalSeminars {
 	
 	if ((self = [super init])) {
 		self.title = title;
@@ -31,6 +33,8 @@
         self.level = level;
         self.reviewers = reviewers;
         self.coSupervisors = coSupervisors;
+        self.progress = progress;
+        self.finalSeminars = finalSeminars;
 	}
 	return self;
 }
@@ -58,6 +62,8 @@
     [coSupervisors release];
     [reviewers release];
     [level release];
+    [progress release];
+    [finalSeminars release];
 	[super dealloc];
 }
 

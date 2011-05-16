@@ -10,6 +10,7 @@
 #import "UnreadMessageDelegate.h"
 #import "JSON.h"
 #import "LoginViewController.h"
+#import "LoginSingleton.h"
 
 
 @implementation UnreadMessageDelegate
@@ -31,7 +32,6 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
     [connection release];
     [responseData release];
 }
@@ -51,27 +51,12 @@
         NSString *apiCheck = [projectDictionary objectForKey:@"apikey"];
         
         if ([apiCheck isEqualToString:@"success"]){
-            if([[projectDictionary objectForKey:@"unreadmess"] isEqualToNumber: [NSNumber numberWithInt:0]])
+            if([[projectDictionary objectForKey:@"unreadmess"] isEqualToNumber: [NSNumber numberWithInt:0]]){
                 tabBarItem.badgeValue = nil;
-            else
+            }else{
                 tabBarItem.badgeValue = [[projectDictionary objectForKey:@"unreadmess"] stringValue];
-            
-        } else{
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            LoginViewController *lvc = [[LoginViewController alloc] init];
-            lvc.delegate = [[UIApplication sharedApplication] delegate];
-            [[lvc tabBarController] presentModalViewController:lvc animated:NO];
-            [lvc release];
-            
-        }
-        
+            }
+        } 
     }
     [responseString release];	
     [jsonParser release];

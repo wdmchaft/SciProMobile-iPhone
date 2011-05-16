@@ -12,9 +12,11 @@
 @interface MessageViewController : UITableViewController {
     NSMutableData *responseData;
     NSMutableArray *messages;
+    BOOL inbox;
 }
+@property (nonatomic, assign) BOOL inbox;
 - (void)updateView;
 - (void)setRead: (NSNumber*) recipientId;
-- (void)getUnreadMessageNumber;
 - (void)deleteMessage: (NSNumber*) recipientId;
+- (void)unreadMessages;
 @end

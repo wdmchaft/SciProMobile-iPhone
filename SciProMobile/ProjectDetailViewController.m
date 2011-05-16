@@ -10,6 +10,11 @@
 #import "ProjectModel.h"
 #import "UserModel.h"
 #import "NewMessageViewController.h"
+#import "UnreadMessageDelegate.h"
+#import "LoginSingleton.h"
+#import "LoginViewController.h"
+#import "FinalSeminarModel.h"
+#import "FinalSeminarViewController.h"
 
 @implementation ProjectDetailViewController
 @synthesize projectModel;
@@ -18,13 +23,16 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        progbar = [[UIProgressView alloc] initWithFrame:
+                   CGRectMake(25, 20, 265.0f, 80.0f)];
+        
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [progbar release];
     [projectModel release];
     [super dealloc];
 }
@@ -62,7 +70,7 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 6;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -74,23 +82,30 @@
             return 1;
             break;
         case 2:
-            
+            return 1;
+            break;
+        case 3:            
             if([projectModel.statusMessage isEqual:@""])
                 return 0;
             else
                 return 1;
             break;
-        case 3:
+            
+        case 4:
             return[projectModel.projectMembers count];
             break;
-        case 4:
+        case 5:
             return[projectModel.reviewers count];
             break;
-        case 5:
+        case 6:
             return[projectModel.coSupervisors count];
+            break;
+        case 7:
+            return[projectModel.finalSeminars count];
             break;
     }
 }
+
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -101,19 +116,25 @@
             return @"Project Title";
             break;
         case 1:
-            return @"Status";
+            return @"Project Progress";
             break;
         case 2:
-            return @"Status Message";
+            return @"Status";
             break;
         case 3:
-            return @"Project Members";
+            return @"Status Message";
             break;
         case 4:
-            return @"Reviewers";
+            return @"Project Members";
             break;
         case 5:
+            return @"Reviewers";
+            break;
+        case 6:
             return @"Co-Supervisors";
+            break;
+        case 7:
+            return @"Final Seminars";
             break;
             
     }
@@ -129,7 +150,10 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
     
+    
+    [progbar removeFromSuperview];
     if(indexPath.section == 0){
+        progbar.hidden = NO;
         cell.textLabel.text = projectModel.title;
         cell.textLabel.numberOfLines=0;
         cell.detailTextLabel.text = projectModel.level;
@@ -137,6 +161,21 @@
         cell.imageView.image = nil;
         
     } else if(indexPath.section == 1){
+        progbar.hidden = NO;
+        
+        progbar.progress = [projectModel.progress floatValue]/100.0;
+        [cell addSubview:progbar];
+        
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = nil;
+        cell.textLabel.numberOfLines=0;
+        cell.detailTextLabel.text = nil;
+        cell.imageView.image = nil;
+        
+        
+    } else if(indexPath.section == 2){
+        progbar.hidden = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.detailTextLabel.text = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -155,23 +194,37 @@
                 break;
         }
         
-    } else if(indexPath.section == 2){
+    } else if(indexPath.section == 3){
+        progbar.hidden = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = projectModel.statusMessage;
         cell.textLabel.numberOfLines=0;
         cell.detailTextLabel.text = nil;
         cell.imageView.image = nil;
-
-    } else{
+        
+    } else if(indexPath.section == 7){
+        progbar.hidden = NO;
+        NSMutableArray *array = projectModel.finalSeminars;
+        FinalSeminarModel *finalSeminarModel = [array objectAtIndex:indexPath.row];
+        cell.textLabel.text = finalSeminarModel.date;
+        NSMutableString *room = [[NSMutableString alloc] init];
+        [room appendString:@"Room: "];
+        [room appendString:finalSeminarModel.room];
+        cell.detailTextLabel.text = room;
+        [room release];
+        cell.imageView.image = nil;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }else{
+        progbar.hidden = NO;
         NSMutableArray *array;
         switch (indexPath.section) {
-            case 3:
+            case 4:
                 array = projectModel.projectMembers;
                 break;
-            case 4:
+            case 5:
                 array = projectModel.reviewers;
                 break;
-            case 5:
+            case 6:
                 array = projectModel.coSupervisors;
                 break;
         }
@@ -185,58 +238,69 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSMutableArray *array;
-    switch (indexPath.section) {
-        case 3:
-            array = projectModel.projectMembers;
-            break;
-        case 4:
-            array = projectModel.reviewers;
-            break;
-        case 5:
-            array = projectModel.coSupervisors;
-            break;
-    }
-    
-    NewMessageViewController *createMessageViewController = [[NewMessageViewController alloc] init];
-    createMessageViewController.title = @"New message";
-    [self.navigationController pushViewController:createMessageViewController animated:YES];
-    
-    if(indexPath.section == 0){
-        array = [[NSMutableArray alloc] init];
-        [array addObjectsFromArray:projectModel.projectMembers];
-        [array addObjectsFromArray:projectModel.reviewers];
-        [array addObjectsFromArray:projectModel.coSupervisors];
-        [array sortUsingSelector:@selector(sortByName:)];
-        createMessageViewController.projectSend = YES;
-        createMessageViewController.projectUsers = array;
+    if(indexPath.section == 7){
+        FinalSeminarViewController *finalSeminarViewController = [[FinalSeminarViewController alloc] init];
+        finalSeminarViewController.title = @"Final Seminar";
+        finalSeminarViewController.finalSeminarModel = [projectModel.finalSeminars objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:finalSeminarViewController animated:YES];
         
-        
-        NSMutableString *usernamestring = [[NSMutableString alloc] init];
-        BOOL first = YES;
-        for(unsigned int i = 0; i < [array count]; i++){
-            UserModel *user = [array objectAtIndex:i];
-            if(first){
-                [usernamestring appendString:user.name];
-                first = NO;
-            } else{
-                [usernamestring appendString:@", "];
-                [usernamestring appendString:user.name];
-            }
-        }
-        createMessageViewController.toTextField.text = usernamestring;
-        [usernamestring release];
     } else{
-        UserModel *userModel = [array objectAtIndex:indexPath.row];
-        createMessageViewController.toTextField.text = userModel.name;
+        NSMutableArray *array;
+        switch (indexPath.section) {
+            case 4:
+                array = projectModel.projectMembers;
+                break;
+            case 5:
+                array = projectModel.reviewers;
+                break;
+            case 6:
+                array = projectModel.coSupervisors;
+                break;
+            case 7:
+                array = projectModel.finalSeminars;
+                break;
+        }
+        
+        NewMessageViewController *createMessageViewController = [[NewMessageViewController alloc] init];
+        createMessageViewController.title = @"New Message";
+        [self.navigationController pushViewController:createMessageViewController animated:YES];
+        
+        if(indexPath.section == 0){
+            array = [[NSMutableArray alloc] init];
+            [array addObjectsFromArray:projectModel.projectMembers];
+            [array addObjectsFromArray:projectModel.reviewers];
+            [array addObjectsFromArray:projectModel.coSupervisors];
+            [array sortUsingSelector:@selector(sortByName:)];
+            createMessageViewController.projectSend = YES;
+            createMessageViewController.projectUsers = array;
+            createMessageViewController.toTextField.enabled = NO;
+            
+            NSMutableString *usernamestring = [[NSMutableString alloc] init];
+            BOOL first = YES;
+            for(unsigned int i = 0; i < [array count]; i++){
+                UserModel *user = [array objectAtIndex:i];
+                if(first){
+                    [usernamestring appendString:user.name];
+                    first = NO;
+                } else{
+                    [usernamestring appendString:@", "];
+                    [usernamestring appendString:user.name];
+                }
+            }
+            createMessageViewController.toTextField.text = usernamestring;
+            [usernamestring release];
+        } else{
+            UserModel *userModel = [array objectAtIndex:indexPath.row];
+            createMessageViewController.toTextField.text = userModel.name;
+        }
+        [createMessageViewController release];
     }
-    [createMessageViewController release]; 
 }
 - (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)path
 {
     // Determine if row is selectable based on the NSIndexPath.
     
-    if (path.section == 0 || path.section == 3 || path.section == 4 || path.section == 5)
+    if (path.section == 0 || path.section == 4 || path.section == 5 || path.section == 6 || path.section == 7)
     {
         return path;
     }
@@ -252,7 +316,6 @@
         titleSize = [title sizeWithFont:font
                       constrainedToSize:CGSizeMake(270.0f, FLT_MAX) lineBreakMode:UILineBreakModeWordWrap];
         float height = titleSize.height;
-        NSLog(@"%f", titleSize.height);
         
         height += 50;
         
@@ -264,7 +327,6 @@
         titleSize = [title sizeWithFont:font
                       constrainedToSize:CGSizeMake(270.0f, FLT_MAX)];
         float height = titleSize.height;
-        NSLog(@"%f", titleSize.height);
         
         height += 50;
         

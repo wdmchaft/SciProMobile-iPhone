@@ -12,7 +12,7 @@
 @class ProjectViewController;
 @class MessageViewController;
 
-@interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate, LoginViewControllerDelegate> {
+@interface SciProMobileAppDelegate : NSObject <UIApplicationDelegate> {
     
     UINavigationController *projectNavController;
     UINavigationController *messageNavController;
@@ -23,6 +23,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) UITabBarController *tabBarController;
 
-
+- (void)getUnreadMessageNumber;
 @end

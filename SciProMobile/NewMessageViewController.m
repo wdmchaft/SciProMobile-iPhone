@@ -12,13 +12,16 @@
 #import "LoginSingleton.h"
 #import "LoginViewController.h"
 #import "UserListSingleton.h"
+#import <QuartzCore/QuartzCore.h>
+#import "UnreadMessageDelegate.h"
+#import "PostDelegate.h"
 
 
 @implementation NewMessageViewController
 @synthesize toTextField;
+@synthesize textView;
 @synthesize subjectTextField;
 @synthesize projectSend;
-@synthesize messageTextView;
 @synthesize projectUsers;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -35,15 +38,15 @@
         [toTextField resignFirstResponder];
     } else if (theTextField == subjectTextField) {
         [subjectTextField resignFirstResponder];
-    }
+    } 
     return YES;
 }
 
 - (void)dealloc
 {
     [subjectTextField release];
-    [messageTextView release];
     [toTextField release];
+    [textView release];
     [super dealloc];
 }
 
@@ -60,14 +63,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem* infoButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Send" style:UIBarButtonItemStylePlain target:self action:@selector(sendAction:)];
+	self.navigationItem.rightBarButtonItem = infoButton;
+    textView.layer.borderWidth = 1;
+    textView.layer.borderColor = [[UIColor grayColor] CGColor];
+    [subjectTextField becomeFirstResponder];
+    
+    [infoButton release];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
 {
     [self setSubjectTextField:nil];
-    [self setMessageTextView:nil];
     [self setToTextField:nil];
+    [self setTextView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -78,17 +89,12 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"])		
-    {
-        [textView resignFirstResponder];
-        return NO;						
-    }
-    return YES;
-}
+
 
 - (BOOL)newMessageWithSubject: (NSString*) subject andMessage:(NSString*) message andUserArray: (NSMutableArray*) toUserIdArray {
+    if([subject isEqualToString:@""] || [message isEqualToString:@""] || [toUserIdArray count] == 0){
+        return NO;
+    }
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
     [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
@@ -103,58 +109,32 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL: [NSURL URLWithString: @"http://localhost:8080/SciPro/json/message/newmessage"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/message/newmessage"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
-    NSError *error;
-    
-    NSData *returnData = [ NSURLConnection sendSynchronousRequest: request returningResponse: nil error: nil ];
-    NSString *responseString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-    
-    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    
-    BOOL returnValue = NO;
-	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
-    if (messDict == nil){
+    PostDelegate *postDelegate= [[PostDelegate alloc]init];
+    postDelegate.successAlert = YES;
+    postDelegate.successMessage = @"Message successfully sent.";
+    postDelegate.successTitle = @"Message sent";
+    NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
+    [postDelegate release];
+    if (!conn){
         
-        NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
-                                   message: @"Connections problems try again."
+                                   message: @"Connection problems, try login again."
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
-    }
-	else {
-        NSString *apiCheck = [messDict objectForKey:@"apikey"];
-        if (![apiCheck isEqualToString:@"success"]) {
-            
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            LoginViewController *lvc = [[LoginViewController alloc] init];
-            lvc.delegate = [[UIApplication sharedApplication] delegate];
-            [[self tabBarController] presentModalViewController:lvc animated:NO];
-            [lvc release];
-            
-            
-            
-        } else{
-            returnValue = YES;
-        }
-    }
-    [responseString release];	
-    [jsonParser release];
-    [request release];
-    return returnValue;
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    }     
+    return YES;
 }
 
 
@@ -177,8 +157,17 @@
             }
         }
     }
-    if([self newMessageWithSubject: (NSString*) subjectTextField.text andMessage:(NSString*) messageTextView.text andUserArray: (NSMutableArray*) userIdArray]){
-        [self.navigationController popViewControllerAnimated:YES];
+    if(![self newMessageWithSubject: (NSString*) subjectTextField.text andMessage:(NSString*) textView.text andUserArray: (NSMutableArray*) userIdArray]){
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Missing input"
+                                   message: @"To, subject or message is missing input."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+    }else{
+        [[self navigationController] popViewControllerAnimated:YES];
     }
     
     
@@ -186,11 +175,13 @@
 }
 
 - (IBAction)searchField:(id)sender {
-    SearchUserViewController *searchUserViewController = [[SearchUserViewController alloc] init];
-    searchUserViewController.title = @"User search";
-    searchUserViewController.createMessageViewController = self;
-    searchUserViewController.savedSearchTerm = toTextField.text;
-    [self.navigationController pushViewController:searchUserViewController animated:YES];
-    [searchUserViewController release]; 
+    if(!projectSend){
+        SearchUserViewController *searchUserViewController = [[SearchUserViewController alloc] init];
+        searchUserViewController.title = @"User search";
+        searchUserViewController.createMessageViewController = self;
+        
+        [self.navigationController pushViewController:searchUserViewController animated:YES];
+        [searchUserViewController release]; 
+    }
 }
 @end

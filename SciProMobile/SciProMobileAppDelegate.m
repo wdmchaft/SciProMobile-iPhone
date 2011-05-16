@@ -12,16 +12,29 @@
 #import "MessageViewController.h"
 #import "StatusReportViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "LoginSingleton.h"
+#import "UnreadMessageDelegate.h"
 
 @implementation SciProMobileAppDelegate
 
 
-@synthesize window=_window;
+@synthesize window=_window, tabBarController;;
 
 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [LoginSingleton instance].iphoneId = deviceTokenString;
+} 
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+	NSLog(@"Error in registration. Error: %@", error); 
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
@@ -32,16 +45,16 @@
     StatusReportViewController *statusReportViewController = [[StatusReportViewController alloc] init];
     statusReportViewController.title = @"Status";
     projectViewController.title = @"Project";
-    messageViewController.title = @"Message";
+    messageViewController.title = @"Inbox";
     if (![CLLocationManager locationServicesEnabled]) {
         UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [servicesDisabledAlert show];
         [servicesDisabledAlert release];
     }
-
-
-
-
+    
+    
+    
+    
     [messageNavController pushViewController:messageViewController animated:NO];
     [projectNavController pushViewController:projectViewController animated:NO];
     [statusNavController pushViewController:statusReportViewController animated:NO];
@@ -64,7 +77,7 @@
     theItem = [[UITabBarItem alloc] initWithTitle:@"Status" image:anImage tag:0];
     statusNavController.tabBarItem = theItem;
     [theItem release];
-   
+    
     [projectNavController release];
     [messageNavController release];
     [statusNavController release];
@@ -77,6 +90,13 @@
     
     
     return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    if([LoginSingleton instance].user != nil){
+        [messageViewController updateView];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -106,11 +126,10 @@
      */
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    /*
-     Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-     */
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
