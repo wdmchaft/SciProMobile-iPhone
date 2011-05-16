@@ -9,21 +9,16 @@
 #import <UIKit/UIKit.h>
 
 
-@class LoginViewController;
-
-@protocol LoginViewControllerDelegate
--(void)loginViewControllerDidFinish:(LoginViewController *)loginViewController;
-@end
 
 @interface LoginViewController : UIViewController<UITextFieldDelegate> {
-    id <LoginViewControllerDelegate> delegate;
+    id delegate;
     UITextField *usernameTextField;
     UITextField *passwordTextField;
     UILabel *label;
     NSMutableData *responseData;
 }
 
-@property (nonatomic, assign) id <LoginViewControllerDelegate> delegate;
+@property (nonatomic, assign) id delegate;
 
 @property (nonatomic, retain) IBOutlet UITextField *usernameTextField;
 
@@ -31,10 +26,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *label;
 
 - (IBAction)buttonPressed:(id)sender;
-- (BOOL)loginWithUserName:(NSString*) userName password:(NSString*) password;
+- (void)loginWithUserName:(NSString*) userName password:(NSString*) password;
 
 @end
-
-
-
-
