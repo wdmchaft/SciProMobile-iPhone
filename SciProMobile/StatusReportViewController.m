@@ -111,7 +111,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
+    [responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -122,24 +122,26 @@
 	
     [connection release];
     [responseData release];
-//    UIAlertView *errorAlert = [[UIAlertView alloc]
-//                               initWithTitle: @"Connection problems"
-//                               message: @"Connections problems, try login again."
-//                               delegate:nil
-//                               cancelButtonTitle:@"OK"
-//                               otherButtonTitles:nil];
-//    [errorAlert show];
-//    [errorAlert release];
-//    LoginViewController *lvc = [[LoginViewController alloc] init];
-//    lvc.delegate = [[UIApplication sharedApplication] delegate];
-//    [[self tabBarController] presentModalViewController:lvc animated:NO];
-//    [lvc release];
+    responseData = nil;
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle: @"Connection problems"
+                               message: @"Connections problems, try login again."
+                               delegate:nil
+                               cancelButtonTitle:@"OK"
+                               otherButtonTitles:nil];
+    [errorAlert show];
+    [errorAlert release];
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    lvc.delegate = [[UIApplication sharedApplication] delegate];
+    [[self tabBarController] presentModalViewController:lvc animated:NO];
+    [lvc release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	[connection release];
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	[responseData release];
+    responseData = nil;
 	NSError *error;
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
@@ -194,7 +196,13 @@
     [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
     [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
     [jsonObject setObject:[NSNumber numberWithBool: availableSwitch.on] forKey:@"available"];
-    [jsonObject setObject:statusMessageTextField.text forKey:@"status"];
+    NSString *status;
+    if(statusMessageTextField.text == nil){
+        status = @"";
+    }else{
+        status = statusMessageTextField.text;
+    }
+    [jsonObject setObject:status forKey:@"status"];
     NSString* jsonString = jsonObject.JSONRepresentation;
     NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
     
@@ -209,7 +217,7 @@
     
     PostDelegate *postDelegate= [[PostDelegate alloc]init];
     postDelegate.successAlert = YES;
-    postDelegate.successMessage = @"Status uploaded to server.";
+    postDelegate.successMessage = @"Status succesfully updated.";
     postDelegate.successTitle = @"Status updated";
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];

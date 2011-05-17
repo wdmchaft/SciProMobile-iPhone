@@ -48,7 +48,10 @@
     [super viewDidLoad];
     
     
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newMessage)];
+    
+    
     // create a toolbar to have two buttons in the right
     if(inbox){
         
@@ -57,11 +60,12 @@
         
         // create the array to hold the buttons, which then gets added to the toolbar
         NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+    
         
-        // create a standard "add" button
-        UIBarButtonItem* bi = [[UIBarButtonItem alloc]
-                               initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newMessage)];
-        bi.style = UIBarButtonItemStyleBordered;
+        
+        
+        // create a standard "refresh" button
+        UIBarButtonItem* bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
         [buttons addObject:bi];
         [bi release];
         
@@ -71,11 +75,44 @@
         [buttons addObject:bi];
         [bi release];
         
+        bi = self.editButtonItem;
+        [buttons addObject:bi];
+        [bi release];
+
+        
+        // stick the buttons in the toolbar
+        [tools setItems:buttons animated:NO];
+        
+        [buttons release];
+        
+        // and put the toolbar in the nav bar
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
+        [tools release];
+    }else{
+        UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 133, 44.01)];
+        
+        // create the array to hold the buttons, which then gets added to the toolbar
+        NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+        
+        // create a standard "add" button
+ 
+         
+        
         // create a standard "refresh" button
-        bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
+        UIBarButtonItem* bi = [[UIBarButtonItem alloc] initWithTitle:@"Inbox" style:UIBarButtonItemStyleBordered target:self action:@selector(inboxView)];
         [buttons addObject:bi];
         [bi release];
         
+        
+        // create a spacer
+        bi = [[UIBarButtonItem alloc]
+              initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        [buttons addObject:bi];
+        [bi release];
+        
+        bi = self.editButtonItem;
+        [buttons addObject:bi];
+        [bi release];
         // stick the buttons in the toolbar
         [tools setItems:buttons animated:NO];
         
@@ -88,13 +125,15 @@
     // Do any additional setup after loading the view from its nib.
 }
 
+- (void)inboxView{
+    [self.navigationController popViewControllerAnimated: NO];
+}
+
 - (void)sent{
     MessageViewController *messageViewController = [[MessageViewController alloc] init];
     messageViewController.inbox = NO;
     messageViewController.title = @"Sent";
-    [self.navigationController pushViewController:messageViewController animated:YES];
-   
-
+    [self.navigationController pushViewController:messageViewController animated:NO];
     [messageViewController release];  
 }
 
@@ -118,7 +157,7 @@
     if(!messages)
         messages = [[NSMutableArray alloc]init];
     
-    responseData = [[NSMutableData data] retain];
+    
     NSMutableString *urlBasic;
     if (inbox) {
         urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message?userid="];
@@ -131,7 +170,9 @@
     [url appendString:[LoginSingleton instance].apikey];
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
-    if (!conn){
+    if (conn){
+        responseData = [[NSMutableData data] retain];
+    }else{
         
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
@@ -219,7 +260,7 @@
     if(inbox){
         if(!messageModel.read){
             cell.imageView.image = [UIImage imageNamed:@"blue-circle3.png"];
-        }else{
+        } else{
             cell.imageView.image = nil;
         }
         [string appendString: messageModel.from.name];
@@ -259,7 +300,6 @@
     NSNumber *number = messageModel.messageId;
     if(messageModel.read == NO){
         [self setRead: number];
-        [self unreadMessages];
     }
 
     messageDetailViewController.inbox = inbox;
@@ -290,6 +330,8 @@
     [request setHTTPBody: requestData];
     
     PostDelegate *postDelegate= [[PostDelegate alloc]init];
+    postDelegate.message = YES;
+    postDelegate.messageViewController = self;
     
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];
@@ -297,7 +339,7 @@
         
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
-                                   message: @"API-key mismatched login again."
+                                   message: @"Connection problems, try login again."
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
@@ -335,6 +377,8 @@
     [request setHTTPBody: requestData];
     
     PostDelegate *postDelegate= [[PostDelegate alloc]init];
+    postDelegate.message = YES;
+    postDelegate.messageViewController = self;
     
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];
@@ -374,11 +418,10 @@
         MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
         
         [self deleteMessage: messageModel.messageId];
-        [self updateView];
     }
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
+        [responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -389,6 +432,7 @@
     [NSString stringWithFormat:@"Connection failed: %@", [error description]];
     [connection release];
     [responseData release];
+    responseData = nil;
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle: @"Connection problems"
                                message: @"Connections problems, try login again."
@@ -408,6 +452,7 @@
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     
 	[responseData release];
+    responseData = nil;
     
 	NSError *error;
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];

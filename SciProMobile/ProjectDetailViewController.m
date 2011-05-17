@@ -23,8 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        progbar = [[UIProgressView alloc] initWithFrame:
-                   CGRectMake(25, 20, 265.0f, 80.0f)];
+
         
     }
     return self;
@@ -32,7 +31,6 @@
 
 - (void)dealloc
 {
-    [progbar release];
     [projectModel release];
     [super dealloc];
 }
@@ -149,33 +147,32 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:MyIdentifier] autorelease];
     }
-    
-    
-    [progbar removeFromSuperview];
+
     if(indexPath.section == 0){
-        progbar.hidden = NO;
         cell.textLabel.text = projectModel.title;
         cell.textLabel.numberOfLines=0;
         cell.detailTextLabel.text = projectModel.level;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.imageView.image = nil;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
     } else if(indexPath.section == 1){
-        progbar.hidden = NO;
+        UITableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"progressCell"];
+        if (cell2 == nil) {
+            cell2 = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"progressCell"] autorelease];
+        }
+        UIProgressView *progbar = [[UIProgressView alloc] initWithFrame:
+                   CGRectMake(25, 20, 265.0f, 80.0f)];
         
         progbar.progress = [projectModel.progress floatValue]/100.0;
-        [cell addSubview:progbar];
-        
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = nil;
-        cell.textLabel.numberOfLines=0;
-        cell.detailTextLabel.text = nil;
-        cell.imageView.image = nil;
-        
+        [cell2 addSubview:progbar];
+        [progbar release];
+        cell2.accessoryType = UITableViewCellAccessoryNone;
+        cell2.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell2;
         
     } else if(indexPath.section == 2){
-        progbar.hidden = NO;
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.detailTextLabel.text = nil;
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -195,7 +192,6 @@
         }
         
     } else if(indexPath.section == 3){
-        progbar.hidden = NO;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textLabel.text = projectModel.statusMessage;
         cell.textLabel.numberOfLines=0;
@@ -203,7 +199,6 @@
         cell.imageView.image = nil;
         
     } else if(indexPath.section == 7){
-        progbar.hidden = NO;
         NSMutableArray *array = projectModel.finalSeminars;
         FinalSeminarModel *finalSeminarModel = [array objectAtIndex:indexPath.row];
         cell.textLabel.text = finalSeminarModel.date;
@@ -214,8 +209,8 @@
         [room release];
         cell.imageView.image = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }else{
-        progbar.hidden = NO;
         NSMutableArray *array;
         switch (indexPath.section) {
             case 4:
@@ -233,6 +228,7 @@
         cell.detailTextLabel.text = nil;
         cell.imageView.image = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     return cell;
 }
@@ -268,8 +264,8 @@
         if(indexPath.section == 0){
             array = [[NSMutableArray alloc] init];
             [array addObjectsFromArray:projectModel.projectMembers];
-            [array addObjectsFromArray:projectModel.reviewers];
-            [array addObjectsFromArray:projectModel.coSupervisors];
+//            [array addObjectsFromArray:projectModel.reviewers];
+//            [array addObjectsFromArray:projectModel.coSupervisors];
             [array sortUsingSelector:@selector(sortByName:)];
             createMessageViewController.projectSend = YES;
             createMessageViewController.projectUsers = array;

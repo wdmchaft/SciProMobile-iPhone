@@ -25,6 +25,7 @@
     NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
     [LoginSingleton instance].iphoneId = deviceTokenString;
+    NSLog(@"%@", deviceTokenString); 
 } 
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -35,7 +36,6 @@
 {
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
     messageNavController = [[UINavigationController alloc]init];
@@ -46,15 +46,7 @@
     statusReportViewController.title = @"Status";
     projectViewController.title = @"Project";
     messageViewController.title = @"Inbox";
-    if (![CLLocationManager locationServicesEnabled]) {
-        UIAlertView *servicesDisabledAlert = [[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"You currently have all location services for this device disabled. If you proceed, you will be asked to confirm whether location services should be reenabled." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [servicesDisabledAlert show];
-        [servicesDisabledAlert release];
-    }
-    
-    
-    
-    
+
     [messageNavController pushViewController:messageViewController animated:NO];
     [projectNavController pushViewController:projectViewController animated:NO];
     [statusNavController pushViewController:statusReportViewController animated:NO];

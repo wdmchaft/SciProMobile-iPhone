@@ -90,7 +90,7 @@
             return @"Opponents";
             break;
         case 1:
-            return @"Active Particpants";
+            return @"Active Participants";
             break;
     }
     return nil;

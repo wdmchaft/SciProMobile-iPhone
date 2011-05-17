@@ -24,23 +24,26 @@
 	return self;
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
+	if(responseData != nil)
+        [responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
 	[responseData appendData:data];
+    
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [connection release];
     [responseData release];
+    responseData = nil;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	[connection release];
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	[responseData release];
-    
+    responseData = nil;
 	NSError *error;
 	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     

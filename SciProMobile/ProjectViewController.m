@@ -19,6 +19,7 @@
 #import "UnreadMessageDelegate.h"
 #import "UserListSingleton.h"
 #import "FinalSeminarModel.h"
+#import "PostDelegate.h"
 
 @implementation ProjectViewController
 @synthesize locationManager;
@@ -57,14 +58,13 @@
     
     // Do any additional setup after loading the view from its nib.
     
-    self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+    self.locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
-    locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     // Once configured, the location manager must be "started".
     if([self registerRegionWithIdentifier:@"DSV"]){
-        [locationManager startMonitoringSignificantLocationChanges];
     }
     
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
@@ -85,7 +85,7 @@
     }
     
     [self updateView];
-
+    
 }
 - (void)updateView{
     
@@ -153,73 +153,101 @@
     
     // If the radius is too large, registration fails automatically,
     // so clamp the radius to the max value.
-    CLLocationDegrees radius = 100;
-    CLLocationCoordinate2D coord;
-    coord.latitude = 59.40547377;
-    coord.longitude = 17.94316774;
+    CLLocationDegrees radius = 300;
     if (radius > self.locationManager.maximumRegionMonitoringDistance)
         radius = self.locationManager.maximumRegionMonitoringDistance;
     
+    CLLocationCoordinate2D coord;
+    coord.latitude = 59.40547377;
+    coord.longitude = 17.94316774;
     // Create the region and start monitoring it.
     CLRegion* region = [[CLRegion alloc] initCircularRegionWithCenter:coord
                                                                radius:radius identifier:identifier];
     [self.locationManager startMonitoringForRegion:region
-                                   desiredAccuracy:kCLLocationAccuracyHundredMeters];
+                                   desiredAccuracy:kCLLocationAccuracyThreeKilometers];
     
     [region release];
     return YES;
 }
 
+- (void)setStatus: (BOOL) statusBool{      
+    NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
+    [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
+    [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
+    [jsonObject setObject:[NSNumber numberWithBool: statusBool] forKey:@"available"];
+    [jsonObject setObject:@"Automatically registered." forKey:@"status"];
+    NSString* jsonString = jsonObject.JSONRepresentation;
+    NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
+    
+    const char* reqString = [requestString UTF8String];
+    NSInteger length = strlen(reqString);
+    
+    
+    NSData *requestData = [NSData dataWithBytes: reqString length: length];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/setstatus"]];
+    [request setHTTPMethod: @"POST"];
+    [request setHTTPBody: requestData];
+    
+    PostDelegate *postDelegate= [[PostDelegate alloc]init];
+    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
+    [postDelegate release];
+    
+    if (!conn){
+        
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"Connection problems"
+                                   message: @"Connection problems, try login again."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        lvc.delegate = [[UIApplication sharedApplication] delegate];
+        [[self tabBarController] presentModalViewController:lvc animated:NO];
+        [lvc release];
+    }      
+}
+
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
     if([region identifier] == @"DSV"){
-        StatusReportViewController *statusReportViewController = [[StatusReportViewController alloc] init];
-        statusReportViewController.title = @"Status Report";
-        [self.navigationController pushViewController:statusReportViewController animated:YES];
-        [statusReportViewController release];   
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        BOOL save = [defaults boolForKey:@"autoStatus"];
+        
+        if(save){
+            [self setStatus:YES];
+        } else{
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"At DSV"
+                                       message: @"Update your status so students can see if you are available."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];;   
+            
+        }
+        
     }
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
-    if([region identifier] == @"DSV"){
-        StatusReportViewController *statusReportViewController = [[StatusReportViewController alloc] init];
-        statusReportViewController.title = @"Status Report";
-        [self.navigationController pushViewController:statusReportViewController animated:YES];
-        [statusReportViewController release];   
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    // store all of the measurements, just so we can see what kind of data we might receive
-    // test the age of the location measurement to determine if the measurement is cached
-    // in most cases you will not want to rely on cached measurements
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL save = [defaults boolForKey:@"autoStatus"];
     
-    NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
-    if (locationAge > 5.0) return;
-    // test that the horizontal accuracy does not indicate an invalid measurement
-    if (newLocation.horizontalAccuracy < 0) return;
-    // test the measurement to see if it is more accurate than the previous measurement
-    if (bestEffortAtLocation == nil || bestEffortAtLocation.horizontalAccuracy > newLocation.horizontalAccuracy) {
-        // store the location as the "best effort"
-        self.bestEffortAtLocation = newLocation;
-        // test the measurement to see if it meets the desired accuracy
-        //
-        // IMPORTANT!!! kCLLocationAccuracyBest should not be used for comparison with location coordinate or altitidue 
-        // accuracy because it is a negative value. Instead, compare against some predetermined "real" measure of 
-        // acceptable accuracy, or depend on the timeout to stop updating. This sample depends on the timeout.
-        //
-        if (newLocation.horizontalAccuracy <= locationManager.desiredAccuracy) {
-            // we have a measurement that meets our requirements, so we can stop updating the location
-            // 
-            // IMPORTANT!!! Minimize power usage by stopping the location manager as soon as possible.
-            //
-            [self stopUpdatingLocation:NSLocalizedString(@"Acquired Location", @"Acquired Location")];
-            // we can also cancel our previous performSelector:withObject:afterDelay: - it's no longer necessary
-            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopUpdatingLocation:) object:nil];
-        }
+    if(save){
+        [self setStatus:NO];
+    } else{
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"At DSV"
+                                   message: @"Update your status so students can see if you are available."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];;   
+        
     }
-    // update the display with the new location data
-    [self.tableView reloadData];    
 }
 
 
@@ -242,16 +270,17 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
+    [responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[responseData appendData:data];
+    [responseData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [connection release];
     [responseData release];
+    responseData = nil;
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle: @"Connection problems"
                                message: @"Connections problems, try login again."
@@ -267,16 +296,16 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[connection release];
-	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-	[responseData release];
+    [connection release];
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    [responseData release];
+    responseData = nil;
+    NSError *error;
+    SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
-	NSError *error;
-	SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
-    
-	NSMutableDictionary *projectDictionary = [jsonParser objectWithString:responseString error:&error];
+    NSMutableDictionary *projectDictionary = [jsonParser objectWithString:responseString error:&error];
     if (projectDictionary == nil){
-		[NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
+        [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
                                    message: @"Connections problems, try login again."
@@ -310,7 +339,7 @@
                 NSMutableArray *projectReviewers = [[projectDict objectAtIndex:i] objectForKey:@"projectReviewers"];
                 NSMutableArray *projectCosupervisors = [[projectDict objectAtIndex:i] objectForKey:@"projectCosupervisors"];
                 NSMutableArray *projectFinalseminar = [[projectDict objectAtIndex:i] objectForKey:@"finalSeminars"];
-
+                
                 NSMutableArray *members = [[NSMutableArray alloc] init];
                 NSMutableArray *reviewers = [[NSMutableArray alloc] init];
                 NSMutableArray *coSupervisors = [[NSMutableArray alloc] init];
@@ -379,7 +408,7 @@
                 [reviewers release];
                 [finalSeminars release];
                 [coSupervisors release];
-
+                
             }
             [allUsers addObject: [LoginSingleton instance].user];
             [allUsers release];

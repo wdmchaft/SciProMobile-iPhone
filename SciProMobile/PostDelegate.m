@@ -11,9 +11,10 @@
 #import "LoginViewController.h"
 #import "JSON.h"
 #import "SciProMobileAppDelegate.h"
+#import "MessageViewController.h"
 
 @implementation PostDelegate
-@synthesize successAlert, successMessage, successTitle;
+@synthesize successAlert, successMessage, successTitle, messageViewController, message;
 
 - (id)init{	
 	if ((self = [super init])) {
@@ -23,7 +24,8 @@
 	return self;
 }
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	[responseData setLength:0];
+	if(responseData != nil)
+     [responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -75,7 +77,7 @@
             
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Connection problems"
-                                       message: @"API-key mismatched login again."
+                                       message: @"Connection problems, try login again."
                                        delegate:nil
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
@@ -86,7 +88,7 @@
             SciProMobileAppDelegate *sciProMobileAppDelegate = [[UIApplication sharedApplication] delegate];
             [sciProMobileAppDelegate.tabBarController presentModalViewController:lvc animated:NO];
             [lvc release];
-        } else if(successAlert){
+        }else if(successAlert){
             
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: successTitle
@@ -96,6 +98,9 @@
                                        otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
+        }
+        if([apiCheck isEqualToString:@"success"] && message){
+            [messageViewController updateView];
         }
     }
     [responseString release];	

@@ -13,7 +13,6 @@
 @interface ProjectDetailViewController : UITableViewController {
     NSMutableData *responseData;
     ProjectModel *projectModel;
-    UIProgressView *progbar;
 }
 
 @property (nonatomic, retain) ProjectModel *projectModel;

@@ -100,8 +100,12 @@
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:userName forKey:@"username"];
     [jsonObject setObject:password forKey:@"password"];
-    
-    [jsonObject setObject:[LoginSingleton instance].iphoneId forKey:@"iPhoneId"];
+    NSString *iphoneId;
+    if([LoginSingleton instance].iphoneId == nil){
+        iphoneId = @"";
+    }else
+        iphoneId = [LoginSingleton instance].iphoneId;
+    [jsonObject setObject:iphoneId forKey:@"iPhoneId"];
     NSString* jsonString = jsonObject.JSONRepresentation;
     NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
     
@@ -129,8 +133,8 @@
 }
 
 - (IBAction)buttonPressed:(id)sender {
-    //    responseData = [[NSMutableData data] retain];
-    //    [self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
+    responseData = [[NSMutableData data] retain];
+    [self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if([defaults boolForKey:@"password"]){
@@ -139,13 +143,13 @@
         [SFHFKeychainUtils storeUsername:usernameTextField.text andPassword:passwordTextField.text forServiceName:@"SciproMobile" updateExisting:YES error:nil];
     }
     //Teskod
-    UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
-    [LoginSingleton instance].apikey = @"pelle";
-    [LoginSingleton instance].user = userModel;
-    [userModel release];
-    
-    [delegate loginViewControllerDidFinish:self];
-    
+//    UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
+//    [LoginSingleton instance].apikey = @"pelle";
+//    [LoginSingleton instance].user = userModel;
+//    [userModel release];
+//    
+//    [delegate loginViewControllerDidFinish:self];
+//    
     
     
 }
@@ -155,13 +159,14 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[responseData appendData:data];
+    [responseData appendData:data];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
 	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
     [connection release];
     [responseData release];
+    responseData = nil;
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle: @"Connection problems"
                                message: @"Connections problems, try login again."
@@ -176,14 +181,13 @@
 	[connection release];
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	[responseData release];
-    
+    responseData = nil;
     NSError* error;
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
 	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
     if (messDict == nil){
         
-        NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
                                    message: @"Connections problems, try login again."
@@ -196,7 +200,7 @@
         NSNumber *loggedIn = [messDict objectForKey:@"authenticated"];
         if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
             NSString *apiKey = [messDict objectForKey:@"apikey"];
-            NSLog(@"%@",apiKey );
+
             NSNumber *userId = [messDict objectForKey:@"userid"];
             NSString *name = [messDict objectForKey:@"name"];
             UserModel *userModel = [[UserModel alloc] initWithId:userId name:name];

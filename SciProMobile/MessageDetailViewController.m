@@ -96,7 +96,7 @@
                 return @"From";
                 break;
             case 1:
-                return @"Message";
+                return @"Subject";
                 break;
         }
     } else{
@@ -105,7 +105,7 @@
                 return @"To";
                 break;
             case 1:
-                return @"Message";
+                return @"Subject";
                 break;
         }
     }

@@ -14,7 +14,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Save username/password</string>
+			<string>Automatic login</string>
 			<key>Key</key>
 			<string>password</string>
 			<key>DefaultValue</key>
@@ -24,9 +24,9 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Location Aware</string>
+			<string>Automatic status</string>
 			<key>Key</key>
-			<string>location</string>
+			<string>autoStatus</string>
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
