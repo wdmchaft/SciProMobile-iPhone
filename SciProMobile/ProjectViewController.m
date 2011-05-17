@@ -20,10 +20,11 @@
 #import "UserListSingleton.h"
 #import "FinalSeminarModel.h"
 #import "PostDelegate.h"
+#import "SciProMobileAppDelegate.h"
 
 @implementation ProjectViewController
-@synthesize locationManager;
-@synthesize bestEffortAtLocation;
+
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -36,8 +37,6 @@
 
 - (void)dealloc
 {
-    [locationManager release];
-    [bestEffortAtLocation release];
     [projects release];
     [super dealloc];
 }
@@ -58,14 +57,11 @@
     
     // Do any additional setup after loading the view from its nib.
     
-    self.locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
-    if([self registerRegionWithIdentifier:@"DSV"]){
-    }
+    [self registerRegionWithIdentifier:@"DSV"];
     
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
@@ -90,7 +86,7 @@
 - (void)updateView{
     
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/project?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.156.97:8080/SciPro/json/project?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -116,7 +112,7 @@
 }
 
 - (void)getUnreadMessageNumber{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.156.97:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -153,19 +149,19 @@
     
     // If the radius is too large, registration fails automatically,
     // so clamp the radius to the max value.
-    CLLocationDegrees radius = 300;
-    if (radius > self.locationManager.maximumRegionMonitoringDistance)
-        radius = self.locationManager.maximumRegionMonitoringDistance;
+    CLLocationDegrees radius = 100;
+    SciProMobileAppDelegate *sciproDelegate = [[UIApplication sharedApplication] delegate];
+    if (radius > sciproDelegate.locationManager.maximumRegionMonitoringDistance)
+        radius = sciproDelegate.locationManager.maximumRegionMonitoringDistance;
     
     CLLocationCoordinate2D coord;
-    coord.latitude = 59.40547377;
-    coord.longitude = 17.94316774;
+    coord.latitude = 59.405334616707584;
+    coord.longitude = 17.94440746307373;
     // Create the region and start monitoring it.
     CLRegion* region = [[CLRegion alloc] initCircularRegionWithCenter:coord
                                                                radius:radius identifier:identifier];
-    [self.locationManager startMonitoringForRegion:region
-                                   desiredAccuracy:kCLLocationAccuracyThreeKilometers];
-    
+    [sciproDelegate.locationManager startMonitoringForRegion:region
+                                   desiredAccuracy:kCLLocationAccuracyNearestTenMeters];
     [region release];
     return YES;
 }
@@ -184,7 +180,7 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/setstatus"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.156.97:8080/SciPro/json/setstatus"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -207,47 +203,6 @@
         [[self tabBarController] presentModalViewController:lvc animated:NO];
         [lvc release];
     }      
-}
-
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
-    if([region identifier] == @"DSV"){
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        BOOL save = [defaults boolForKey:@"autoStatus"];
-        
-        if(save){
-            [self setStatus:YES];
-        } else{
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"At DSV"
-                                       message: @"Update your status so students can see if you are available."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];;   
-            
-        }
-        
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    BOOL save = [defaults boolForKey:@"autoStatus"];
-    
-    if(save){
-        [self setStatus:NO];
-    } else{
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"At DSV"
-                                   message: @"Update your status so students can see if you are available."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];;   
-        
-    }
 }
 
 

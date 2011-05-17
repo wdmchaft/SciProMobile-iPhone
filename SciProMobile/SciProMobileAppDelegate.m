@@ -18,7 +18,7 @@
 @implementation SciProMobileAppDelegate
 
 
-@synthesize window=_window, tabBarController;;
+@synthesize window=_window, tabBarController, locationManager;
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -36,6 +36,13 @@
 {
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotif) {
+        NSLog(@"Recieved Notification %@",localNotif);
+    }
+    self.locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
     messageNavController = [[UINavigationController alloc]init];
@@ -46,7 +53,7 @@
     statusReportViewController.title = @"Status";
     projectViewController.title = @"Project";
     messageViewController.title = @"Inbox";
-
+    
     [messageNavController pushViewController:messageViewController animated:NO];
     [projectNavController pushViewController:projectViewController animated:NO];
     [statusNavController pushViewController:statusReportViewController animated:NO];
@@ -80,7 +87,8 @@
     [tabBarController presentModalViewController:lvc animated:NO];
     [lvc release];
     
-    
+    self.locationManager.delegate = nil;
+    [self.locationManager stopUpdatingLocation];
     return YES;
 }
 
@@ -132,9 +140,75 @@
      See also applicationDidEnterBackground:.
      */
 }
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    if([region identifier] == @"DSV"){
+        
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        if (localNotif == nil)
+            return;
+        
+        localNotif.timeZone = [NSTimeZone defaultTimeZone];
+        
+        // Notification details
+        localNotif.alertBody = @"Update your status so students can see if you are available.";
+        // Set the action button
+        
+        localNotif.soundName = UILocalNotificationDefaultSoundName;
+        
+        // Specify custom data for the notification
+        localNotif.fireDate = [NSDate date];
+        // Schedule the notification
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+        [localNotif release];
+        
+    }    
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
+
+    
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+
+    
+    localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    
+    // Notification details
+    localNotif.alertBody = @"Update your status so students can see if you are available.";
+    // Set the action button
+    
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    
+    localNotif.fireDate = [NSDate date];
+    // Schedule the notification
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+    [localNotif release];
+    
+    
+}
+
+- (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
+    // Handle the notificaton when the app is running
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateActive) {
+        //the app is in the foreground, so here you do your stuff since the OS does not do it for you
+        //navigate the "aps" dictionary looking for "loc-args" and "loc-key", for example, or your personal payload)
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle: @"At DSV"
+                                   message: notif.alertBody
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+        [errorAlert show];
+        [errorAlert release];;
+    }
+    }
+
 
 - (void)dealloc
 {
+    [locationManager release];
     [tabBarController release];
     [_window release];
     [super dealloc];

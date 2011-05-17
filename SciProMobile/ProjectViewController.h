@@ -7,23 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 
 
 
-@interface ProjectViewController : UITableViewController <CLLocationManagerDelegate> {
+
+@interface ProjectViewController : UITableViewController  {
     
     NSMutableData *responseData;
     NSMutableArray *projects; 
-    CLLocationManager *locationManager;
-    CLLocation *bestEffortAtLocation;
+
     
 }
 - (IBAction)projectButton:(id)sender;
 - (BOOL)registerRegionWithIdentifier:(NSString*)identifier;
 - (void)updateView;
 - (void)getUnreadMessageNumber;
-@property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, retain) CLLocation *bestEffortAtLocation;
+- (void)setStatus: (BOOL) statusBool;
 
 @end

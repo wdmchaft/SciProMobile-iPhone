@@ -160,9 +160,9 @@
     
     NSMutableString *urlBasic;
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message?userid="];
+        urlBasic = [NSMutableString stringWithString: @"http://130.229.156.97:8080/SciPro/json/message?userid="];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/sentmessages?userid="];
+        urlBasic = [NSMutableString stringWithString: @"http://130.229.156.97:8080/SciPro/json/message/sentmessages?userid="];
     
     NSMutableString *url = [NSMutableString stringWithString:urlBasic];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
@@ -192,7 +192,7 @@
 }
 
 - (void)unreadMessages{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://192.168.0.12:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.156.97:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -325,7 +325,7 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/message/setread"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.156.97:8080/SciPro/json/message/setread"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -369,9 +369,9 @@
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     NSMutableString *urlBasic;
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/deleterecipient"];
+        urlBasic = [NSMutableString stringWithString: @"http://130.229.156.97:8080/SciPro/json/message/deleterecipient"];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://192.168.0.12:8080/SciPro/json/message/deleteprivatemessage"];
+        urlBasic = [NSMutableString stringWithString: @"http://130.229.156.97:8080/SciPro/json/message/deleteprivatemessage"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: urlBasic]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];

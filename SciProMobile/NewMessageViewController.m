@@ -109,7 +109,7 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://192.168.0.12:8080/SciPro/json/message/newmessage"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.156.97:8080/SciPro/json/message/newmessage"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
