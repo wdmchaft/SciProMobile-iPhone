@@ -57,12 +57,12 @@
     
     // Do any additional setup after loading the view from its nib.
     
-
+    
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
-    [self registerRegionWithIdentifier:@"DSV"];
-    
+
+
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
 }
@@ -79,6 +79,7 @@
     if(!projects){
         projects = [[NSMutableArray alloc]init];
     }
+
     
     [self updateView];
     
@@ -143,26 +144,7 @@
 - (BOOL)registerRegionWithIdentifier:(NSString*)identifier
 {
     // Do not create regions if support is unavailable or disabled.
-    if ( ![CLLocationManager regionMonitoringAvailable] ||
-        ![CLLocationManager regionMonitoringEnabled] )
-        return NO;
     
-    // If the radius is too large, registration fails automatically,
-    // so clamp the radius to the max value.
-    CLLocationDegrees radius = 100;
-    SciProMobileAppDelegate *sciproDelegate = [[UIApplication sharedApplication] delegate];
-    if (radius > sciproDelegate.locationManager.maximumRegionMonitoringDistance)
-        radius = sciproDelegate.locationManager.maximumRegionMonitoringDistance;
-    
-    CLLocationCoordinate2D coord;
-    coord.latitude = 59.405334616707584;
-    coord.longitude = 17.94440746307373;
-    // Create the region and start monitoring it.
-    CLRegion* region = [[CLRegion alloc] initCircularRegionWithCenter:coord
-                                                               radius:radius identifier:identifier];
-    [sciproDelegate.locationManager startMonitoringForRegion:region
-                                   desiredAccuracy:kCLLocationAccuracyNearestTenMeters];
-    [region release];
     return YES;
 }
 

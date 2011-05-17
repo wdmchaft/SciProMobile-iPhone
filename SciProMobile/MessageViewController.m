@@ -172,7 +172,7 @@
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
     if (conn){
         responseData = [[NSMutableData data] retain];
-    }else{
+    } else{
         
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"

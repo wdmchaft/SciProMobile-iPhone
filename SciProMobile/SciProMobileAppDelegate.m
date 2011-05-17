@@ -42,6 +42,10 @@
     }
     self.locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
+    [self setupLocation];
+
+
+    
     
     tabBarController = [[UITabBarController alloc] init];
     projectNavController = [[UINavigationController alloc]init];
@@ -91,7 +95,35 @@
     [self.locationManager stopUpdatingLocation];
     return YES;
 }
-
+- (void)setupLocation{
+    static NSString *identifier = @"DSV";
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ( [CLLocationManager regionMonitoringAvailable] &&
+        [CLLocationManager regionMonitoringEnabled] ){
+        
+        // If the radius is too large, registration fails automatically,
+        // so clamp the radius to the max value.
+        CLLocationDegrees radius = 100;
+        
+        if (radius > locationManager.maximumRegionMonitoringDistance)
+            radius = locationManager.maximumRegionMonitoringDistance;
+        
+        CLLocationCoordinate2D coord;
+        coord.latitude = 59.405334616707584;
+        coord.longitude = 17.94440746307373;
+        // Create the region and start monitoring it.
+        CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:coord
+                                                                   radius:radius identifier:identifier];
+        if([defaults boolForKey:@"location"]){
+            [locationManager startMonitoringForRegion:region
+                                      desiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+        }else{
+            [locationManager stopMonitoringForRegion:region];
+        }
+        [region release];
+    }
+    
+}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     if([LoginSingleton instance].user != nil){
@@ -129,6 +161,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    [self setupLocation];
     
 }
 
@@ -139,6 +172,12 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (void)locationManager: (CLLocationManager *)manager
+       didFailWithError: (NSError *)error
+{
+    [manager stopUpdatingLocation];
 }
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
     if([region identifier] == @"DSV"){
