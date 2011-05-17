@@ -117,10 +117,10 @@
             return @"Project Progress";
             break;
         case 2:
-            return @"Status";
+            return @"State of Mind";
             break;
         case 3:
-            return @"Status Message";
+            return @"State of Mind Message";
             break;
         case 4:
             return @"Project Members";
