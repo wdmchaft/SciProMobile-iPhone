@@ -239,6 +239,7 @@
         finalSeminarViewController.title = @"Final Seminar";
         finalSeminarViewController.finalSeminarModel = [projectModel.finalSeminars objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:finalSeminarViewController animated:YES];
+        [finalSeminarViewController release];
         
     } else{
         NSMutableArray *array;

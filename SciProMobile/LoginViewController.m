@@ -113,7 +113,7 @@
     NSInteger length = strlen(reqString);
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://130.229.149.2:8080/SciPro/json/login"]]; 
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8080/SciPro/json/login"]]; 
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -133,7 +133,7 @@
 }
 
 - (IBAction)buttonPressed:(id)sender {
-    responseData = [[NSMutableData data] retain];
+    //responseData = [[NSMutableData data] retain];
     //[self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
