@@ -45,6 +45,7 @@
 		A346E4461381920700E796EE /* FinalSeminarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A346E4441381920400E796EE /* FinalSeminarViewController.m */; };
 		A346E4471381920700E796EE /* FinalSeminarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A346E4451381920600E796EE /* FinalSeminarViewController.xib */; };
 		A35136F5137ADB380027B9B1 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A35136F4137ADB380027B9B1 /* UserModel.m */; };
+		A35384A713850BF2002A5790 /* blue_ball_12.png in Resources */ = {isa = PBXBuildFile; fileRef = A35384A613850BF2002A5790 /* blue_ball_12.png */; };
 		A36BCEC313436C6000090AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A36BCEC113436C6000090AE7 /* InfoPlist.strings */; };
 		A36BCEC613436C6000090AE7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A36BCEC513436C6000090AE7 /* main.m */; };
 		A36BCEE313436C6000090AE7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A36BCEE113436C6000090AE7 /* InfoPlist.strings */; };
@@ -145,6 +146,7 @@
 		A346E4451381920600E796EE /* FinalSeminarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FinalSeminarViewController.xib; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarViewController.xib; sourceTree = "<group>"; };
 		A35136F3137ADB380027B9B1 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		A35136F4137ADB380027B9B1 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		A35384A613850BF2002A5790 /* blue_ball_12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_ball_12.png; sourceTree = "<group>"; };
 		A36BCEB413436C6000090AE7 /* SciPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SciPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A36BCEC013436C6000090AE7 /* SciPro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SciPro-Info.plist"; sourceTree = "<group>"; };
 		A36BCEC213436C6000090AE7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 		A3717AB8135D73DE003B9B79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A35384A613850BF2002A5790 /* blue_ball_12.png */,
 				A3B555F71385044700ED6C20 /* 74-location.png */,
 				A3717ADC135DD686003B9B79 /* Default@2x.png */,
 				A3717ADA135DD67B003B9B79 /* Default.png */,
@@ -479,6 +482,7 @@
 				A39922AD1383BF71007A5420 /* icon_retina.png in Resources */,
 				A39922AF1383BF76007A5420 /* icon_small.png in Resources */,
 				A3B555F81385044700ED6C20 /* 74-location.png in Resources */,
+				A35384A713850BF2002A5790 /* blue_ball_12.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
