@@ -14,8 +14,8 @@
 	<string></string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>57.png</string>
-		<string>114.png</string>
+		<string>icon_small.png</string>
+		<string>icon_retina.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>se.su.dsv.scipro</string>

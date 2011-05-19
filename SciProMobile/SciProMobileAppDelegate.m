@@ -32,6 +32,7 @@
 	NSLog(@"Error in registration. Error: %@", error); 
 }
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
@@ -40,11 +41,9 @@
     if (localNotif) {
         NSLog(@"Recieved Notification %@",localNotif);
     }
-    self.locationManager = [[CLLocationManager alloc] init];
+    locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
     [self setupLocation];
-
-
     
     
     tabBarController = [[UITabBarController alloc] init];
@@ -90,9 +89,6 @@
     lvc.delegate = self;
     [tabBarController presentModalViewController:lvc animated:NO];
     [lvc release];
-    
-    self.locationManager.delegate = nil;
-    [self.locationManager stopUpdatingLocation];
     return YES;
 }
 - (void)setupLocation{
@@ -103,7 +99,7 @@
         
         // If the radius is too large, registration fails automatically,
         // so clamp the radius to the max value.
-        CLLocationDegrees radius = 100;
+        CLLocationDistance radius = 1000;
         
         if (radius > locationManager.maximumRegionMonitoringDistance)
             radius = locationManager.maximumRegionMonitoringDistance;
@@ -116,12 +112,19 @@
                                                                    radius:radius identifier:identifier];
         if([defaults boolForKey:@"location"]){
             [locationManager startMonitoringForRegion:region
-                                      desiredAccuracy:kCLLocationAccuracyNearestTenMeters];
+                                      desiredAccuracy:kCLLocationAccuracyBest];
         }else{
             [locationManager stopMonitoringForRegion:region];
         }
         [region release];
     }
+    
+}
+
+- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
+    
+    NSLog(@"%@", [error localizedDescription]);
+    NSLog(@"%@", [region identifier]);
     
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -178,8 +181,10 @@
        didFailWithError: (NSError *)error
 {
     [manager stopUpdatingLocation];
+    NSLog(@"%@", error);
 }
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    NSLog(@"%@", @"Did enter");
     if([region identifier] == @"DSV"){
         
         UILocalNotification *localNotif = [[UILocalNotification alloc] init];
@@ -195,7 +200,7 @@
         localNotif.soundName = UILocalNotificationDefaultSoundName;
         
         // Specify custom data for the notification
-        localNotif.fireDate = [NSDate date];
+        localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:20];
         // Schedule the notification
         [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
         [localNotif release];
@@ -204,26 +209,26 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
-
     
-    
-    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-
-    
-    localNotif.timeZone = [NSTimeZone defaultTimeZone];
-    
-    // Notification details
-    localNotif.alertBody = @"Update your status so students can see if you are available.";
-    // Set the action button
-    
-    
-    localNotif.soundName = UILocalNotificationDefaultSoundName;
-    
-    localNotif.fireDate = [NSDate date];
-    // Schedule the notification
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-    [localNotif release];
-    
+    NSLog(@"%@", @"Did exit");
+    if([region identifier] == @"DSV"){
+        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+        
+        
+        localNotif.timeZone = [NSTimeZone defaultTimeZone];
+        
+        // Notification details
+        localNotif.alertBody = @"Update your status so students can see if you are available.";
+        // Set the action button
+        
+        
+        localNotif.soundName = UILocalNotificationDefaultSoundName;
+        
+        localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:20];
+        // Schedule the notification
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+        [localNotif release];
+    }
     
 }
 
@@ -242,7 +247,7 @@
         [errorAlert show];
         [errorAlert release];;
     }
-    }
+}
 
 
 - (void)dealloc
