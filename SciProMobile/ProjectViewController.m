@@ -94,7 +94,6 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
     if (!conn){
-        
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle: @"Connection problems"
                                    message: @"Connection problems, try login again."
@@ -218,6 +217,7 @@
     [connection release];
     [responseData release];
     responseData = nil;
+    NSLog(@"%@", error);
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle: @"Connection problems"
                                message: @"Connections problems, try login again."
@@ -251,6 +251,7 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -368,6 +369,7 @@
                                        otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
+            
             LoginViewController *lvc = [[LoginViewController alloc] init];
             lvc.delegate = [[UIApplication sharedApplication] delegate];
             [[self tabBarController] presentModalViewController:lvc animated:NO];

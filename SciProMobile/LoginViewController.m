@@ -167,6 +167,7 @@
     [connection release];
     [responseData release];
     responseData = nil;
+
     UIAlertView *errorAlert = [[UIAlertView alloc]
                                initWithTitle: @"Connection problems"
                                message: @"Connections problems, try login again."
