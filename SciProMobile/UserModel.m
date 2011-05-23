@@ -31,6 +31,23 @@
     NSComparisonResult retVal = NSOrderedSame;
     return [self.name localizedCaseInsensitiveCompare: obj.name];
 }
+- (BOOL)isEqual:(id)other {
+    if (other == self)
+        return YES;
+    if (!other || ![other isKindOfClass:[self class]])
+        return NO;
+    return [self isEqualToWidget:other];
+}
+
+- (BOOL)isEqualToWidget:(UserModel *)aWidget {
+    if (self == aWidget)
+        return YES;
+    if (![(id)[self userId] isEqual:[aWidget userId]])
+        return NO;
+    return YES;
+}
+
+
 
 - (void)dealloc {
 	[userId release];

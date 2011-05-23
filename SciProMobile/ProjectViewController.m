@@ -37,6 +37,7 @@
 
 - (void)dealloc
 {
+    [activityIndicator release];
     [projects release];
     [super dealloc];
 }
@@ -62,9 +63,12 @@
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
 
-
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+    self.navigationItem.rightBarButtonItem = barButton;
+    [barButton release];
 }
 
 - (void)logout{
@@ -106,7 +110,9 @@
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
         [lvc release];
-    } 
+    }else{
+        [activityIndicator startAnimating];
+    }
     [self getUnreadMessageNumber];
     
 }
@@ -287,20 +293,23 @@
                 for(unsigned int i = 0; i < [projectMembers count]; i++){
                     UserModel *userModel = [[UserModel alloc] initWithId:[[projectMembers objectAtIndex:i] objectForKey:@"id"] name:[[projectMembers objectAtIndex:i] objectForKey:@"name"]];
                     [members addObject: userModel];
-                    [allUsers addObject:userModel];
+                    if(![allUsers containsObject:userModel])
+                        [allUsers addObject:userModel];
                     [userModel release];
                 }
                 for(unsigned int i = 0; i < [projectReviewers count]; i++){
                     UserModel *userModel = [[UserModel alloc] initWithId:[[projectReviewers objectAtIndex:i] objectForKey:@"id"] name:[[projectReviewers objectAtIndex:i] objectForKey:@"name"]];
                     
                     [reviewers addObject: userModel];
-                    [allUsers addObject:userModel];
+                    if(![allUsers containsObject:userModel])
+                        [allUsers addObject:userModel];
                     [userModel release];
                 }
                 for(unsigned int i = 0; i < [projectCosupervisors count]; i++){
                     UserModel *userModel = [[UserModel alloc] initWithId:[[projectCosupervisors objectAtIndex:i] objectForKey:@"id"] name:[[projectCosupervisors objectAtIndex:i] objectForKey:@"name"]];
                     [coSupervisors addObject: userModel];
-                    [allUsers addObject:userModel];
+                    if(![allUsers containsObject:userModel])
+                        [allUsers addObject:userModel];
                     [userModel release];
                 }
                 
@@ -314,14 +323,16 @@
                     for(unsigned int i = 0; i < [activeParticipants count]; i++){
                         UserModel *userModel = [[UserModel alloc] initWithId:[[activeParticipants objectAtIndex:i] objectForKey:@"id"] name:[[activeParticipants objectAtIndex:i] objectForKey:@"name"]];
                         [active addObject: userModel];
-                        [allUsers addObject:userModel];
+                        if(![allUsers containsObject:userModel])
+                            [allUsers addObject:userModel];
                         [userModel release];
                     }
                     
                     for(unsigned int i = 0; i < [opponents count]; i++){
                         UserModel *userModel = [[UserModel alloc] initWithId:[[opponents objectAtIndex:i] objectForKey:@"id"] name:[[opponents objectAtIndex:i] objectForKey:@"name"]];
                         [oppo addObject: userModel];
-                        [allUsers addObject:userModel];
+                        if(![allUsers containsObject:userModel])
+                            [allUsers addObject:userModel];
                         [userModel release];
                     }
                     
@@ -379,7 +390,7 @@
     }
     [responseString release];	
     [jsonParser release];
-    
+    [activityIndicator stopAnimating];
     
 }
 

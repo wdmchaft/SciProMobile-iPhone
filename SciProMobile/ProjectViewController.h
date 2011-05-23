@@ -15,7 +15,7 @@
     
     NSMutableData *responseData;
     NSMutableArray *projects; 
-
+    UIActivityIndicatorView *activityIndicator;
     
 }
 - (IBAction)projectButton:(id)sender;

@@ -14,6 +14,7 @@
     UITextField *statusMessageTextField;
     UISwitch *availableSwitch;
     NSMutableData *responseData;
+    UIActivityIndicatorView *activityIndicator;
 }
 @property (nonatomic, retain) IBOutlet UISwitch *availableSwitch;
 @property (nonatomic, retain) IBOutlet UITextField *statusMessageTextField;

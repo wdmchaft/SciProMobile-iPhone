@@ -27,6 +27,7 @@
 
 - (void)dealloc
 {
+    [activityIndicator release];
     [statusMessageTextField release];
     [availableSwitch release];
     [super dealloc];
@@ -54,14 +55,16 @@
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
         [lvc release];
-    }    
+    }else{
+        [activityIndicator startAnimating];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -71,6 +74,10 @@
 {
     
     [super viewDidLoad];
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+    self.navigationItem.rightBarButtonItem = barButton;
+    [barButton release];
 
     // Do any additional setup after loading the view from its nib.
 }
@@ -188,7 +195,7 @@
     }
     [responseString release];	
     [jsonParser release];
-    
+    [activityIndicator stopAnimating];
 }
 
 - (void)setStatus{      
