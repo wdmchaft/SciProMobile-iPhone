@@ -21,6 +21,7 @@
 #import "FinalSeminarModel.h"
 #import "PostDelegate.h"
 #import "SciProMobileAppDelegate.h"
+#import "AvailableChecker.h"
 
 @implementation ProjectViewController
 
@@ -62,8 +63,11 @@
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
-
+    AvailableChecker *availableChecker = [[AvailableChecker alloc]init];
+    [availableChecker available];
+    [availableChecker release];
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -91,7 +95,7 @@
 - (void)updateView{
     
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.138.65:8080/SciPro/json/project?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://80.217.187.154:8080/SciPro/json/project?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -118,7 +122,7 @@
 }
 
 - (void)getUnreadMessageNumber{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.138.65:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://80.217.187.154:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -167,7 +171,7 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.138.65:8080/SciPro/json/setstatus"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://80.217.187.154:8080/SciPro/json/setstatus"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     

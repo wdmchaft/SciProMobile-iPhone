@@ -46,26 +46,54 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 70, 44.01)];
+    
+    // create the array to hold the buttons, which then gets added to the toolbar
+    NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newMessage)];
     
     
+    // create a standard "refresh" button
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+    [buttons addObject:bi]; 
+    [bi release];
+    // create a spacer
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    [buttons addObject:bi];
+    [bi release];
+    
+    bi = [[UIBarButtonItem alloc]
+          initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(newMessage)];
+    [buttons addObject:bi];
+    [bi release];
+    
+    
+    // stick the buttons in the toolbar
+    [tools setItems:buttons animated:NO];
+    
+    [buttons release];
+    
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    
+    [tools release];
     // create a toolbar to have two buttons in the right
     if(inbox){
         
         
-        UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 133, 44.01)];
+        tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 120, 44.01)];
         
         // create the array to hold the buttons, which then gets added to the toolbar
-        NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+        buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
         
         
         
         // create a standard "refresh" button
-        UIBarButtonItem* bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
+        bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
         [buttons addObject:bi];
         [bi release];
         
@@ -89,17 +117,17 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
         [tools release];
     }else{
-        UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 133, 44.01)];
+        tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 133, 44.01)];
         
         // create the array to hold the buttons, which then gets added to the toolbar
-        NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
+        buttons = [[NSMutableArray alloc] initWithCapacity:3];
         
         // create a standard "add" button
  
          
         
         // create a standard "refresh" button
-        UIBarButtonItem* bi = [[UIBarButtonItem alloc] initWithTitle:@"Inbox" style:UIBarButtonItemStyleBordered target:self action:@selector(inboxView)];
+        bi = [[UIBarButtonItem alloc] initWithTitle:@"Inbox" style:UIBarButtonItemStyleBordered target:self action:@selector(inboxView)];
         [buttons addObject:bi];
         [bi release];
         
@@ -160,9 +188,9 @@
     
     NSMutableString *urlBasic;
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.138.65:8080/SciPro/json/message?userid="];
+        urlBasic = [NSMutableString stringWithString: @"http://80.217.187.154:8080/SciPro/json/message?userid="];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.138.65:8080/SciPro/json/message/sentmessages?userid="];
+        urlBasic = [NSMutableString stringWithString: @"http://80.217.187.154:8080/SciPro/json/message/sentmessages?userid="];
     
     NSMutableString *url = [NSMutableString stringWithString:urlBasic];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
@@ -172,6 +200,7 @@
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
     if (conn){
         responseData = [[NSMutableData data] retain];
+        [activityIndicator startAnimating];
     } else{
         
         UIAlertView *errorAlert = [[UIAlertView alloc]
@@ -192,7 +221,7 @@
 }
 
 - (void)unreadMessages{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.138.65:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://80.217.187.154:8080/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -325,7 +354,7 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.138.65:8080/SciPro/json/message/setread"]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://80.217.187.154:8080/SciPro/json/message/setread"]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -369,9 +398,9 @@
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     NSMutableString *urlBasic;
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.138.65:8080/SciPro/json/message/deleterecipient"];
+        urlBasic = [NSMutableString stringWithString: @"http://80.217.187.154:8080/SciPro/json/message/deleterecipient"];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.138.65:8080/SciPro/json/message/deleteprivatemessage"];
+        urlBasic = [NSMutableString stringWithString: @"http://80.217.187.154:8080/SciPro/json/message/deleteprivatemessage"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: urlBasic]];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
@@ -521,6 +550,7 @@
 	}
     [responseString release];
     [jsonParser release];
+    [activityIndicator stopAnimating];
     
 }
 
@@ -532,6 +562,7 @@
 }
 
 - (void)dealloc{   
+    [activityIndicator release];
     [messages release];
     [super dealloc];
 }

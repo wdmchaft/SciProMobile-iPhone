@@ -18,7 +18,7 @@
 @implementation SciProMobileAppDelegate
 
 
-@synthesize window=_window, tabBarController, locationManager;
+@synthesize window=_window, tabBarController, locationManager, available;
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -41,9 +41,10 @@
     if (localNotif) {
         NSLog(@"Recieved Notification %@",localNotif);
     }
-    locationManager = [[CLLocationManager alloc] init];
+    if (nil == locationManager)
+        locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
-    [self setupLocation];
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
     
     tabBarController = [[UITabBarController alloc] init];
@@ -92,41 +93,19 @@
     return YES;
 }
 - (void)setupLocation{
-    static NSString *identifier = @"DSV";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if ( [CLLocationManager regionMonitoringAvailable] &&
-        [CLLocationManager regionMonitoringEnabled] ){
-        
-        // If the radius is too large, registration fails automatically,
-        // so clamp the radius to the max value.
-        CLLocationDistance radius = 1000;
-        
-        if (radius > locationManager.maximumRegionMonitoringDistance)
-            radius = locationManager.maximumRegionMonitoringDistance;
-        
-        CLLocationCoordinate2D coord;
-        coord.latitude = 59.405334616707584;
-        coord.longitude = 17.94440746307373;
-        // Create the region and start monitoring it.
-        CLRegion *region = [[CLRegion alloc] initCircularRegionWithCenter:coord
-                                                                   radius:radius identifier:identifier];
+    if ( [CLLocationManager locationServicesEnabled]){
+
         if([defaults boolForKey:@"location"]){
-            [locationManager startMonitoringForRegion:region
-                                      desiredAccuracy:kCLLocationAccuracyBest];
+            [locationManager startUpdatingLocation];
         }else{
-            [locationManager stopMonitoringForRegion:region];
+            [locationManager stopUpdatingLocation];
         }
-        [region release];
     }
     
 }
 
-- (void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
-    
-    NSLog(@"%@", [error localizedDescription]);
-    NSLog(@"%@", [region identifier]);
-    
-}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     if([LoginSingleton instance].user != nil){
@@ -181,74 +160,40 @@
        didFailWithError: (NSError *)error
 {
     [manager stopUpdatingLocation];
-    NSLog(@"%@", error);
 }
-- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
-    NSLog(@"%@", @"Did enter");
-    if([region identifier] == @"DSV"){
-        
-        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        if (localNotif == nil)
-            return;
-        
-        localNotif.timeZone = [NSTimeZone defaultTimeZone];
-        
-        // Notification details
-        localNotif.alertBody = @"Update your status so students can see if you are available.";
-        // Set the action button
-        
-        localNotif.soundName = UILocalNotificationDefaultSoundName;
-        
-        // Specify custom data for the notification
-        localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:20];
-        // Schedule the notification
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-        [localNotif release];
-        
-    }    
-}
-
-- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    CLLocation* vbg = [[CLLocation alloc] initWithLatitude:59.40536 longitude:17.94448];
     
-    NSLog(@"%@", @"Did exit");
-    if([region identifier] == @"DSV"){
-        UILocalNotification *localNotif = [[UILocalNotification alloc] init];
-        
-        
-        localNotif.timeZone = [NSTimeZone defaultTimeZone];
-        
-        // Notification details
-        localNotif.alertBody = @"Update your status so students can see if you are available.";
-        // Set the action button
-        
-        
-        localNotif.soundName = UILocalNotificationDefaultSoundName;
-        
-        localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:20];
-        // Schedule the notification
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
-        [localNotif release];
-    }
-    
-}
+    CLLocationDistance distance = [newLocation distanceFromLocation:vbg]; 
 
-- (void)application:(UIApplication *)app didReceiveLocalNotification:(UILocalNotification *)notif {
-    // Handle the notificaton when the app is running
-    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if (state == UIApplicationStateActive) {
-        //the app is in the foreground, so here you do your stuff since the OS does not do it for you
-        //navigate the "aps" dictionary looking for "loc-args" and "loc-key", for example, or your personal payload)
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"At DSV"
-                                   message: notif.alertBody
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];;
+    if([manager desiredAccuracy] == kCLLocationAccuracyBest){
+        if(distance < 200 && !available){ 
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"At DSV"
+                                       message: @"At DSV update your status"
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];;
+        } else if(distance > 200 && available){
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"Not at DSV"
+                                       message: @"Not at DSV update your status"
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];;
+        }
+        [vbg release];
+        [locationManager stopUpdatingLocation];
     }
+    // else skip the event and process the next one.
 }
-
 
 - (void)dealloc
 {

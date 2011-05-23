@@ -22,8 +22,10 @@
     MessageViewController *messageViewController;
     NSMutableData *responseData;
     CLLocationManager *locationManager;
+    BOOL available;
 }
-
+- (void)setupLocation;
+@property (nonatomic, assign) BOOL available;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
 @property (nonatomic, retain) CLLocationManager *locationManager;

@@ -64,6 +64,7 @@
 		A39922AF1383BF76007A5420 /* icon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = A39922AE1383BF76007A5420 /* icon_small.png */; };
 		A3B555F81385044700ED6C20 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A3B555F71385044700ED6C20 /* 74-location.png */; };
 		A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C057AF137D655100ED48B9 /* UserListSingleton.m */; };
+		A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */; };
 		A3E4F9B6135C2B6C00667BEC /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E4F9B5135C2B6C00667BEC /* MessageModel.m */; };
 		A3E4F9B8135C576700667BEC /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B7135C576700667BEC /* 57.png */; };
 		A3E4F9BA135C577500667BEC /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B9135C577500667BEC /* 114.png */; };
@@ -173,6 +174,8 @@
 		A3B555F71385044700ED6C20 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
 		A3C057AE137D655000ED48B9 /* UserListSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListSingleton.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.h; sourceTree = "<group>"; };
 		A3C057AF137D655100ED48B9 /* UserListSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListSingleton.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.m; sourceTree = "<group>"; };
+		A3CBADF0138AEA8D00F57A36 /* AvailableChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvailableChecker.h; sourceTree = "<group>"; };
+		A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvailableChecker.m; sourceTree = "<group>"; };
 		A3E4F9B4135C2B6C00667BEC /* MessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
 		A3E4F9B5135C2B6C00667BEC /* MessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
 		A3E4F9B7135C576700667BEC /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57.png; path = ../57.png; sourceTree = "<group>"; };
@@ -303,6 +306,8 @@
 				A346E43B13815ABA00E796EE /* SFHFKeychainUtils.m */,
 				A3461DF2137D5AE80050323E /* SciProMobileAppDelegate.h */,
 				A3461DF3137D5AE80050323E /* SciProMobileAppDelegate.m */,
+				A3CBADF0138AEA8D00F57A36 /* AvailableChecker.h */,
+				A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */,
 				A3461DF4137D5AE80050323E /* SearchUserViewController.h */,
 				A3461DF5137D5AE80050323E /* SearchUserViewController.m */,
 				A3461DF6137D5AE80050323E /* SearchUserViewController.xib */,
@@ -548,6 +553,7 @@
 				A346E43C13815ABA00E796EE /* SFHFKeychainUtils.m in Sources */,
 				A346E4421381834D00E796EE /* FinalSeminarModel.m in Sources */,
 				A346E4461381920700E796EE /* FinalSeminarViewController.m in Sources */,
+				A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

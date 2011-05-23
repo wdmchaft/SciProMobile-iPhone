@@ -25,6 +25,5 @@
 @property (nonatomic, retain) NewMessageViewController *createMessageViewController;
 
 - (void)handleSearchForTerm:(NSString *)searchTerm;
-- (void)setupLocation;
 
 @end

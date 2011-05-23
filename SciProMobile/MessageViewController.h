@@ -13,6 +13,7 @@
     NSMutableData *responseData;
     NSMutableArray *messages;
     BOOL inbox;
+    UIActivityIndicatorView *activityIndicator;
 }
 @property (nonatomic, assign) BOOL inbox;
 - (void)updateView;
