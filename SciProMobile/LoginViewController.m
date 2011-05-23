@@ -113,7 +113,7 @@
     NSInteger length = strlen(reqString);
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://localhost:8080/SciPro/json/login"]]; 
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://130.229.138.65:8080/SciPro/json/login"]]; 
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -133,8 +133,8 @@
 }
 
 - (IBAction)buttonPressed:(id)sender {
-    //responseData = [[NSMutableData data] retain];
-    //[self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
+//    responseData = [[NSMutableData data] retain];
+//    [self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     if([defaults boolForKey:@"password"]){
@@ -143,13 +143,12 @@
         [SFHFKeychainUtils storeUsername:usernameTextField.text andPassword:passwordTextField.text forServiceName:@"SciproMobile" updateExisting:YES error:nil];
     }
     //Teskod
-    UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 12] name:@"Danny Brash"];
+   UserModel *userModel = [[UserModel alloc] initWithId:[NSNumber numberWithInt: 30] name:@"Henrik Hansson"];
     [LoginSingleton instance].apikey = @"pelle";
-    [LoginSingleton instance].user = userModel;
-    [userModel release];
-    
-    [delegate loginViewControllerDidFinish:self];
-    
+   [LoginSingleton instance].user = userModel;
+   [userModel release];    
+   [delegate loginViewControllerDidFinish:self];
+//    
     
     
 }
