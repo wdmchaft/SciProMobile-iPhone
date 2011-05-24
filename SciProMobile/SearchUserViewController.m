@@ -156,8 +156,7 @@
     return cell;
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller 
-shouldReloadTableForSearchString:(NSString *)searchString{
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString{
     
     [self handleSearchForTerm:searchString];
     return YES;

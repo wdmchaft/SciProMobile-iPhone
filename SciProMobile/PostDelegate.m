@@ -33,7 +33,6 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[NSString stringWithFormat:@"Connection failed: %@", [error description]];
     [connection release];
     [responseData release];
     UIAlertView *errorAlert = [[UIAlertView alloc]

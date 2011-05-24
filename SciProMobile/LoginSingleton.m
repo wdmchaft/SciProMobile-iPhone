@@ -13,7 +13,8 @@
 @synthesize apikey;
 @synthesize user, iphoneId;
 static LoginSingleton *gInstance = NULL;
-
+static NSString* address = @"http://130.229.141.110:8080";
+ 
 + (LoginSingleton *)instance
 {
     @synchronized(self)
@@ -29,6 +30,10 @@ static LoginSingleton *gInstance = NULL;
 	[apikey release];
 	[user release];
 	[super dealloc];
+}
+
++ (NSString*)getAddress{
+    return address;
 }
 
 @end

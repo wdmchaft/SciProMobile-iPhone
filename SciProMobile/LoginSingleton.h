@@ -25,5 +25,5 @@
 
 
 + (LoginSingleton *)instance;
-
++ (NSString*)getAddress;
 @end

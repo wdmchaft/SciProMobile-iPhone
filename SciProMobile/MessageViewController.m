@@ -185,18 +185,19 @@
     if(!messages)
         messages = [[NSMutableArray alloc]init];
     
-    
-    NSMutableString *urlBasic;
+    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
+
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.141.110:8080/SciPro/json/message?userid="];
+        [url appendString: @"/SciPro/json/message?userid="];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.141.110:8080/SciPro/json/message/sentmessages?userid="];
+        [url appendString: @"/SciPro/json/message/sentmessages?userid="];
     
-    NSMutableString *url = [NSMutableString stringWithString:urlBasic];
+ 
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
 	NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [url release];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
     if (conn){
         responseData = [[NSMutableData data] retain];
@@ -224,12 +225,13 @@
 }
 
 - (void)unreadMessages{
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.141.110:8080/SciPro/json/message/unread?userid="];
+    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
+    [url appendString:@"/SciPro/json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
+    [url release];
     UnreadMessageDelegate *unreadDelegate = [[UnreadMessageDelegate alloc]init];
     unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController ].viewControllers objectAtIndex:1] tabBarItem];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];  
@@ -360,7 +362,11 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: @"http://130.229.141.110:8080/SciPro/json/message/setread"]];
+    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
+    [url appendString:@"/SciPro/json/message/setread"];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
+    [url release];
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
@@ -405,12 +411,16 @@
     
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableString *urlBasic;
+    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
+
+
     if (inbox) {
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.141.110:8080/SciPro/json/message/deleterecipient"];
+        [url appendString: @"/SciPro/json/message/deleterecipient"];
     }else
-        urlBasic = [NSMutableString stringWithString: @"http://130.229.141.110:8080/SciPro/json/message/deleteprivatemessage"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: urlBasic]];
+        [url appendString: @"/SciPro/json/message/deleteprivatemessage"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
+    [url release];
+    
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
