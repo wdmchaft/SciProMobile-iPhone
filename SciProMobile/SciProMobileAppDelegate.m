@@ -178,38 +178,47 @@
     CLLocationDistance distance = [newLocation distanceFromLocation:vbg]; 
     if([manager desiredAccuracy] == kCLLocationAccuracyBest){
         if(distance <= 200 && !available && !done){ 
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"At DSV"
-                                       message: @"At DSV update your status"
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            done = YES;
+            if(!atDSV){
+                UIAlertView *errorAlert = [[UIAlertView alloc]
+                                           initWithTitle: @"At DSV"
+                                           message: @"At DSV update your status"
+                                           delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+                [errorAlert show];
+                [errorAlert release];
+                done = YES;
+                atDSV = YES;
+                notAtDSV = NO;
+            }
         } else if(distance > 200 && available && !done){
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Not at DSV"
-                                       message: @"Not at DSV update your status"
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            done = YES;
+            
+            if(!notAtDSV){
+                UIAlertView *errorAlert = [[UIAlertView alloc]
+                                           initWithTitle: @"Not at DSV"
+                                           message: @"Not at DSV update your status"
+                                           delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+                [errorAlert show];
+                [errorAlert release];
+                done = YES;
+                notAtDSV = YES;
+                atDSV = NO;
+            }
         }
-        [locationManager stopUpdatingLocation];
-    }
-    [vbg release];
-    // else skip the event and process the next one.
-}
-
-- (void)dealloc
-{
-    [locationManager release];
-    [tabBarController release];
-    [_window release];
-    [super dealloc];
-}
-
-@end
+                  [locationManager stopUpdatingLocation];
+                  }
+                  [vbg release];
+                  // else skip the event and process the next one.
+                  }
+                  
+                  - (void)dealloc
+        {
+            [locationManager release];
+            [tabBarController release];
+            [_window release];
+            [super dealloc];
+        }
+                  
+                  @end

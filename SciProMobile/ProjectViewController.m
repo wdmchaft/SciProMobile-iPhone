@@ -64,10 +64,6 @@
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
     
-    AvailableChecker *availableChecker = [[AvailableChecker alloc]init];
-    [availableChecker available];
-    [availableChecker release];
-    
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;

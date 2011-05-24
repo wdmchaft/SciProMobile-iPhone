@@ -24,6 +24,8 @@
     CLLocationManager *locationManager;
     BOOL available;
     BOOL done;
+    BOOL atDSV;
+    BOOL notAtDSV;
 }
 - (void)setupLocation;
 @property (nonatomic, assign) BOOL available;
