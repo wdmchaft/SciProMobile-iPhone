@@ -14,6 +14,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "LoginSingleton.h"
 #import "UnreadMessageDelegate.h"
+#import "AvailableChecker.h"
 
 @implementation SciProMobileAppDelegate
 
@@ -96,7 +97,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     done = NO;
     if ( [CLLocationManager locationServicesEnabled]){
-
+        
         if([defaults boolForKey:@"location"]){
             [locationManager startUpdatingLocation];
         }else{
@@ -143,7 +144,15 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;  
+    if([LoginSingleton instance].user != nil){
+        AvailableChecker *availableChecker = [[AvailableChecker alloc]init];
+        [availableChecker available];
+        [availableChecker release];
+    } else{
+        projectViewController.availCheck = YES;
+    }
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -167,10 +176,8 @@
     CLLocation* vbg = [[CLLocation alloc] initWithLatitude:59.40536 longitude:17.94448];
     
     CLLocationDistance distance = [newLocation distanceFromLocation:vbg]; 
-    NSLog(@"%f", newLocation.coordinate.latitude);
-    NSLog(@"%f", newLocation.coordinate.longitude);
     if([manager desiredAccuracy] == kCLLocationAccuracyBest){
-        if(distance < 200 && !available && !done){ 
+        if(distance <= 200 && !available && !done){ 
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"At DSV"
                                        message: @"At DSV update your status"

@@ -16,8 +16,10 @@
     NSMutableData *responseData;
     NSMutableArray *projects; 
     UIActivityIndicatorView *activityIndicator;
+    BOOL availCheck;
     
 }
+@property (nonatomic, assign) BOOL availCheck;
 - (IBAction)projectButton:(id)sender;
 - (BOOL)registerRegionWithIdentifier:(NSString*)identifier;
 - (void)updateView;

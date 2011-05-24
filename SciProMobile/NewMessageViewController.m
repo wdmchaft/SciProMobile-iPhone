@@ -130,6 +130,9 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        [LoginSingleton instance].user = nil;
+        [LoginSingleton instance].iphoneId = nil;
+        [LoginSingleton instance].apikey = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];

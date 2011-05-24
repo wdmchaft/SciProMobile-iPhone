@@ -23,9 +23,9 @@
 #import "SciProMobileAppDelegate.h"
 #import "AvailableChecker.h"
 
+
 @implementation ProjectViewController
-
-
+@synthesize availCheck;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,11 +63,12 @@
     // This is the most important property to set for the manager. It ultimately determines how the manager will
     // attempt to acquire location and thus, the amount of power that will be consumed.
     // Once configured, the location manager must be "started".
+    
     AvailableChecker *availableChecker = [[AvailableChecker alloc]init];
     [availableChecker available];
     [availableChecker release];
-    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
+    activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -76,6 +77,9 @@
 }
 
 - (void)logout{
+    [LoginSingleton instance].user = nil;
+    [LoginSingleton instance].iphoneId = nil;
+    [LoginSingleton instance].apikey = nil;
     LoginViewController *lvc = [[LoginViewController alloc] init];
     lvc.delegate = [[UIApplication sharedApplication] delegate];
     [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -87,8 +91,13 @@
     if(!projects){
         projects = [[NSMutableArray alloc]init];
     }
-
     
+    if(availCheck){
+        AvailableChecker *availableChecker = [[AvailableChecker alloc]init];
+        [availableChecker available];
+        [availableChecker release];
+        availCheck = NO;
+    }
     [self updateView];
     
 }
@@ -110,6 +119,9 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        [LoginSingleton instance].user = nil;
+        [LoginSingleton instance].iphoneId = nil;
+        [LoginSingleton instance].apikey = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -142,6 +154,9 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        [LoginSingleton instance].user = nil;
+        [LoginSingleton instance].iphoneId = nil;
+        [LoginSingleton instance].apikey = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -189,6 +204,9 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
+        [LoginSingleton instance].user = nil;
+        [LoginSingleton instance].iphoneId = nil;
+        [LoginSingleton instance].apikey = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -236,6 +254,9 @@
                                otherButtonTitles:nil];
     [errorAlert show];
     [errorAlert release];
+    [LoginSingleton instance].user = nil;
+    [LoginSingleton instance].iphoneId = nil;
+    [LoginSingleton instance].apikey = nil;
     LoginViewController *lvc = [[LoginViewController alloc] init];
     lvc.delegate = [[UIApplication sharedApplication] delegate];
     [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -261,7 +282,9 @@
                                    otherButtonTitles:nil];
         [errorAlert show];
         [errorAlert release];
-        
+        [LoginSingleton instance].user = nil;
+        [LoginSingleton instance].iphoneId = nil;
+        [LoginSingleton instance].apikey = nil;
         LoginViewController *lvc = [[LoginViewController alloc] init];
         lvc.delegate = [[UIApplication sharedApplication] delegate];
         [[self tabBarController] presentModalViewController:lvc animated:NO];
@@ -385,7 +408,9 @@
                                        otherButtonTitles:nil];
             [errorAlert show];
             [errorAlert release];
-            
+            [LoginSingleton instance].user = nil;
+            [LoginSingleton instance].iphoneId = nil;
+            [LoginSingleton instance].apikey = nil;
             LoginViewController *lvc = [[LoginViewController alloc] init];
             lvc.delegate = [[UIApplication sharedApplication] delegate];
             [[self tabBarController] presentModalViewController:lvc animated:NO];
