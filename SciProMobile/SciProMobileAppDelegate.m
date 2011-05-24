@@ -94,6 +94,7 @@
 }
 - (void)setupLocation{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    done = NO;
     if ( [CLLocationManager locationServicesEnabled]){
 
         if([defaults boolForKey:@"location"]){
@@ -142,9 +143,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{
     
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    [self setupLocation];
-    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -168,9 +167,10 @@
     CLLocation* vbg = [[CLLocation alloc] initWithLatitude:59.40536 longitude:17.94448];
     
     CLLocationDistance distance = [newLocation distanceFromLocation:vbg]; 
-
+    NSLog(@"%f", newLocation.coordinate.latitude);
+    NSLog(@"%f", newLocation.coordinate.longitude);
     if([manager desiredAccuracy] == kCLLocationAccuracyBest){
-        if(distance < 200 && !available){ 
+        if(distance < 200 && !available && !done){ 
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"At DSV"
                                        message: @"At DSV update your status"
@@ -178,8 +178,9 @@
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
             [errorAlert show];
-            [errorAlert release];;
-        } else if(distance > 200 && available){
+            [errorAlert release];
+            done = YES;
+        } else if(distance > 200 && available && !done){
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Not at DSV"
                                        message: @"Not at DSV update your status"
@@ -187,11 +188,12 @@
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
             [errorAlert show];
-            [errorAlert release];;
+            [errorAlert release];
+            done = YES;
         }
-        [vbg release];
         [locationManager stopUpdatingLocation];
     }
+    [vbg release];
     // else skip the event and process the next one.
 }
 

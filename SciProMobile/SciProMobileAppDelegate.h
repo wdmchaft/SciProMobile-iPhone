@@ -23,6 +23,7 @@
     NSMutableData *responseData;
     CLLocationManager *locationManager;
     BOOL available;
+    BOOL done;
 }
 - (void)setupLocation;
 @property (nonatomic, assign) BOOL available;

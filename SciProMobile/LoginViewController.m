@@ -113,7 +113,7 @@
     NSInteger length = strlen(reqString);
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://80.217.187.154:8080/SciPro/json/login"]]; 
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"http://130.229.141.110:8080/SciPro/json/login"]]; 
     [request setHTTPMethod: @"POST"];
     [request setHTTPBody: requestData];
     
