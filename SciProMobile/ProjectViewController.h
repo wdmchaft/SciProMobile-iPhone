@@ -24,6 +24,6 @@
 - (BOOL)registerRegionWithIdentifier:(NSString*)identifier;
 - (void)updateView;
 - (void)getUnreadMessageNumber;
-- (void)setStatus: (BOOL) statusBool;
+
 
 @end

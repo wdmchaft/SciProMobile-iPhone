@@ -174,50 +174,6 @@
     return YES;
 }
 
-- (void)setStatus: (BOOL) statusBool{      
-    NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
-    [jsonObject setObject:[LoginSingleton instance].user.userId forKey:@"userid"];
-    [jsonObject setObject:[LoginSingleton instance].apikey forKey:@"apikey"];
-    [jsonObject setObject:[NSNumber numberWithBool: statusBool] forKey:@"available"];
-    [jsonObject setObject:@"Automatically registered." forKey:@"status"];
-    NSString* jsonString = jsonObject.JSONRepresentation;
-    NSString *requestString = [NSString stringWithFormat:@"json=%@", jsonString, nil];
-    
-    const char* reqString = [requestString UTF8String];
-    NSInteger length = strlen(reqString);
-    
-    
-    NSData *requestData = [NSData dataWithBytes: reqString length: length];
-    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@"/SciPro/json/setstatus"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
-    [url release];
-    [request setHTTPMethod: @"POST"];
-    [request setHTTPBody: requestData];
-    
-    PostDelegate *postDelegate= [[PostDelegate alloc]init];
-    NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
-    [postDelegate release];
-    
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
-    }      
-}
 
 
 - (void)viewDidUnload
