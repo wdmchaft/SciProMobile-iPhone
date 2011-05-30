@@ -51,10 +51,6 @@
     // create the array to hold the buttons, which then gets added to the toolbar
     NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
-    
-    
-    
-    // create a standard "refresh" button
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
     [buttons addObject:bi]; 
@@ -80,7 +76,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
     
     [tools release];
-    // create a toolbar to have two buttons in the right
+
     if(inbox){
         
         
@@ -89,10 +85,7 @@
         // create the array to hold the buttons, which then gets added to the toolbar
         buttons = [[NSMutableArray alloc] initWithCapacity:3];
     
-        
-        
-        
-        // create a standard "refresh" button
+
         bi = [[UIBarButtonItem alloc] initWithTitle:@"Sent" style:UIBarButtonItemStyleBordered target:self action:@selector(sent)];
         [buttons addObject:bi];
         [bi release];
@@ -122,11 +115,7 @@
         // create the array to hold the buttons, which then gets added to the toolbar
         buttons = [[NSMutableArray alloc] initWithCapacity:3];
         
-        // create a standard "add" button
- 
-         
-        
-        // create a standard "refresh" button
+
         bi = [[UIBarButtonItem alloc] initWithTitle:@"Inbox" style:UIBarButtonItemStyleBordered target:self action:@selector(inboxView)];
         [buttons addObject:bi];
         [bi release];
@@ -462,7 +451,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // If row is deleted, remove it from the list. 
+    // If row is deleted, remove it from server. 
     if (editingStyle == UITableViewCellEditingStyleDelete  && (indexPath.section == 0)) {
         MessageModel *messageModel = [messages objectAtIndex:indexPath.row];
         
@@ -523,9 +512,7 @@
                 NSString *message = [[messArray objectAtIndex:i] objectForKey:@"message"];
                 NSString *subject = [[messArray objectAtIndex:i] objectForKey:@"subject"];
                 NSString *date = [[messArray objectAtIndex:i] objectForKey:@"date"];
-                NSNumber *messId = [[messArray objectAtIndex:i] objectForKey:@"id"];
-                
-                
+                NSNumber *messId = [[messArray objectAtIndex:i] objectForKey:@"id"];   
                 
                 if(inbox){
                     NSNumber *read = [[messArray objectAtIndex:i] objectForKey:@"read"];

@@ -264,6 +264,8 @@
         
         if(indexPath.section == 0){
             array = [[NSMutableArray alloc] init];
+            
+            // Persons to send message to
             [array addObjectsFromArray:projectModel.projectMembers];
 //            [array addObjectsFromArray:projectModel.reviewers];
 //            [array addObjectsFromArray:projectModel.coSupervisors];

@@ -59,11 +59,6 @@
     
     // Do any additional setup after loading the view from its nib.
     
-    
-    // This is the most important property to set for the manager. It ultimately determines how the manager will
-    // attempt to acquire location and thus, the amount of power that will be consumed.
-    // Once configured, the location manager must be "started".
-    
     activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     UIBarButtonItem *bi = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStyleBordered target:self action:@selector(logout)];
     self.navigationItem.leftBarButtonItem = bi;
