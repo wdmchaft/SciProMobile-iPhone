@@ -35,7 +35,7 @@
 
 - (void)updateView{
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.141.110:8080/SciPro/json/status?userid="];
+    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.141.110:8080 json/status?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -232,7 +232,7 @@
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@"/SciPro/json/setstatus"];
+    [url appendString:@" json/setstatus"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
     [url release];
     [request setHTTPMethod: @"POST"];

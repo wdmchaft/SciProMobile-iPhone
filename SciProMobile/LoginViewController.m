@@ -114,7 +114,7 @@
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@"/SciPro/json/login"];
+    [url appendString:@" json/login"];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]]; 
     [url release];
