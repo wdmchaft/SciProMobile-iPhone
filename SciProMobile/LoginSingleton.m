@@ -13,7 +13,7 @@
 @synthesize apikey;
 @synthesize user, iphoneId;
 static LoginSingleton *gInstance = NULL;
-static NSString* address = @"http://130.229.141.110:8080";
+static NSString* address = @"http://130.229.152.93:8080";
  
 + (LoginSingleton *)instance
 {
