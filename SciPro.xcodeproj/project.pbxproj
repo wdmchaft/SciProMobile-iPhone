@@ -62,6 +62,8 @@
 		A39520EC135CC77800269689 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A39520EB135CC77800269689 /* Settings.bundle */; };
 		A39922AD1383BF71007A5420 /* icon_retina.png in Resources */ = {isa = PBXBuildFile; fileRef = A39922AC1383BF71007A5420 /* icon_retina.png */; };
 		A39922AF1383BF76007A5420 /* icon_small.png in Resources */ = {isa = PBXBuildFile; fileRef = A39922AE1383BF76007A5420 /* icon_small.png */; };
+		A3B468C5139E694300436563 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B468C4139E694300436563 /* SystemConfiguration.framework */; };
+		A3B468C8139E69C200436563 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B468C7139E69C200436563 /* Reachability.m */; };
 		A3B555F81385044700ED6C20 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A3B555F71385044700ED6C20 /* 74-location.png */; };
 		A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C057AF137D655100ED48B9 /* UserListSingleton.m */; };
 		A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */; };
@@ -171,6 +173,9 @@
 		A39520EB135CC77800269689 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A39922AC1383BF71007A5420 /* icon_retina.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_retina.png; sourceTree = "<group>"; };
 		A39922AE1383BF76007A5420 /* icon_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_small.png; sourceTree = "<group>"; };
+		A3B468C4139E694300436563 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A3B468C6139E69C200436563 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		A3B468C7139E69C200436563 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A3B555F71385044700ED6C20 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
 		A3C057AE137D655000ED48B9 /* UserListSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListSingleton.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.h; sourceTree = "<group>"; };
 		A3C057AF137D655100ED48B9 /* UserListSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListSingleton.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.m; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3B468C5139E694300436563 /* SystemConfiguration.framework in Frameworks */,
 				A346E43F138160D800E796EE /* Security.framework in Frameworks */,
 				A3F50C31137F1098004335EB /* QuartzCore.framework in Frameworks */,
 				A318ACC5136ED169002E2C9D /* Foundation.framework in Frameworks */,
@@ -249,6 +255,7 @@
 		A36BCEA913436C5F00090AE7 = {
 			isa = PBXGroup;
 			children = (
+				A3B468C4139E694300436563 /* SystemConfiguration.framework */,
 				A39922AE1383BF76007A5420 /* icon_small.png */,
 				A39922AC1383BF71007A5420 /* icon_retina.png */,
 				A346E43E138160D800E796EE /* Security.framework */,
@@ -276,11 +283,13 @@
 		A36BCEBE13436C6000090AE7 /* SciProMobile */ = {
 			isa = PBXGroup;
 			children = (
+				A3B468C6139E69C200436563 /* Reachability.h */,
+				A3B468C7139E69C200436563 /* Reachability.m */,
 				A3461DDE137D5AE80050323E /* LoginSingleton.h */,
+				A3461DDF137D5AE80050323E /* LoginSingleton.m */,
 				A3461DE6137D5AE80050323E /* MessageViewController.h */,
 				A3461DE7137D5AE80050323E /* MessageViewController.m */,
 				A3461DE8137D5AE80050323E /* MessageViewController.xib */,
-				A3461DDF137D5AE80050323E /* LoginSingleton.m */,
 				A3C057AE137D655000ED48B9 /* UserListSingleton.h */,
 				A3C057AF137D655100ED48B9 /* UserListSingleton.m */,
 				A3F50C3F137F1A40004335EB /* TDBadgedCell.h */,
@@ -554,6 +563,7 @@
 				A346E4421381834D00E796EE /* FinalSeminarModel.m in Sources */,
 				A346E4461381920700E796EE /* FinalSeminarViewController.m in Sources */,
 				A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */,
+				A3B468C8139E69C200436563 /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
