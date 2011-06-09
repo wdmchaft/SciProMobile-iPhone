@@ -26,6 +26,8 @@
     NSString *deviceTokenString = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
     [LoginSingleton instance].iphoneId = deviceTokenString;
+    NSLog(@"%@", deviceTokenString);
+          
 } 
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

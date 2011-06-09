@@ -93,10 +93,10 @@
     
 }
 - (void)updateView{
-    
+   
     responseData = [[NSMutableData data] retain];
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@" json/project?userid="];
+    [url appendString:@"json/project?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -130,7 +130,7 @@
 
 - (void)getUnreadMessageNumber{
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@" json/message/unread?userid="];
+    [url appendString:@"json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];

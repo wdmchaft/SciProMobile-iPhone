@@ -17,11 +17,13 @@
 
 - (void)available{
     responseData = [[NSMutableData data] retain];
-    NSMutableString *url = [NSMutableString stringWithString:@"http://130.229.141.110:8080 json/status?userid="];
+    NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
+    [url appendString:@"json/status?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [url release];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:self];  
     if (!conn){
         

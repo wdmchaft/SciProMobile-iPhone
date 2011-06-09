@@ -177,9 +177,9 @@
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
 
     if (inbox) {
-        [url appendString: @" json/message?userid="];
+        [url appendString: @"json/message?userid="];
     }else
-        [url appendString: @" json/message/sentmessages?userid="];
+        [url appendString: @"json/message/sentmessages?userid="];
     
  
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
@@ -215,7 +215,7 @@
 
 - (void)unreadMessages{
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@" json/message/unread?userid="];
+    [url appendString:@"json/message/unread?userid="];
     [url appendString:[[LoginSingleton instance].user.userId stringValue]];
 	[url appendString:@"&apikey="];
     [url appendString:[LoginSingleton instance].apikey];
@@ -352,7 +352,7 @@
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@" json/message/setread"];
+    [url appendString:@"json/message/setread"];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
     [url release];
@@ -404,9 +404,9 @@
 
 
     if (inbox) {
-        [url appendString: @" json/message/deleterecipient"];
+        [url appendString: @"json/message/deleterecipient"];
     }else
-        [url appendString: @" json/message/deleteprivatemessage"];
+        [url appendString: @"json/message/deleteprivatemessage"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString: url]];
     [url release];
     

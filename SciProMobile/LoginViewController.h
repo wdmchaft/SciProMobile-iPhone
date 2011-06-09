@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+@class Reachability;
 
 @interface LoginViewController : UIViewController<UITextFieldDelegate> {
     id delegate;
@@ -16,9 +16,15 @@
     UITextField *passwordTextField;
     UILabel *label;
     NSMutableData *responseData;
+    Reachability* internetReachable;
+    Reachability* hostReachable;
+    BOOL internetActive;
+    BOOL hostActive;
 }
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) BOOL internetActive;
+@property (nonatomic, assign) BOOL hostActive;
 
 @property (nonatomic, retain) IBOutlet UITextField *usernameTextField;
 
@@ -27,5 +33,6 @@
 
 - (IBAction)buttonPressed:(id)sender;
 - (void)loginWithUserName:(NSString*) userName password:(NSString*) password;
+- (void) checkNetworkStatus:(NSNotification *)notice;
 
 @end

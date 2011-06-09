@@ -10,11 +10,12 @@
 #import "JSON.h"
 #import "LoginSingleton.h"
 #import "SFHFKeychainUtils.h"
+#import "Reachability.h"
 
 @implementation LoginViewController
 @synthesize usernameTextField;
 @synthesize passwordTextField;
-@synthesize label;
+@synthesize label, internetActive, hostActive;
 @synthesize delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -28,6 +29,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [usernameTextField release];
     [passwordTextField release];
     [label release];
@@ -43,6 +45,22 @@
 }
 
 #pragma mark - View lifecycle
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // check for internet connection
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+    
+    internetReachable = [[Reachability reachabilityForInternetConnection] retain];
+    [internetReachable startNotifier];
+    
+    // check if a pathway to a random host exists
+    hostReachable = [[Reachability reachabilityWithHostName: @"thesis.dsv.su.se"] retain];
+    [hostReachable startNotifier];
+    
+    // now patiently wait for the notification
+    
+}
 
 - (void)viewDidLoad
 {
@@ -79,6 +97,8 @@
     // e.g. self.myOutlet = nil;
 }
 
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -114,7 +134,7 @@
     
     NSData *requestData = [NSData dataWithBytes: reqString length: length];
     NSMutableString *url = [[NSMutableString alloc] initWithString:[LoginSingleton getAddress]];
-    [url appendString:@" json/login"];
+    [url appendString:@"json/login"];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]]; 
     [url release];
@@ -227,6 +247,86 @@
     }
     [responseString release];	
     [jsonParser release];   
+}
+
+- (void) checkNetworkStatus:(NSNotification *)notice
+{
+    // called after network status changes
+    
+    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
+    switch (internetStatus)
+    
+    {
+        case NotReachable:
+        {
+            NSLog(@"The internet is down.");
+            self.internetActive = NO;
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"Connection problems"
+                                       message: @"Internet down."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];
+            break;
+            
+        }
+        case ReachableViaWiFi:
+        {
+            NSLog(@"The internet is working via WIFI.");
+            self.internetActive = YES;
+            
+            break;
+            
+        }
+        case ReachableViaWWAN:
+        {
+            NSLog(@"The internet is working via WWAN.");
+            self.internetActive = YES;
+            
+            break;
+            
+        }
+    }
+    
+    NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
+    switch (hostStatus)
+    
+    {
+        case NotReachable:
+        {
+            NSLog(@"A gateway to the host server is down.");
+            self.hostActive = NO;
+            UIAlertView *errorAlert = [[UIAlertView alloc]
+                                       initWithTitle: @"Connection problems"
+                                       message: @"No connection to the host."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+            [errorAlert show];
+            [errorAlert release];
+            
+            break;
+            
+        }
+        case ReachableViaWiFi:
+        {
+            NSLog(@"A gateway to the host server is working via WIFI.");
+            self.hostActive = YES;
+            
+            break;
+            
+        }
+        case ReachableViaWWAN:
+        {
+            NSLog(@"A gateway to the host server is working via WWAN.");
+            self.hostActive = YES;
+            
+            break;
+            
+        }
+    }
 }
 
 @end
