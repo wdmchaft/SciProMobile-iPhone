@@ -40,7 +40,6 @@
 
 - (NSComparisonResult) sortByName:(UserModel *)obj
 {
-    NSComparisonResult retVal = NSOrderedSame;
     return [self.name localizedCaseInsensitiveCompare: obj.name];
 }
 - (BOOL)isEqual:(id)other {

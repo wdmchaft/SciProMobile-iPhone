@@ -35,4 +35,5 @@
 
 - (id)initWithId:(NSNumber *)userId name:(NSString *)name ;
 - (NSComparisonResult) sortByName:(UserModel *)obj;
+- (BOOL)isEqualToWidget:(UserModel *)aWidget;
 @end
