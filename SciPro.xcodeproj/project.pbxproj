@@ -65,6 +65,7 @@
 		A3B468C5139E694300436563 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B468C4139E694300436563 /* SystemConfiguration.framework */; };
 		A3B468C8139E69C200436563 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B468C7139E69C200436563 /* Reachability.m */; };
 		A3B555F81385044700ED6C20 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A3B555F71385044700ED6C20 /* 74-location.png */; };
+		A3BDE74F13A412BA00B9E6C9 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = A3BDE74E13A412BA00B9E6C9 /* License.txt */; };
 		A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C057AF137D655100ED48B9 /* UserListSingleton.m */; };
 		A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */; };
 		A3E4F9B6135C2B6C00667BEC /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E4F9B5135C2B6C00667BEC /* MessageModel.m */; };
@@ -176,6 +177,7 @@
 		A3B468C6139E69C200436563 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		A3B468C7139E69C200436563 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A3B555F71385044700ED6C20 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
+		A3BDE74E13A412BA00B9E6C9 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
 		A3C057AE137D655000ED48B9 /* UserListSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListSingleton.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.h; sourceTree = "<group>"; };
 		A3C057AF137D655100ED48B9 /* UserListSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListSingleton.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.m; sourceTree = "<group>"; };
 		A3CBADF0138AEA8D00F57A36 /* AvailableChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvailableChecker.h; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				A3B468C4139E694300436563 /* SystemConfiguration.framework */,
 				A39922AE1383BF76007A5420 /* icon_small.png */,
 				A39922AC1383BF71007A5420 /* icon_retina.png */,
+				A3BDE74E13A412BA00B9E6C9 /* License.txt */,
 				A346E43E138160D800E796EE /* Security.framework */,
 				A3F50C30137F1098004335EB /* QuartzCore.framework */,
 				A36BCEBE13436C6000090AE7 /* SciProMobile */,
@@ -492,6 +495,7 @@
 				A3B555F81385044700ED6C20 /* 74-location.png in Resources */,
 				A35384A713850BF2002A5790 /* blue_ball_12.png in Resources */,
 				A361647313859869005C2839 /* yellow_ball_small.png in Resources */,
+				A3BDE74F13A412BA00B9E6C9 /* License.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

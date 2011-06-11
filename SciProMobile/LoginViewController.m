@@ -2,9 +2,21 @@
 //  LoginViewController.m
 //  SciProMobile
 //
-//  Created by Johan Aschan on 2011-04-07.
-//  Copyright 2011 Stockholms universitet. All rights reserved.
-//
+/*
+ * Copyright (c) 2011 Johan Aschan.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #import "LoginViewController.h"
 #import "JSON.h"
@@ -157,6 +169,7 @@
 }
 
 - (IBAction)buttonPressed:(id)sender {
+    // Produktionskod
 //    responseData = [[NSMutableData data] retain];
 //    [self loginWithUserName: usernameTextField.text password: passwordTextField.text]; 
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -259,7 +272,6 @@
     {
         case NotReachable:
         {
-            NSLog(@"The internet is down.");
             self.internetActive = NO;
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Connection problems"
@@ -274,17 +286,12 @@
         }
         case ReachableViaWiFi:
         {
-            NSLog(@"The internet is working via WIFI.");
             self.internetActive = YES;
-            
             break;
-            
         }
         case ReachableViaWWAN:
         {
-            NSLog(@"The internet is working via WWAN.");
             self.internetActive = YES;
-            
             break;
             
         }
@@ -296,7 +303,6 @@
     {
         case NotReachable:
         {
-            NSLog(@"A gateway to the host server is down.");
             self.hostActive = NO;
             UIAlertView *errorAlert = [[UIAlertView alloc]
                                        initWithTitle: @"Connection problems"
@@ -312,7 +318,6 @@
         }
         case ReachableViaWiFi:
         {
-            NSLog(@"A gateway to the host server is working via WIFI.");
             self.hostActive = YES;
             
             break;
@@ -320,9 +325,7 @@
         }
         case ReachableViaWWAN:
         {
-            NSLog(@"A gateway to the host server is working via WWAN.");
             self.hostActive = YES;
-            
             break;
             
         }
