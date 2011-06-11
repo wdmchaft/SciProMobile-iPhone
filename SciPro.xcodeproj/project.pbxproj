@@ -72,7 +72,6 @@
 		A3E4F9BA135C577500667BEC /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B9135C577500667BEC /* 114.png */; };
 		A3F23CB61380966B00B2C9C1 /* PostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F23CB51380966800B2C9C1 /* PostDelegate.m */; };
 		A3F50C31137F1098004335EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F50C30137F1098004335EB /* QuartzCore.framework */; };
-		A3F50C41137F1A4B004335EB /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F50C40137F1A4A004335EB /* TDBadgedCell.m */; };
 		A3F50C45137F3889004335EB /* NewMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F50C44137F3888004335EB /* NewMessageViewController.xib */; };
 /* End PBXBuildFile section */
 
@@ -189,8 +188,6 @@
 		A3F23CB51380966800B2C9C1 /* PostDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostDelegate.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/PostDelegate.m; sourceTree = "<group>"; };
 		A3F23CB81380A77A00B2C9C1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/LoginViewController.h; sourceTree = "<group>"; };
 		A3F50C30137F1098004335EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		A3F50C3F137F1A40004335EB /* TDBadgedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TDBadgedCell.h; path = "../../../../Downloads/tmdvs-TDBadgedCell-e85eaa1/TDBadgedCell (xcode project)/TDBadgedCell.h"; sourceTree = "<group>"; };
-		A3F50C40137F1A4A004335EB /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TDBadgedCell.m; path = "../../../../Downloads/tmdvs-TDBadgedCell-e85eaa1/TDBadgedCell (xcode project)/TDBadgedCell.m"; sourceTree = "<group>"; };
 		A3F50C44137F3888004335EB /* NewMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewMessageViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -292,8 +289,6 @@
 				A3461DE8137D5AE80050323E /* MessageViewController.xib */,
 				A3C057AE137D655000ED48B9 /* UserListSingleton.h */,
 				A3C057AF137D655100ED48B9 /* UserListSingleton.m */,
-				A3F50C3F137F1A40004335EB /* TDBadgedCell.h */,
-				A3F50C40137F1A4A004335EB /* TDBadgedCell.m */,
 				A3F23CB81380A77A00B2C9C1 /* LoginViewController.h */,
 				A3461DE1137D5AE80050323E /* LoginViewController.m */,
 				A3461DE2137D5AE80050323E /* LoginViewController.xib */,
@@ -557,7 +552,6 @@
 				A3461E0C137D5AE80050323E /* StatusReportViewController.m in Sources */,
 				A3461E0E137D5AE80050323E /* UnreadMessageDelegate.m in Sources */,
 				A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */,
-				A3F50C41137F1A4B004335EB /* TDBadgedCell.m in Sources */,
 				A3F23CB61380966B00B2C9C1 /* PostDelegate.m in Sources */,
 				A346E43C13815ABA00E796EE /* SFHFKeychainUtils.m in Sources */,
 				A346E4421381834D00E796EE /* FinalSeminarModel.m in Sources */,

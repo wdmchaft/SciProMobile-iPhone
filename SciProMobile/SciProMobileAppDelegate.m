@@ -27,7 +27,7 @@
     deviceTokenString = [deviceTokenString stringByReplacingOccurrencesOfString:@" " withString:@""];
     [LoginSingleton instance].iphoneId = deviceTokenString;
     NSLog(@"%@", deviceTokenString);
-          
+    
 } 
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -208,18 +208,18 @@
                 atDSV = NO;
             }
         }
-                  [locationManager stopUpdatingLocation];
-                  }
-                  [vbg release];
-                  // else skip the event and process the next one.
-                  }
-                  
-                  - (void)dealloc
-        {
-            [locationManager release];
-            [tabBarController release];
-            [_window release];
-            [super dealloc];
-        }
-                  
-                  @end
+        [locationManager stopUpdatingLocation];
+    }
+    [vbg release];
+    // else skip the event and process the next one.
+}
+
+- (void)dealloc
+{
+    [locationManager release];
+    [tabBarController release];
+    [_window release];
+    [super dealloc];
+}
+
+@end
