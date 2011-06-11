@@ -2,7 +2,7 @@
 //  AvailableChecker.m
 //  SciPro
 //
-/*
+/*.
  * Copyright (c) 2011 Johan Aschan.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
