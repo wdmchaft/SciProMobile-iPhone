@@ -39,10 +39,7 @@
 {
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    UILocalNotification *localNotif = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (localNotif) {
-        NSLog(@"Recieved Notification %@",localNotif);
-    }
+
     if (nil == locationManager)
         locationManager = [[CLLocationManager alloc] init];
     locationManager.delegate = self;
