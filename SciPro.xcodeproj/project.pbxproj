@@ -41,9 +41,6 @@
 		A3461E0E137D5AE80050323E /* UnreadMessageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3461DFB137D5AE80050323E /* UnreadMessageDelegate.m */; };
 		A346E43C13815ABA00E796EE /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A346E43B13815ABA00E796EE /* SFHFKeychainUtils.m */; };
 		A346E43F138160D800E796EE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A346E43E138160D800E796EE /* Security.framework */; };
-		A346E4421381834D00E796EE /* FinalSeminarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A346E4411381834D00E796EE /* FinalSeminarModel.m */; };
-		A346E4461381920700E796EE /* FinalSeminarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A346E4441381920400E796EE /* FinalSeminarViewController.m */; };
-		A346E4471381920700E796EE /* FinalSeminarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A346E4451381920600E796EE /* FinalSeminarViewController.xib */; };
 		A35136F5137ADB380027B9B1 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A35136F4137ADB380027B9B1 /* UserModel.m */; };
 		A35384A713850BF2002A5790 /* blue_ball_12.png in Resources */ = {isa = PBXBuildFile; fileRef = A35384A613850BF2002A5790 /* blue_ball_12.png */; };
 		A361647313859869005C2839 /* yellow_ball_small.png in Resources */ = {isa = PBXBuildFile; fileRef = A361647213859869005C2839 /* yellow_ball_small.png */; };
@@ -66,12 +63,15 @@
 		A3B468C8139E69C200436563 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B468C7139E69C200436563 /* Reachability.m */; };
 		A3B555F81385044700ED6C20 /* 74-location.png in Resources */ = {isa = PBXBuildFile; fileRef = A3B555F71385044700ED6C20 /* 74-location.png */; };
 		A3BDE74F13A412BA00B9E6C9 /* License.txt in Resources */ = {isa = PBXBuildFile; fileRef = A3BDE74E13A412BA00B9E6C9 /* License.txt */; };
-		A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3C057AF137D655100ED48B9 /* UserListSingleton.m */; };
 		A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */; };
 		A3E4F9B6135C2B6C00667BEC /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E4F9B5135C2B6C00667BEC /* MessageModel.m */; };
 		A3E4F9B8135C576700667BEC /* 57.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B7135C576700667BEC /* 57.png */; };
 		A3E4F9BA135C577500667BEC /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = A3E4F9B9135C577500667BEC /* 114.png */; };
-		A3F23CB61380966B00B2C9C1 /* PostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F23CB51380966800B2C9C1 /* PostDelegate.m */; };
+		A3F3AFD413A925F700331547 /* FinalSeminarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F3AFD313A925F700331547 /* FinalSeminarModel.m */; };
+		A3F3AFD913A9260F00331547 /* FinalSeminarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F3AFD713A9260F00331547 /* FinalSeminarViewController.m */; };
+		A3F3AFDA13A9260F00331547 /* FinalSeminarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F3AFD813A9260F00331547 /* FinalSeminarViewController.xib */; };
+		A3F3AFDD13A9261F00331547 /* PostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F3AFDC13A9261F00331547 /* PostDelegate.m */; };
+		A3F3AFE013A9263300331547 /* UserListSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F3AFDF13A9263300331547 /* UserListSingleton.m */; };
 		A3F50C31137F1098004335EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F50C30137F1098004335EB /* QuartzCore.framework */; };
 		A3F50C45137F3889004335EB /* NewMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3F50C44137F3888004335EB /* NewMessageViewController.xib */; };
 /* End PBXBuildFile section */
@@ -142,11 +142,6 @@
 		A346E43A13815ABA00E796EE /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		A346E43B13815ABA00E796EE /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		A346E43E138160D800E796EE /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		A346E4401381834D00E796EE /* FinalSeminarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FinalSeminarModel.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarModel.h; sourceTree = "<group>"; };
-		A346E4411381834D00E796EE /* FinalSeminarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FinalSeminarModel.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarModel.m; sourceTree = "<group>"; };
-		A346E4431381920300E796EE /* FinalSeminarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FinalSeminarViewController.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarViewController.h; sourceTree = "<group>"; };
-		A346E4441381920400E796EE /* FinalSeminarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FinalSeminarViewController.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarViewController.m; sourceTree = "<group>"; };
-		A346E4451381920600E796EE /* FinalSeminarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FinalSeminarViewController.xib; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/FinalSeminarViewController.xib; sourceTree = "<group>"; };
 		A35136F3137ADB380027B9B1 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		A35136F4137ADB380027B9B1 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		A35384A613850BF2002A5790 /* blue_ball_12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_ball_12.png; sourceTree = "<group>"; };
@@ -178,17 +173,22 @@
 		A3B468C7139E69C200436563 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		A3B555F71385044700ED6C20 /* 74-location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "74-location.png"; sourceTree = "<group>"; };
 		A3BDE74E13A412BA00B9E6C9 /* License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License.txt; sourceTree = "<group>"; };
-		A3C057AE137D655000ED48B9 /* UserListSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserListSingleton.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.h; sourceTree = "<group>"; };
-		A3C057AF137D655100ED48B9 /* UserListSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserListSingleton.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/UserListSingleton.m; sourceTree = "<group>"; };
 		A3CBADF0138AEA8D00F57A36 /* AvailableChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvailableChecker.h; sourceTree = "<group>"; };
 		A3CBADF1138AEA8E00F57A36 /* AvailableChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvailableChecker.m; sourceTree = "<group>"; };
 		A3E4F9B4135C2B6C00667BEC /* MessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageModel.h; sourceTree = "<group>"; };
 		A3E4F9B5135C2B6C00667BEC /* MessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageModel.m; sourceTree = "<group>"; };
 		A3E4F9B7135C576700667BEC /* 57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 57.png; path = ../57.png; sourceTree = "<group>"; };
 		A3E4F9B9135C577500667BEC /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 114.png; path = ../114.png; sourceTree = "<group>"; };
-		A3F23CB41380966700B2C9C1 /* PostDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostDelegate.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/PostDelegate.h; sourceTree = "<group>"; };
-		A3F23CB51380966800B2C9C1 /* PostDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostDelegate.m; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/PostDelegate.m; sourceTree = "<group>"; };
-		A3F23CB81380A77A00B2C9C1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../../../../../../Users/johanaschan/Documents/XCodeProjects/SciProMobile/SciProMobile/LoginViewController.h; sourceTree = "<group>"; };
+		A3F3AFD213A925F700331547 /* FinalSeminarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalSeminarModel.h; sourceTree = "<group>"; };
+		A3F3AFD313A925F700331547 /* FinalSeminarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalSeminarModel.m; sourceTree = "<group>"; };
+		A3F3AFD613A9260F00331547 /* FinalSeminarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalSeminarViewController.h; sourceTree = "<group>"; };
+		A3F3AFD713A9260F00331547 /* FinalSeminarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalSeminarViewController.m; sourceTree = "<group>"; };
+		A3F3AFD813A9260F00331547 /* FinalSeminarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FinalSeminarViewController.xib; sourceTree = "<group>"; };
+		A3F3AFDB13A9261F00331547 /* PostDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostDelegate.h; sourceTree = "<group>"; };
+		A3F3AFDC13A9261F00331547 /* PostDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostDelegate.m; sourceTree = "<group>"; };
+		A3F3AFDE13A9263300331547 /* UserListSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListSingleton.h; sourceTree = "<group>"; };
+		A3F3AFDF13A9263300331547 /* UserListSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListSingleton.m; sourceTree = "<group>"; };
+		A3F3AFE113A9264200331547 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A3F50C30137F1098004335EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3F50C44137F3888004335EB /* NewMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewMessageViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,9 +290,9 @@
 				A3461DE6137D5AE80050323E /* MessageViewController.h */,
 				A3461DE7137D5AE80050323E /* MessageViewController.m */,
 				A3461DE8137D5AE80050323E /* MessageViewController.xib */,
-				A3C057AE137D655000ED48B9 /* UserListSingleton.h */,
-				A3C057AF137D655100ED48B9 /* UserListSingleton.m */,
-				A3F23CB81380A77A00B2C9C1 /* LoginViewController.h */,
+				A3F3AFDE13A9263300331547 /* UserListSingleton.h */,
+				A3F3AFDF13A9263300331547 /* UserListSingleton.m */,
+				A3F3AFE113A9264200331547 /* LoginViewController.h */,
 				A3461DE1137D5AE80050323E /* LoginViewController.m */,
 				A3461DE2137D5AE80050323E /* LoginViewController.xib */,
 				A3461DE3137D5AE80050323E /* MessageDetailViewController.xib */,
@@ -301,8 +301,8 @@
 				A3461DEA137D5AE80050323E /* NewMessageViewController.h */,
 				A3461DEB137D5AE80050323E /* NewMessageViewController.m */,
 				A3F50C44137F3888004335EB /* NewMessageViewController.xib */,
-				A3F23CB41380966700B2C9C1 /* PostDelegate.h */,
-				A3F23CB51380966800B2C9C1 /* PostDelegate.m */,
+				A3F3AFDB13A9261F00331547 /* PostDelegate.h */,
+				A3F3AFDC13A9261F00331547 /* PostDelegate.m */,
 				A3461DEC137D5AE80050323E /* ProjectDetailViewController.xib */,
 				A3461DED137D5AE80050323E /* ProjectDetailViewController.h */,
 				A3461DEE137D5AE80050323E /* ProjectDetailViewController.m */,
@@ -323,9 +323,9 @@
 				A3461DF9137D5AE80050323E /* StatusReportViewController.xib */,
 				A3461DFA137D5AE80050323E /* UnreadMessageDelegate.h */,
 				A3461DFB137D5AE80050323E /* UnreadMessageDelegate.m */,
-				A346E4431381920300E796EE /* FinalSeminarViewController.h */,
-				A346E4441381920400E796EE /* FinalSeminarViewController.m */,
-				A346E4451381920600E796EE /* FinalSeminarViewController.xib */,
+				A3F3AFD613A9260F00331547 /* FinalSeminarViewController.h */,
+				A3F3AFD713A9260F00331547 /* FinalSeminarViewController.m */,
+				A3F3AFD813A9260F00331547 /* FinalSeminarViewController.xib */,
 				A36BCEBF13436C6000090AE7 /* Supporting Files */,
 				A3E4F9A7135C2AA800667BEC /* Models */,
 				A33FE2E313533CB50037ACDE /* JSON */,
@@ -388,14 +388,14 @@
 		A3E4F9A7135C2AA800667BEC /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A3F3AFD213A925F700331547 /* FinalSeminarModel.h */,
+				A3F3AFD313A925F700331547 /* FinalSeminarModel.m */,
 				A3E4F9B4135C2B6C00667BEC /* MessageModel.h */,
 				A3E4F9B5135C2B6C00667BEC /* MessageModel.m */,
 				A3717AD2135DB81A003B9B79 /* ProjectModel.h */,
 				A3717AD3135DB81A003B9B79 /* ProjectModel.m */,
 				A35136F3137ADB380027B9B1 /* UserModel.h */,
 				A35136F4137ADB380027B9B1 /* UserModel.m */,
-				A346E4401381834D00E796EE /* FinalSeminarModel.h */,
-				A346E4411381834D00E796EE /* FinalSeminarModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -489,13 +489,13 @@
 				A3461E0D137D5AE80050323E /* StatusReportViewController.xib in Resources */,
 				A3F50C45137F3889004335EB /* NewMessageViewController.xib in Resources */,
 				A31A51FF137F6B1800940BE1 /* MainWindow.xib in Resources */,
-				A346E4471381920700E796EE /* FinalSeminarViewController.xib in Resources */,
 				A39922AD1383BF71007A5420 /* icon_retina.png in Resources */,
 				A39922AF1383BF76007A5420 /* icon_small.png in Resources */,
 				A3B555F81385044700ED6C20 /* 74-location.png in Resources */,
 				A35384A713850BF2002A5790 /* blue_ball_12.png in Resources */,
 				A361647313859869005C2839 /* yellow_ball_small.png in Resources */,
 				A3BDE74F13A412BA00B9E6C9 /* License.txt in Resources */,
+				A3F3AFDA13A9260F00331547 /* FinalSeminarViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,13 +555,13 @@
 				A3461E0A137D5AE80050323E /* SearchUserViewController.m in Sources */,
 				A3461E0C137D5AE80050323E /* StatusReportViewController.m in Sources */,
 				A3461E0E137D5AE80050323E /* UnreadMessageDelegate.m in Sources */,
-				A3C057B0137D655100ED48B9 /* UserListSingleton.m in Sources */,
-				A3F23CB61380966B00B2C9C1 /* PostDelegate.m in Sources */,
 				A346E43C13815ABA00E796EE /* SFHFKeychainUtils.m in Sources */,
-				A346E4421381834D00E796EE /* FinalSeminarModel.m in Sources */,
-				A346E4461381920700E796EE /* FinalSeminarViewController.m in Sources */,
 				A3CBADF2138AEA8E00F57A36 /* AvailableChecker.m in Sources */,
 				A3B468C8139E69C200436563 /* Reachability.m in Sources */,
+				A3F3AFD413A925F700331547 /* FinalSeminarModel.m in Sources */,
+				A3F3AFD913A9260F00331547 /* FinalSeminarViewController.m in Sources */,
+				A3F3AFDD13A9261F00331547 /* PostDelegate.m in Sources */,
+				A3F3AFE013A9263300331547 /* UserListSingleton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

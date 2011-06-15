@@ -25,7 +25,7 @@
 @synthesize apikey;
 @synthesize user, iphoneId;
 static LoginSingleton *gInstance = NULL;
-static NSString* address = @"http://localhost:8080/SciPro/";
+static NSString* address = @"http://localhost:8080/scipro/";
  
 + (LoginSingleton *)instance
 {

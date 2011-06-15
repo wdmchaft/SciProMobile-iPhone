@@ -81,8 +81,6 @@
     BOOL save = [defaults boolForKey:@"password"];
     NSString *username = [defaults stringForKey:@"username"];
     if(save){
-        
-
         if(username != nil){ 
             NSString *password = [SFHFKeychainUtils getPasswordForUsername:username andServiceName:@"SciproMobile" error:nil];
             usernameTextField.text = username;
