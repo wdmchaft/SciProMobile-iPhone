@@ -74,17 +74,8 @@
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
 	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
-    if (messDict == nil){
-        
+    if (messDict == nil){        
         NSLog(@"%@", [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]]);
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
 	}else {
         NSString *apiCheck = [messDict objectForKey:@"apikey"];
         if (![apiCheck isEqualToString:@"success"]) {

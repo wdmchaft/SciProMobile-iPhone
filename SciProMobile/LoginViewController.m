@@ -201,15 +201,6 @@
     [connection release];
     [responseData release];
     responseData = nil;
-
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle: @"Connection problems"
-                               message: @"Connections problems, try login again."
-                               delegate:nil
-                               cancelButtonTitle:@"OK"
-                               otherButtonTitles:nil];
-    [errorAlert show];
-    [errorAlert release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -221,17 +212,7 @@
     SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
     
 	NSMutableDictionary *messDict = [jsonParser objectWithString:responseString error:&error];
-    if (messDict == nil){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connections problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-	}else {
+    if (messDict != nil){
         NSNumber *loggedIn = [messDict objectForKey:@"authenticated"];
         if([loggedIn isEqualToNumber: [NSNumber numberWithInt:1]] ) {
             NSString *apiKey = [messDict objectForKey:@"apikey"];

@@ -137,24 +137,6 @@
     postDelegate.successTitle = @"Message sent";
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
-    }     
     return YES;
 }
 

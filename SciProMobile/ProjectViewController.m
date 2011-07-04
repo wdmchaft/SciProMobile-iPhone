@@ -242,21 +242,6 @@
     NSMutableDictionary *projectDictionary = [jsonParser objectWithString:responseString error:&error];
     if (projectDictionary == nil){
         [NSString stringWithFormat:@"JSON parsing failed: %@", [error localizedDescription]];
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connections problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
     } else {
         NSString *apiCheck = [projectDictionary objectForKey:@"apikey"];
         if ([apiCheck isEqualToString:@"success"]) {

@@ -203,23 +203,6 @@
     if (conn){
         responseData = [[NSMutableData data] retain];
         [activityIndicator startAnimating];
-    } else{
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
     } 
     [self unreadMessages];
 
@@ -236,24 +219,6 @@
     UnreadMessageDelegate *unreadDelegate = [[UnreadMessageDelegate alloc]init];
     unreadDelegate.tabBarItem =  [(UIViewController *)[[self tabBarController ].viewControllers objectAtIndex:1] tabBarItem];
     NSURLConnection *conn= [[NSURLConnection alloc] initWithRequest:request delegate:unreadDelegate];  
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
-    } 
     [unreadDelegate release];
 }
 
@@ -377,26 +342,6 @@
     
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
-    }  
-    
-    
 }
 
 - (void)deleteMessage: (NSNumber*) recipientId{
@@ -431,24 +376,6 @@
     
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:postDelegate];  
     [postDelegate release];
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        [LoginSingleton instance].user = nil;
-        [LoginSingleton instance].iphoneId = nil;
-        [LoginSingleton instance].apikey = nil;
-        LoginViewController *lvc = [[LoginViewController alloc] init];
-        lvc.delegate = [[UIApplication sharedApplication] delegate];
-        [[self tabBarController] presentModalViewController:lvc animated:NO];
-        [lvc release];
-    }  
 }
 
 
@@ -483,21 +410,6 @@
     [connection release];
     [responseData release];
     responseData = nil;
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle: @"Connection problems"
-                               message: @"Connections problems, try login again."
-                               delegate:nil
-                               cancelButtonTitle:@"OK"
-                               otherButtonTitles:nil];
-    [errorAlert show];
-    [errorAlert release];
-    [LoginSingleton instance].user = nil;
-    [LoginSingleton instance].iphoneId = nil;
-    [LoginSingleton instance].apikey = nil;
-    LoginViewController *lvc = [[LoginViewController alloc] init];
-    lvc.delegate = [[UIApplication sharedApplication] delegate];
-    [[self tabBarController] presentModalViewController:lvc animated:NO];
-    [lvc release];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
