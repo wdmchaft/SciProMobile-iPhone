@@ -19,13 +19,14 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "NetworkObserver.h"
 
 @interface MessageViewController : UITableViewController {
     NSMutableData *responseData;
     NSMutableArray *messages;
     BOOL inbox;
     UIActivityIndicatorView *activityIndicator;
+    NetworkObserver *networkObserver;
 }
 @property (nonatomic, assign) BOOL inbox;
 - (void)updateView;

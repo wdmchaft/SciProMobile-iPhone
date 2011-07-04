@@ -24,6 +24,7 @@
 #import "SFHFKeychainUtils.h"
 #import "Reachability.h"
 
+
 @implementation LoginViewController
 @synthesize usernameTextField;
 @synthesize passwordTextField;
@@ -41,7 +42,8 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:networkObserver];
+    [networkObserver release];
     [usernameTextField release];
     [passwordTextField release];
     [label release];
@@ -61,14 +63,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     // check for internet connection
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+    networkObserver = [[NetworkObserver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:networkObserver selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
     
-    internetReachable = [[Reachability reachabilityForInternetConnection] retain];
-    [internetReachable startNotifier];
-    
-    // check if a pathway to a random host exists
-    hostReachable = [[Reachability reachabilityWithHostName: @"thesis.dsv.su.se"] retain];
-    [hostReachable startNotifier];
+
     
     // now patiently wait for the notification
     
@@ -126,7 +124,7 @@
 
 
 - (void)loginWithUserName:(NSString*)userName password:(NSString*)password{
-    
+     
     NSMutableDictionary* jsonObject = [NSMutableDictionary dictionary];
     [jsonObject setObject:userName forKey:@"username"];
     [jsonObject setObject:password forKey:@"password"];
@@ -152,18 +150,6 @@
     [request setHTTPBody: requestData];
     
     NSURLConnection *conn=[[NSURLConnection alloc] initWithRequest:request delegate:self];  
-    if (!conn){
-        
-        UIAlertView *errorAlert = [[UIAlertView alloc]
-                                   initWithTitle: @"Connection problems"
-                                   message: @"Connection problems, try login again."
-                                   delegate:nil
-                                   cancelButtonTitle:@"OK"
-                                   otherButtonTitles:nil];
-        [errorAlert show];
-        [errorAlert release];
-        
-    }
 }
 
 - (IBAction)buttonPressed:(id)sender {
@@ -205,6 +191,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	[connection release];
+   
 	NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 	[responseData release];
     responseData = nil;
@@ -239,76 +226,6 @@
     }
     [responseString release];	
     [jsonParser release];   
-}
-
-- (void) checkNetworkStatus:(NSNotification *)notice
-{
-    // called after network status changes
-    
-    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
-    switch (internetStatus)
-    
-    {
-        case NotReachable:
-        {
-            self.internetActive = NO;
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"Internet down."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            break;
-            
-        }
-        case ReachableViaWiFi:
-        {
-            self.internetActive = YES;
-            break;
-        }
-        case ReachableViaWWAN:
-        {
-            self.internetActive = YES;
-            break;
-            
-        }
-    }
-    
-    NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
-    switch (hostStatus)
-    
-    {
-        case NotReachable:
-        {
-            self.hostActive = NO;
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Connection problems"
-                                       message: @"No connection to the host."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
-            
-            break;
-            
-        }
-        case ReachableViaWiFi:
-        {
-            self.hostActive = YES;
-            
-            break;
-            
-        }
-        case ReachableViaWWAN:
-        {
-            self.hostActive = YES;
-            break;
-            
-        }
-    }
 }
 
 @end

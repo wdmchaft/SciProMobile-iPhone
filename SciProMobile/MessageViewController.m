@@ -30,6 +30,8 @@
 #import "LoginSingleton.h"
 #import "UnreadMessageDelegate.h"
 #import "PostDelegate.h"
+#import "NetworkObserver.h"
+#import "Reachability.h"
 
 @implementation MessageViewController
 
@@ -175,6 +177,8 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    networkObserver = [[NetworkObserver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:networkObserver selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];;
     [self updateView];
     //Do Stuff
 }
@@ -501,6 +505,8 @@
 }
 
 - (void)dealloc{   
+    [[NSNotificationCenter defaultCenter] removeObserver:networkObserver];
+    [networkObserver release];
     [activityIndicator release];
     [messages release];
     [super dealloc];

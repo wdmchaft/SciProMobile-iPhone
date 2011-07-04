@@ -27,7 +27,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UnreadMessageDelegate.h"
 #import "PostDelegate.h"
-
+#import "Reachability.h"
 
 @implementation NewMessageViewController
 @synthesize toTextField;
@@ -57,6 +57,8 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:networkObserver];
+    [networkObserver release];
     [subjectTextField release];
     [toTextField release];
     [textView release];
@@ -72,7 +74,17 @@
 }
 
 #pragma mark - View lifecycle
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    // check for internet connection
+    networkObserver = [[NetworkObserver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:networkObserver selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
+    
+    
+    
+    // now patiently wait for the notification
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

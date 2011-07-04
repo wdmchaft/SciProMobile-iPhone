@@ -23,6 +23,7 @@
 #import "LoginViewController.h"
 #import "LoginSingleton.h"
 #import "PostDelegate.h"
+#import "Reachability.h"
 
 @implementation StatusReportViewController
 @synthesize availableSwitch;
@@ -39,6 +40,8 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:networkObserver];
+    [networkObserver release];
     [activityIndicator release];
     [statusMessageTextField release];
     [availableSwitch release];
@@ -88,6 +91,8 @@
 //}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    networkObserver = [[NetworkObserver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:networkObserver selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
     [self updateView];
 }
 - (void)viewDidUnload

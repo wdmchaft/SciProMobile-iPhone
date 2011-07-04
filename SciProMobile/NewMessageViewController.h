@@ -19,7 +19,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "NetworkObserver.h"
 
 @interface NewMessageViewController : UIViewController<UITextFieldDelegate, UITextViewDelegate> {
     UITextField *subjectTextField;
@@ -27,6 +27,7 @@
     NSMutableArray *projectUsers;
     UITextField *toTextField;
     UITextView *textView;
+    NetworkObserver *networkObserver;
     BOOL projectSend;
 }
 @property (nonatomic, retain) IBOutlet UITextField *toTextField;

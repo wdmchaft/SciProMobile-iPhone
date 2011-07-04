@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6219439B13C20C8400D84199 /* NetworkObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 6219439A13C20C8400D84199 /* NetworkObserver.m */; };
 		A318ACBF136ED13C002E2C9D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A318ACBE136ED13C002E2C9D /* UIKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		A318ACC1136ED14A002E2C9D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A318ACC0136ED14A002E2C9D /* CoreGraphics.framework */; };
 		A318ACC3136ED14E002E2C9D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A318ACC2136ED14E002E2C9D /* CoreLocation.framework */; };
@@ -87,6 +88,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6219439913C20C8400D84199 /* NetworkObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkObserver.h; sourceTree = "<group>"; };
+		6219439A13C20C8400D84199 /* NetworkObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkObserver.m; sourceTree = "<group>"; };
 		A318ACBE136ED13C002E2C9D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A318ACC0136ED14A002E2C9D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A318ACC2136ED14E002E2C9D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -329,6 +332,8 @@
 				A36BCEBF13436C6000090AE7 /* Supporting Files */,
 				A3E4F9A7135C2AA800667BEC /* Models */,
 				A33FE2E313533CB50037ACDE /* JSON */,
+				6219439913C20C8400D84199 /* NetworkObserver.h */,
+				6219439A13C20C8400D84199 /* NetworkObserver.m */,
 			);
 			path = SciProMobile;
 			sourceTree = "<group>";
@@ -562,6 +567,7 @@
 				A3F3AFD913A9260F00331547 /* FinalSeminarViewController.m in Sources */,
 				A3F3AFDD13A9261F00331547 /* PostDelegate.m in Sources */,
 				A3F3AFE013A9263300331547 /* UserListSingleton.m in Sources */,
+				6219439B13C20C8400D84199 /* NetworkObserver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

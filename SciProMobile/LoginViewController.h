@@ -19,6 +19,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "NetworkObserver.h"
 
 @class Reachability;
 
@@ -28,8 +29,8 @@
     UITextField *passwordTextField;
     UILabel *label;
     NSMutableData *responseData;
-    Reachability* internetReachable;
-    Reachability* hostReachable;
+    NetworkObserver *networkObserver;
+
     BOOL internetActive;
     BOOL hostActive;
 }
@@ -45,6 +46,5 @@
 
 - (IBAction)buttonPressed:(id)sender;
 - (void)loginWithUserName:(NSString*) userName password:(NSString*) password;
-- (void) checkNetworkStatus:(NSNotification *)notice;
 
 @end

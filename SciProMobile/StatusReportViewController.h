@@ -19,7 +19,7 @@
  */
 
 #import <UIKit/UIKit.h>
-
+#import "NetworkObserver.h"
 
 @interface StatusReportViewController : UIViewController {
     
@@ -27,6 +27,7 @@
     UISwitch *availableSwitch;
     NSMutableData *responseData;
     UIActivityIndicatorView *activityIndicator;
+    NetworkObserver *networkObserver;
 }
 @property (nonatomic, retain) IBOutlet UISwitch *availableSwitch;
 @property (nonatomic, retain) IBOutlet UITextField *statusMessageTextField;

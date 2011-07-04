@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 #import <UIKit/UIKit.h>
-
+#import "NetworkObserver.h"
 
 
 
@@ -28,7 +28,7 @@
     NSMutableArray *projects; 
     UIActivityIndicatorView *activityIndicator;
     BOOL availCheck;
-    
+    NetworkObserver *networkObserver;
 }
 @property (nonatomic, assign) BOOL availCheck;
 - (IBAction)projectButton:(id)sender;

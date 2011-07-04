@@ -34,6 +34,7 @@
 #import "PostDelegate.h"
 #import "SciProMobileAppDelegate.h"
 #import "AvailableChecker.h"
+#import "Reachability.h"
 
 
 @implementation ProjectViewController
@@ -50,6 +51,8 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:networkObserver];
+    [networkObserver release];
     [activityIndicator release];
     [projects release];
     [super dealloc];
@@ -91,6 +94,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    networkObserver = [[NetworkObserver alloc] init];
+    [[NSNotificationCenter defaultCenter] addObserver:networkObserver selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
     if(!projects){
         projects = [[NSMutableArray alloc]init];
     }
