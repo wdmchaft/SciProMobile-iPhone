@@ -214,14 +214,26 @@
             
         }
         else {
-            UIAlertView *errorAlert = [[UIAlertView alloc]
-                                       initWithTitle: @"Login failed"
-                                       message: @"Username or password incorrect."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-            [errorAlert show];
-            [errorAlert release];
+            NSNumber *supervisor = [messDict objectForKey:@"notEmployee"];
+            if(supervisor == nil ) {
+                UIAlertView *errorAlert = [[UIAlertView alloc]
+                                           initWithTitle: @"Login failed"
+                                           message: @"Username or password incorrect."
+                                           delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+                [errorAlert show];
+                [errorAlert release];
+            } else{
+                UIAlertView *errorAlert = [[UIAlertView alloc]
+                                           initWithTitle: @"Login failed"
+                                           message: @"You are not a supervisor."
+                                           delegate:nil
+                                           cancelButtonTitle:@"OK"
+                                           otherButtonTitles:nil];
+                [errorAlert show];
+                [errorAlert release];
+            }
         } 
     }
     [responseString release];	
